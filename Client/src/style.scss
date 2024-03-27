@@ -1,0 +1,21 @@
+/* browser css reset */
+@import url("./assets/CSS/_reset.scss");                                                              
+
+/* font */
+@import url("./assets/CSS/_font.scss");
+
+/* mobile */
+@import url("./assets/CSS/_mobile.scss");
+
+/* tablet */
+@media screen and (min-width: 768px) {
+  @import url("./assets/CSS/_tablet.scss");
+}
+
+/* desktop */
+@media screen and (min-width: 992px) {
+  @import url("./assets/CSS/_desktop.scss");
+}
+
+//! all the files being imported to style.scss need a underscore before you name the file. style.scss doesnt need one
+// ! since it is being imported to JSX (itll still work without it but its proper to follow documentation)

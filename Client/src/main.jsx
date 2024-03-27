@@ -7,7 +7,7 @@ import Inbox from './Routes/Inbox/Inbox';
 import MyLibrary from './Routes/MyLibrary/MyLibrary';
 import Users from './Routes/Users/Users';
 import Settings from './Routes/Settings/Settings';
-import './style.sass'
+import './style.scss'
 
 const router = createBrowserRouter([
   {
