@@ -78,13 +78,15 @@ summary,
 time,
 mark,
 audio,
-video 
-	margin: 0 
-	padding: 0 
-	border: 0 
-	font-size: 100% 
-	font: inherit 
-	vertical-align: baseline 
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
 article,
 aside,
 details,
@@ -95,22 +97,28 @@ header,
 hgroup,
 menu,
 nav,
-section 
-	display: block 
-body 
-	line-height: 1 
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
 ol,
-ul 
-	list-style: none 
+ul {
+  list-style: none;
+}
 blockquote,
-q 
-	quotes: none 
+q {
+  quotes: none;
+}
 blockquote:before,
 blockquote:after,
 q:before,
-q:after 
-	content: "" 
-	content: none 
-table 
-	border-collapse: collapse 
-	border-spacing: 0 
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
