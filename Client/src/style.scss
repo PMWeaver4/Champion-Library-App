@@ -1,20 +1,20 @@
 /* browser css reset */
-@import url("./assets/CSS/_reset.scss");                                                              
+@import "./assets/CSS/reset";
 
 /* font */
-@import url("./assets/CSS/_font.scss");
+@import "./assets/CSS/font";
 
 /* mobile */
-@import url("./assets/CSS/_mobile.scss");
+@import "./assets/CSS/mobile";
 
 /* tablet */
-@media screen and (min-width: 768px) {
-  @import url("./assets/CSS/_tablet.scss");
+@media only screen and (min-width: 768px) {
+  @import "./assets/CSS/tablet";
 }
 
 /* desktop */
-@media screen and (min-width: 992px) {
-  @import url("./assets/CSS/_desktop.scss");
+@media only screen and (min-width: 992px) {
+  @import "./assets/CSS/desktop";
 }
 
 //! all the files being imported to style.scss need a underscore before you name the file. style.scss doesnt need one
