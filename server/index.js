@@ -17,7 +17,7 @@ const MONGODB = process.env.MONGOOSE_STRING + process.env.DB_NAME;
 const app = express();
 
 //? Import controller/s
-// const { userRoutes  } = require("./routes");
+ const { bookRoutes  } = require("./routes");
 
 //? Import validation middleware
 // const validateSession = require("./middleware/validate");
@@ -42,6 +42,9 @@ app.use(cors());
 // app.use("/user", userRoutes);
 // app.use(validateSession);
 //validate before doing postcontroller
+
+app.use("/book", bookRoutes);
+
 // app.use("/message", messageRoutes);
 // app.use("/room", roomRoutes);
 

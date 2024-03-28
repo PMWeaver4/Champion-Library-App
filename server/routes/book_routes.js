@@ -9,6 +9,10 @@ router.post("/create/", async(req,res) => {
             author: req.body.author,
             description: req.body.description,
             user: "test",
+            rentedUser: "",
+            isbn: req.body.isbn,
+            genre: req.body.genre,
+            img: req.body.img
 
         });
 
@@ -30,7 +34,7 @@ router.post("/create/", async(req,res) => {
   router.get("/all", async (req, res) => {
     try {
 
-        let results = await Book.find().populate( ["title", "author", "description", "user"])
+        let results = await Book.find().populate( ["title", "author", "description", "user", "genre", "rentedUser", "isbn"])
         .select({
             text: 1,
             createdAt:1,
@@ -82,24 +86,24 @@ router.post("/create/", async(req,res) => {
 //     }
 // });
 
-// // [DELETE] - Remove a room.
-// router.delete("/delete/:id", async (req, res) => {
-//     try {
-//         //find room and delete
-//         //**not used???!?!?!?!?!?!?!!?
-//         const room = await Room.findByIdAndDelete(req.params.id);
+// [DELETE] - Remove a book.
+router.delete("/delete/:id", async (req, res) => {
+    try {
+        //find book and delete
+        //**not used???!?!?!?!?!?!?!!?
+        const book = await Book.findByIdAndDelete(req.params.id);
 
-//             if (!Room) throw new Error("Room not found");
+            if (!Book) throw new Error("Book not found");
 
-//             res.status(200).json({
-//                 Deleted: 1,
-//             });
-//         } catch (err) {
-//             res.status(500).json({
-//                 Error: err,
-//             });
-//         }
-//     });
+            res.status(200).json({
+                Deleted: 1,
+            });
+        } catch (err) {
+            res.status(500).json({
+                Error: err,
+            });
+        }
+    });
 
     
     
