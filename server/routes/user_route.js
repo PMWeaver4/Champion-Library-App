@@ -38,7 +38,7 @@ router.post("/create/", async(req,res) => {
 });
 
 //login
-router.post("/login", async (req,res) => {
+router.post("/login/", async (req,res) => {
     try {
         let { email, password } = req.body;
 
@@ -65,6 +65,36 @@ router.post("/login", async (req,res) => {
         res.status(500).json({
             Error: err.message,
         });
+    }
+});
+
+//Update user's information
+
+router.update("/update/", async (req,res) => {
+    try {
+        const userId = req.userId;
+        const usersUpdatedInformation = req.body;
+        const updatedUser = await User.findById(userId);
+
+        if (updatedUser === null) {
+            res.status(404).json({error: "User not found."});
+            return;
+        }
+        if (usersUpdatedInformation.password !== undefined) {
+            const salt = bcrypt.genSaltSync();
+            usersUpdatedInformation.password = bcrypt.hashSync(usersUpdatedInformation.password, salt);
+        }
+       
+        await updatedUser.updateOne(usersUpdatedInformation, {new: true });
+
+        res.status(200).json({
+            status: "User information updated successfully",
+            email: usersUpdatedInformation.email,
+            firstName: usersUpdatedInformation.firstName,
+            lastName: usersUpdatedInformation.lastName,
+        });
+    } catch (error) {
+        res.status(500).json({ error });
     }
 });
 
