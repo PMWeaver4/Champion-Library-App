@@ -18,9 +18,26 @@ const BookSchema = new mongoose.Schema(
             type: String,
         },
         user: {
-            type: Array,
+            type: String,
             minlength: 1,
         },
+        rentedUser: {
+            type: String,
+            default:""
+        },
+        isbn: {
+            type: Number,
+        },
+        genre: {
+            type: String,
+            required: true
+        },
+        img: {
+            thumbnail: String,
+        }
+
+
+        //isbn, genre, renteduser
         // Image?:{}
 
         

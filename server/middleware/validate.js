@@ -1,4 +1,4 @@
-//jsonwebtoken 
+//jsonwebtoken - I'm still not sure what this does, but we need it for user validation
 const jwt= require("jsonwebtoken");
 
 const User = require("../models/user");
@@ -46,5 +46,3 @@ const validate = async(req, res, next) => {
     
     
     module.exports = validate;
-
-    //editing 3/28

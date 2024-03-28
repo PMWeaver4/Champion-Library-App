@@ -11,20 +11,20 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 // //? Connection string URL variable from .env file
-const MONGODB = process.env.MONGO_DB_URL + process.env.DB_NAME;
+const MONGODB = process.env.MONGOOSE_STRING + process.env.DB_NAME;
 
 //? Assign Express
 const app = express();
 
 //? Import controller/s
-const { userRoutes  } = require("./routes/");
+ const { bookRoutes  } = require("./routes");
 
 //? Import validation middleware
-const validateSession = require("./middleware/validate");
+// const validateSession = require("./middleware/validate");
 
 mongoose.connect(MONGODB);
 //? sTORING THE CONNECTION STATUS
-const db = mongoose.connection;
+// const db = mongoose.connection;
 
 //? Assigning a variable from .env
 const PORT = process.env.PORT;
@@ -39,9 +39,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 //? Using the controllers
-app.use("/user", userRoutes);
+// app.use("/user", userRoutes);
+// app.use(validateSession);
 //validate before doing postcontroller
-app.use(validateSession);
+
+app.use("/book", bookRoutes);
+
 // app.use("/message", messageRoutes);
 // app.use("/room", roomRoutes);
 
