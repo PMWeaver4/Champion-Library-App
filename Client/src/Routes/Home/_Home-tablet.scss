@@ -1,14 +1,26 @@
 .home-page {
-    .home-banner {
-      margin-top: 3rem;
-      height: 20%;
-      .welcome-msg,
-      .slogan {
-        font-size: 18pt;
+  .home-banner {
+    margin-top: 3rem;
+    height: 20%;
+    .welcome-msg,
+    .slogan {
+      font-size: 18pt;
+    }
+    .welcome-msg {
+      margin-bottom: 1rem;
+    }
+  }
+  .dashboard-display-container {
+    .display-shelf {
+      height: 30%;
+    }
+    .display-shelf-headers {
+      h3 {
+        font-size: 1.25rem;
       }
-      .welcome-msg {
-        margin-bottom: 1rem;
+      button {
+        font-size: 1.25rem;
       }
     }
   }
-  
+}

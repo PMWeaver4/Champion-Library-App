@@ -8,6 +8,23 @@ export default function Home() {
         <h1 className="welcome-msg">Welcome to South Meadow's Lending Library!</h1>
         <h2 className="slogan">Building Community Beyond Books</h2>
       </div>
+      <div className="dashboard-display-container">
+        <div className="display-shelf-headers">
+          <h3>Books</h3>
+          <button className="view-books-btn">View All</button>
+        </div>
+        <div className="display-shelf books"></div>
+        <div className="display-shelf-headers">
+          <h3>Board Games</h3>
+          <button className="view-games-btn">View All</button>
+        </div>
+        <div className="display-shelf boardgames"></div>
+        <div className="display-shelf-headers">
+          <h3>Miscellaneous Items</h3>
+          <button className="view-items-btn">View All</button>
+        </div>
+        <div className="display-shelf items"></div>
+      </div>
     </main>
   );
 }
