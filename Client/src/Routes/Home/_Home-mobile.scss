@@ -1,6 +1,11 @@
 .home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   .home-banner {
-    margin-top: 2rem;
+    margin-top: 5rem;
     height: 15%;
     width: 90%;
     border-radius: 8px;
@@ -20,10 +25,19 @@
     .welcome-msg {
       font-weight: bold;
       text-wrap: balance;
+      width: 95%;
     }
   }
 
   .dashboard-display-container {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 4px;
+     
     .display-shelf {
       display: flex;
       flex-direction: column;
@@ -78,19 +92,6 @@
         }
       }
     }
-
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    gap: 4px;
   }
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 100%;
 }

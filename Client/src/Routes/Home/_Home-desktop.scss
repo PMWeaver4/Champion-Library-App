@@ -1,6 +1,7 @@
 .home-page {
   .home-banner {
     height: 50%;
+    margin-top: 7rem;
     .welcome-msg,
     .slogan {
       font-size: 18pt;
@@ -10,18 +11,17 @@
     }
   }
   .dashboard-display-container {
-    .display-shelf .books {
+    .display-shelf {
       height: 30%;
-    }
-    .display-shelf-headers {
-      h3 {
-        font-size: 1.25rem;
-      }
-      button {
-        font-size: 1.25rem;
+      margin-bottom: 0;
+      .display-shelf-headers {
+        h3 {
+          font-size: 1.25rem;
+        }
+        button {
+          font-size: 1.25rem;
+        }
       }
     }
   }
 }
-
-  
