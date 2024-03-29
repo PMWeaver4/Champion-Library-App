@@ -3,12 +3,13 @@ const Book = require("../models/book");
 
 
 router.post("/create/", async(req,res) => {
+    console.log(req);
     try{     
             let book = new Book({
             title: req.body.title,
             author: req.body.author,
             description: req.body.description,
-            user: "test",
+            user: req.user.email,
             rentedUser: "",
             isbn: req.body.isbn,
             genre: req.body.genre,
