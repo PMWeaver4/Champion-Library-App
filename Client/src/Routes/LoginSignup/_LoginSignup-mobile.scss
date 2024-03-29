@@ -1,0 +1,172 @@
+.login-signup-page {
+    background-image: url(/PICS/BACKGROUND.png);
+    background-image: cover;
+    background-size: 150%;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login-signup-content {
+height: fit-content;
+background-color: whitesmoke;
+padding: 4 rem 0;
+justify-content: center;
+width: 20rem;
+border-radius: 0.5rem;
+text-align: center;
+gap: 1rem;
+box-shadow: 11px 11px 8px -4px #021450;
+margin-bottom: 2em;
+}
+
+.LOGO {
+    flex-direction: column;
+    width: 20rem;
+    margin-top: 2em;
+}
+
+.tabs {
+    display:flex;
+    margin-bottom: 1em;
+    justify-content: center;
+}
+
+.tab {
+    position: relative;
+    padding: 10px 20px;
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 0;
+    margin: 0 5px;
+}
+
+.indicator {
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height:10px;
+    z-index: 1;
+    justify-content: center;
+
+}
+
+
+.tab.active {
+    color: rgb(1, 1, 15);
+    justify-content: center;
+
+}
+
+.tab-content {
+    padding: 20px;
+    &.active {
+        display: block;
+    }
+}
+
+.tab-content.active {
+    display: block
+}
+
+/*
+.tabs::before {
+    content: '';
+    position: absolute;
+    bottom:0;
+    left: 0;
+    width:100%;
+    height:1px;
+    background-color: black;
+    z-index: -1;
+} 
+
+*/
+
+.login-button {
+    padding: 12px;
+    background-color: rgb(91, 126, 230);
+    width: 60%;
+    color:white;
+    font-family: "DotGothic16", sans-serif;
+    font-size:1em;
+
+    
+   
+}
+
+.signUp-button {
+    padding: 12px;
+    background-color: rgb(91, 126, 230);
+    width: 70%;
+    color:white;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1em;
+
+   
+}
+
+#email {
+    width: 15rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1.25rem;
+    border: none;
+    padding-left: 0.5rem;
+}
+
+#password{
+    width: 15rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1.25rem;
+    border: none;
+    padding-left: 0.5rem;
+}
+
+#firstName {
+    width: 15rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1.25rem;
+    border: none;
+    padding-left: 0.5rem;
+}
+#lastName {
+    width: 15rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1.25rem;
+    border: none;
+    padding-left: 0.5rem;
+}
+#confirm_password {
+    width: 15rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1.25rem;
+    border: none;
+    padding-left: 0.5rem;
+}
+
+.signup-header {
+color:black;
+font-size:larger;
+font-family: "DotGothic16", sans-serif;
+}
+
+.login-header {
+    color:black;
+    font-size:larger;
+    font-family: "DotGothic16", sans-serif;
+};
