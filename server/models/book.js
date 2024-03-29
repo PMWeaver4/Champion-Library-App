@@ -34,6 +34,9 @@ const BookSchema = new mongoose.Schema(
         },
         img: {
             thumbnail: String,
+        },
+        condition: {
+            type: String,
         }
 
 
