@@ -1,14 +1,33 @@
 .home-page {
-    .home-banner {
-      margin-top: 2rem;
-      .welcome-msg,
-      .slogan {
-        font-size: 18pt;
-      }
-      .welcome-msg {
-        margin-bottom: 1rem;
+  overflow-y: scroll;
+  .home-banner {
+    height: 50%;
+    margin-top: 7rem;
+    .welcome-msg,
+    .slogan {
+      font-size: 18pt;
+    }
+    .welcome-msg {
+      margin-bottom: 1rem;
+    }
+  }
+  .dashboard-display-container {
+    gap: 1rem;
+    height: 100%;
+    .display-shelf {
+      min-height: 60%;
+      
+      .display-shelf-headers {
+        .display-shelf .items {
+          margin-bottom: 1rem;
+        }
+        h3 {
+          font-size: 1.25rem;
+        }
+        button {
+          font-size: 1.25rem;
+        }
       }
     }
   }
-  
-  
+}
