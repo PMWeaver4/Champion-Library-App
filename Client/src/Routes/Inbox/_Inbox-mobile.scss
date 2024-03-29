@@ -21,15 +21,15 @@
 
       .inbox-search {
         display: flex;
-        background-color: red;
+        background-color: rgba(211, 211, 211, 0.445);
         flex-direction: column;
         width: 70%;
         height: 1.25rem;
         margin-top: 4rem;
         padding-left: 2rem;
-        background-repeat: no-repeat;
-        background-position: left center;
-        border-radius: 8px;
+        border-radius: 1rem;
+        border: none;
+        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
       }
     }
     .inbox-panel {

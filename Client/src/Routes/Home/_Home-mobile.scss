@@ -6,6 +6,7 @@
   height: 100%;
   .home-banner {
     margin-top: 5rem;
+    margin-bottom: 2rem;
     height: 15%;
     width: 90%;
     border-radius: 8px;
@@ -30,23 +31,21 @@
   }
 
   .dashboard-display-container {
-    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     height: 100%;
-    gap: 4px;
-     
+    gap: 2px; 
     .display-shelf {
       display: flex;
       flex-direction: column;
       height: 20%;
       width: 90%;
+      margin-bottom: 2rem;
       background-color: #00336615;
       border-radius: 8px;
       box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-      margin-bottom: 2rem;
     }
     .display-shelf-headers {
       display: flex;
