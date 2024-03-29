@@ -17,10 +17,10 @@ const MONGODB = process.env.MONGOOSE_STRING + process.env.DB_NAME;
 const app = express();
 
 //? Import controller/s
- const { bookRoutes  } = require("./routes");
+ const { bookRoutes, userRoutes  } = require("./routes");
 
 //? Import validation middleware
-// const validateSession = require("./middleware/validate");
+const validateSession = require("./middleware/validate");
 
 mongoose.connect(MONGODB);
 //? sTORING THE CONNECTION STATUS
@@ -39,14 +39,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 //? Using the controllers
-// app.use("/user", userRoutes);
-// app.use(validateSession);
+app.use("/user", userRoutes);
+app.use(validateSession);
 //validate before doing postcontroller
-
 app.use("/book", bookRoutes);
 
-// app.use("/message", messageRoutes);
-// app.use("/room", roomRoutes);
 
 //? Initial spin up of the Express server
 app.listen(PORT, () => {
