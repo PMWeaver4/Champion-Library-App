@@ -17,6 +17,8 @@ router.post("/create/", async(req,res) => {
             lastName: req.body.lastName,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password,12),
+
+    
         });
         const newUser = await user.save();
 
@@ -31,6 +33,29 @@ router.post("/create/", async(req,res) => {
         });
     }catch(err){
         console.log(err);
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+
+// Display all users
+router.get("/all/", async (req, res) => {
+    try {
+        
+        let results = await User.find().populate( ["firstname", "lastname", "email"])
+        .select({
+            text: 1,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+
+        res.status(200).json({
+            Created: results,
+        })
+    } catch(err){
+        console.log(err);
+
         res.status(500).json({
             Error: err,
         });
@@ -59,6 +84,8 @@ router.post("/login/", async (req,res) => {
             User: user,
             Token: token
         });
+
+      
 
     } catch(err){
         console.log(err);
