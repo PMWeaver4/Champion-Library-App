@@ -31,6 +31,7 @@
     border-radius: 4px;
     color: white;
     cursor: pointer;
+    transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
     i {
       font-size: 1.5rem;
       padding: 4px;
