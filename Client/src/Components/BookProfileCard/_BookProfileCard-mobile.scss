@@ -1,0 +1,126 @@
+.book-profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 19rem;
+  height: 40rem;
+  background-color: white;
+  position: absolute;
+  z-index: 1;
+  border-radius: 1rem;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.721));
+
+  .about-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    flex-grow: 1;
+    color: #003366;
+    h3 {
+      margin-top: 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      font-family: "Inter", sans-serif;
+      text-decoration: 2px underline greenyellow;
+      text-align: center;
+    }
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      overflow-y: auto;
+      max-height: 80%;
+      h4 {
+        margin-top: 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+        font-family: "Inter", sans-serif;
+      }
+
+      p {
+        display: flex;
+        margin-top: 0.5rem;
+        font-size: 12pt;
+        font-family: "Inter", sans-serif;
+        text-align: left;
+        width: 100%;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #003366f4;
+      }
+    }
+    .book-card-information {
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-family: "Inter", sans-serif;
+      color: #003366;
+      em {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .card-overlay {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    background-color: #003366;
+    width: 100%;
+    height: 30%;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.721));
+    font-weight: bold;
+    font-family: "Inter", sans-serif;
+    color: white;
+    position: relative;
+
+    .overlay-content {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 100%;
+      .book-placeholder {
+        width: 6rem;
+        height: 9rem;
+        background-color: lightblue;
+        position: relative;
+        bottom: -2rem;
+        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+      }
+      .card-headers {
+        text-align: center;
+        .card-title {
+          margin-top: 2rem;
+        }
+        .borrow-btn {
+          margin-top: 2rem;
+          background-color: greenyellow;
+          color: #003366;
+          font-size: 1rem;
+          font-weight: bold;
+          border: none;
+          cursor: pointer;
+          padding: 4px 12px;
+          border-radius: 16px;
+        }
+      }
+    }
+
+    .close-btn {
+      width: fit-content;
+      height: fit-content;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      i {
+        padding: 8px;
+        font-size: 1.5rem;
+        color: white;
+        &:hover {
+          color: greenyellow;
+        }
+      }
+    }
+  }
+}
