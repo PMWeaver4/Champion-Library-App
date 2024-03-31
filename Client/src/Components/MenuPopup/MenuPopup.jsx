@@ -1,28 +1,26 @@
-import { Navlink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
 export default function MenuPopup() {
   return (
-    <div className="menu-popup">
-      <button className="menu-btn">
-        <i className="fa-solid fa-bars"></i>
-      </button>
+    <nav className="menu-popup">
       <div className="menu-btns-container dashboard">
-        <Navlink to="/home"></Navlink>
+        <NavLink to="/home"><i className="fa-solid fa-house"></i> Dashboard</NavLink>
       </div>
       <div className="menu-btns-container inbox">
-        <Navlink to="/inbox"></Navlink>
+        <NavLink to="/inbox"><i className="fa-solid fa-inbox"></i> Inbox</NavLink>
       </div>
       <div className="menu-btns-container my-library">
-        <Navlink to="/my-library"></Navlink>
+        <NavLink to="/my-library"><i className="fa-solid fa-book-bookmark"></i> My Library</NavLink>
       </div>
       <div className="menu-btns-container users">
-        <Navlink to="/users"></Navlink>
+        <NavLink to="/users"><i className="fa-solid fa-users"></i> Users</NavLink>
       </div>
       <div className="menu-btns-container settings">
-        <Navlink to="/settings"></Navlink>
+        <NavLink to="/settings"><i className="fa-solid fa-gear"></i> Settings</NavLink>
       </div>
       <div className="menu-btns-container logout">
-        <Navlink to="/"></Navlink>
+        <NavLink to="/"><i className="fa-solid fa-right-from-bracket"></i> Logout</NavLink>
       </div>
-    </div>
+    </nav>
   );
 }

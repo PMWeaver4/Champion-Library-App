@@ -1,3 +1,63 @@
 .menu-popup {
-    background-color: red;
+  background-color: #255d95;
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 0;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+
+  /* Apply the animation */
+  animation: slideInFromRight 0.15s ease-out forwards;
+
+  /* Define the slide-in keyframes */
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(100%); /* Start from the right */
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0); /* Slide in to its original position */
+      opacity: 1;
+    }
+  }
+
+  .menu-btns-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 3rem;
+    font-size: 1.25rem;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    font-family: "Inter", sans-serif;
+    &:hover {
+      background-color: #003366;
+      
+    }
+    &:hover a {
+        color: greenyellow;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      width: 100%;
+
+      &:visited {
+        color: white;
+        text-decoration: none;
+      }
+    }
+    .dashboard {
+      margin-top: 5rem;
+    }
+  }
 }

@@ -1,12 +1,16 @@
-export default function Navbar({pageTitle}) {
+import {useState} from 'react';
+import MenuPopup from '../MenuPopup/MenuPopup';
+export default function Navbar({ toggleMenu, pageTitle}) {
   const username = "Username";
+  
   return (
     <div className="navbar">
       <h2 className="username">Hello, {username}</h2>
       <h1 className="page-title">{pageTitle}</h1>
-      <button className="menu-btn">
+      <button onClick={toggleMenu} className="menu-btn">
         <i className="fa-solid fa-bars"></i>
       </button>
+      
     </div>
   );
 }
