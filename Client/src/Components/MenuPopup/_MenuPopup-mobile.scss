@@ -11,7 +11,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 3rem;
 
   /* Apply the animation */
   animation: slideInFromRight 0.15s ease-out forwards;
@@ -28,36 +27,49 @@
     }
   }
 
-  .menu-btns-container {
+  ul {
+    width: 100%;
+    height: 100%;
+    gap: 3rem;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 5rem;
     align-items: center;
-    width: 80%;
-    height: 3rem;
-    font-size: 1.25rem;
-    border-radius: 0.25rem;
-    font-weight: bold;
-    font-family: "Inter", sans-serif;
-    &:hover {
-      background-color: #003366;
-      
-    }
-    &:hover a {
-        color: greenyellow;
-    }
-
-    a {
-      color: white;
-      text-decoration: none;
-      width: 100%;
-
-      &:visited {
+    .menu-btns-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 80%;
+      height: 3rem;
+      font-size: 1.25rem;
+      border-radius: 0.25rem;
+      font-weight: bold;
+      font-family: "Inter", sans-serif;
+      -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+      transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+      &:hover {
+        box-shadow: 0 0 40px 40px #003366 inset;
+        a {
+          color: greenyellow;
+        }
+        i {
+          color: greenyellow;
+        }
+      }
+      a {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
         color: white;
         text-decoration: none;
+
+        i {
+            padding-left: 1rem;
+        }
       }
-    }
-    .dashboard {
-      margin-top: 5rem;
     }
   }
 }

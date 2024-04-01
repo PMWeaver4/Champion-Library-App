@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   {
     // login & signup
     path: "/",
-    element: <LoginSignup />,
+    element: <LoginSignup addStuffHere="value" />,
   },
   {
     // dashboard
