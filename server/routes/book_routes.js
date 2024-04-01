@@ -55,37 +55,39 @@ router.post("/create/", async(req,res) => {
     }
 });
 
-// [PUT] Adding Update Endpoint
-// router.put("/update/:name", async (req, res) => {
-//     try {
-//         //pluck the room out of available rooms
-//         const roomToUpdate = await Room.findOne({name: req.params.name}).exec();
-//         //add a user function
-//         let newUsers = [...roomToUpdate.addedUsers];
-//         newUsers.push(...req.body.addedUsers);
-//         //remove a user function
-//         newUsers = newUsers.filter((user) => !req.body.removedUsers.includes(user));
-//         //update the room
-//         const roomUpdated = await roomToUpdate.updateOne( {
-//             name: req.body.name,
-//             description: req.body.description,
-//             addedUsers: newUsers,
-            
+//[PUT] Adding Update Endpoint
+router.put("/update/:isbn", async (req, res) => {
+    try {
+        //pluck the book out of available books
 
-//         }  ).exec();
+        //make sure user can update this book
+        if(req.user.email === Book.user)
+        { const bookToUpdate = await Book.findOne({isbn: req.params.isbn}).exec()
+    } else {throw error;}
+        
 
-//         const roomReturnUPdated = await Room.findOne({name: req.body.name}).exec();
 
-//         res.status(200).json({
-//             Updated: roomReturnUPdated,
-//             Results: roomReturnUPdated,
-//         });
-//     } catch (err) {
-//         res.status(500).json({
-//             Error: err,
-//         });
-//     }
-// });
+        const bookUpdated = await bookToUpdate.updateOne( {
+            title: req.body.title,
+            author: req.body.author,
+            description: req.body.description,
+            rentedUser: req.body.rentedUser,
+            genre: req.body.genre,
+            condition: req.body.condition
+        }  ).exec();
+
+        const bookReturnUPdated = await Book.findOne({isbn: req.body.isbn}).exec();
+
+        res.status(200).json({
+            Updated: bookReturnUPdated,
+            Results: bookReturnUPdated,
+        });
+    } catch (err) {
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
 
 // [DELETE] - Remove a book.
 router.delete("/delete/:id", async (req, res) => {
