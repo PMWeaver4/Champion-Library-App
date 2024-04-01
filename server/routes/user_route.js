@@ -62,6 +62,24 @@ router.get("/all/", async (req, res) => {
     }
 });
 
+//Get user's ID
+router.get("user:email", async (req, res) => {
+    try {
+
+        let results = await User.findById(req.params.email)
+           
+        res.status(200).json({
+            Created: results,
+        })
+    } catch(err){
+        console.log(err);
+
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+
 //login
 router.post("/login/", async (req,res) => {
     try {
@@ -97,33 +115,35 @@ router.post("/login/", async (req,res) => {
 
 //Update user's information
 
-// router.update("/update/", async (req,res) => {
-//     try {
-//         const userId = req.userId;
-//         const usersUpdatedInformation = req.body;
-//         const updatedUser = await User.findById(userId);
+router.update("/update/", async (req,res) => {
+    try {
+        const userId = req.userId;
+        const usersUpdatedInformation = req.body;
+        const updatedUser = await User.findById(userId);
 
-//         if (updatedUser === null) {
-//             res.status(404).json({error: "User not found."});
-//             return;
-//         }
-//         if (usersUpdatedInformation.password !== undefined) {
-//             const salt = bcrypt.genSaltSync();
-//             usersUpdatedInformation.password = bcrypt.hashSync(usersUpdatedInformation.password, salt);
-//         }
+        if (updatedUser === null) {
+            res.status(404).json({error: "User not found."});
+            return;
+        }
+        if (usersUpdatedInformation.password !== undefined) {
+            const salt = bcrypt.genSaltSync();
+            usersUpdatedInformation.password = bcrypt.hashSync(usersUpdatedInformation.password, salt);
+        }
        
-//         await updatedUser.updateOne(usersUpdatedInformation, {new: true });
+        await updatedUser.updateOne(usersUpdatedInformation, {new: true });
 
-//         res.status(200).json({
-//             status: "User information updated successfully",
-//             email: usersUpdatedInformation.email,
-//             firstName: usersUpdatedInformation.firstName,
-//             lastName: usersUpdatedInformation.lastName,
-//         });
-//     } catch (error) {
-//         res.status(500).json({ error });
-//     }
-// });
+        res.status(200).json({
+            status: "User information updated successfully",
+            firstName: usersUpdatedInformation.firstName,
+            lastName: usersUpdatedInformation.lastName,
+            email: usersUpdatedInformation.email,
+            password: usersUpdatedInformation.password,
+            
+        });
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+});
 
 router.delete("/delete/:id", async (req, res) => {
     try {
