@@ -1,11 +1,21 @@
-import BookProfileCard from "../../Components/BookProfileCard/BookProfileCard";
+// import BookProfileCard from "../../Components/BookProfileCard/BookProfileCard";
+
+import { useState } from "react";
+import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 import Navbar from "../../Components/Navbar/Navbar";
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  function toggleMenu() {
+    setIsMenuOpen(!isMenuOpen);
+  }
   return (
     // home page that contains the "dashboard or main page once logged in"
     <main className="home-page">
-      <Navbar pageTitle="Dashboard" />
-      <BookProfileCard/>
+      <Navbar toggleMenu={toggleMenu} pageTitle="Dashboard" />
+      {isMenuOpen && <MenuPopup/>}
+      {/* <BookProfileCard/> */}
+      {/* will need to make book profile card open when book tile is clicked same format will be done for item tile */}
       <div className="home-banner">
         <h1 className="welcome-msg">Welcome to South Meadow's Lending Library!</h1>
         <h2 className="slogan">Building Community Beyond Books</h2>
