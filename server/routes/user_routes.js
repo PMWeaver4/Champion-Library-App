@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 //Importing User Table
 const User = require("../models/user");
 
+const Validate = require("../middleware/validate");
+
 //creating Username
 router.post("/create/", async(req,res) => {
     try{
@@ -43,7 +45,7 @@ router.post("/create/", async(req,res) => {
 router.get("/all/", async (req, res) => {
     try {
         
-        let results = await User.find().populate( ["firstname", "lastname", "email"])
+        let results = await User.find().populate( ["firstName", "lastName", "email"])
         .select({
             text: 1,
             createdAt: 1,
@@ -63,13 +65,11 @@ router.get("/all/", async (req, res) => {
 });
 
 //Get user's ID
-router.get("user:email", async (req, res) => {
+router.get("/email/:email", async (req, res) => {
     try {
-
-        let results = await User.findById(req.params.email)
-           
+        let results = await User.find({email: req.params.email});
         res.status(200).json({
-            Created: results,
+            Results: results,
         })
     } catch(err){
         console.log(err);
@@ -113,16 +113,19 @@ router.post("/login/", async (req,res) => {
     }
 });
 
+// Add password recovery
+
 //Update user's information
 
-router.update("/update/", async (req,res) => {
+router.put("/update/",Validate, async (req,res) => {
     try {
-        const userId = req.userId;
-        const usersUpdatedInformation = req.body;
-        const updatedUser = await User.findById(userId);
+        const email = req.user.email;
 
+        const usersUpdatedInformation = req.body;
+        const updatedUser = await User.findOne({email: email});
+        console.log(updatedUser);
         if (updatedUser === null) {
-            res.status(404).json({error: "User not found."});
+            res.status(404).json({error: "User not found Wahoooo whooa yah."});
             return;
         }
         if (usersUpdatedInformation.password !== undefined) {
@@ -130,7 +133,8 @@ router.update("/update/", async (req,res) => {
             usersUpdatedInformation.password = bcrypt.hashSync(usersUpdatedInformation.password, salt);
         }
        
-        await updatedUser.updateOne(usersUpdatedInformation, {new: true });
+       await User.updateOne({_id: updatedUser._id}, usersUpdatedInformation);
+        
 
         res.status(200).json({
             status: "User information updated successfully",
@@ -138,7 +142,7 @@ router.update("/update/", async (req,res) => {
             lastName: usersUpdatedInformation.lastName,
             email: usersUpdatedInformation.email,
             password: usersUpdatedInformation.password,
-            
+        
         });
     } catch (error) {
         res.status(500).json({ error });

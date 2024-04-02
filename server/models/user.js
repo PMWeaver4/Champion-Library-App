@@ -1,8 +1,8 @@
 
 const mongoose = require("mongoose");
-const user = require("./user");
 
-const UserSchema = new mongoose.Schema ({
+
+const UserSchema = new mongoose.Schema({
     
         firstName: {
             type: String,
@@ -22,9 +22,13 @@ const UserSchema = new mongoose.Schema ({
         },
         password: {
             type: String,
-            unique: true,
+            required: true,
             minlength: 1,
         },
+
+        passwordrecovery: {
+            type: 
+        }
 
         isAdmin: {
             type: Boolean,

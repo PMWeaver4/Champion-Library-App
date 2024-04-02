@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const book = require("./book");
+
 
 const BookSchema = new mongoose.Schema(
     {
@@ -25,6 +25,10 @@ const BookSchema = new mongoose.Schema(
             type: String,
             default:""
         },
+        checkedout: {
+            type: Date,
+            default:""
+        },
         isbn: {
             type: Number,
         },
@@ -38,11 +42,6 @@ const BookSchema = new mongoose.Schema(
         condition: {
             type: String,
         }
-
-
-        //isbn, genre, renteduser
-        // Image?:{}
-
         
     },
     {
