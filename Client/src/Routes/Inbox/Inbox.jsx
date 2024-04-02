@@ -1,10 +1,19 @@
+import { useState } from "react";
+import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 import Navbar from "../../Components/Navbar/Navbar";
 import NotificationTile from "./NotificationTile";
 
 export default function Inbox() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  function toggleMenu() {
+    setIsMenuOpen(!isMenuOpen);
+  }
+
   return (
     <main className="inbox-page">
-      <Navbar pageTitle="Inbox" />
+      <Navbar toggleMenu={toggleMenu} pageTitle="Inbox" />
+      {isMenuOpen && <MenuPopup />}
       <div className="inbox-content-container">
         <div className="notification-panel">
           <div className="input-container">
