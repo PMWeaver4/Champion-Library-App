@@ -11,6 +11,7 @@ router.post("/create/", async(req,res) => {
             description: req.body.description,
             user: req.user.email,
             rentedUser: "",
+            checkedout: "",
             isbn: req.body.isbn,
             genre: req.body.genre,
             img: req.body.img
@@ -55,6 +56,7 @@ router.post("/create/", async(req,res) => {
     }
 });
 
+
 //[PUT] Adding Update Endpoint
 router.put("/update/:isbn", async (req, res) => {
     try {
@@ -71,9 +73,10 @@ router.put("/update/:isbn", async (req, res) => {
             title: req.body.title,
             author: req.body.author,
             description: req.body.description,
-            rentedUser: req.body.rentedUser,
             genre: req.body.genre,
-            condition: req.body.condition
+            condition: req.body.condition,
+            rentedUser: req.body.rentedUser,
+            checkedout: req.body.checkedOut,
         }  ).exec();
 
         const bookReturnUPdated = await Book.findOne({isbn: req.body.isbn}).exec();

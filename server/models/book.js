@@ -25,6 +25,10 @@ const BookSchema = new mongoose.Schema(
             type: String,
             default:""
         },
+        checkedout: {
+            type: Date,
+            default:""
+        },
         isbn: {
             type: Number,
         },
