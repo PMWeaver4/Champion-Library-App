@@ -117,10 +117,10 @@ router.post("/login/", async (req,res) => {
 
 router.put("/update/",Validate, async (req,res) => {
     try {
-        const userId = req.user.email;
+        const email = req.user.email;
 
         const usersUpdatedInformation = req.body;
-        const updatedUser = await User.findOne({email: userId});
+        const updatedUser = await User.findOne({email: email});
         console.log(updatedUser);
         if (updatedUser === null) {
             res.status(404).json({error: "User not found Wahoooo whooa yah."});
