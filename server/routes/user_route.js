@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 //Importing User Table
 const User = require("../models/user");
 
+const Validate = require("../middleware/validate");
+
 //creating Username
 router.post("/create/", async(req,res) => {
     try{
@@ -17,6 +19,8 @@ router.post("/create/", async(req,res) => {
             lastName: req.body.lastName,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password,12),
+
+    
         });
         const newUser = await user.save();
 
@@ -31,6 +35,45 @@ router.post("/create/", async(req,res) => {
         });
     }catch(err){
         console.log(err);
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+
+// Display all users
+router.get("/all/", async (req, res) => {
+    try {
+        
+        let results = await User.find().populate( ["firstName", "lastName", "email"])
+        .select({
+            text: 1,
+            createdAt: 1,
+            updatedAt: 1,
+        });
+
+        res.status(200).json({
+            Created: results,
+        })
+    } catch(err){
+        console.log(err);
+
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+
+//Get user's ID
+router.get("/email/:email", async (req, res) => {
+    try {
+        let results = await User.find({email: req.params.email});
+        res.status(200).json({
+            Results: results,
+        })
+    } catch(err){
+        console.log(err);
+
         res.status(500).json({
             Error: err,
         });
@@ -60,6 +103,8 @@ router.post("/login/", async (req,res) => {
             Token: token
         });
 
+      
+
     } catch(err){
         console.log(err);
         res.status(500).json({
@@ -70,33 +115,37 @@ router.post("/login/", async (req,res) => {
 
 //Update user's information
 
-// router.update("/update/", async (req,res) => {
-//     try {
-//         const userId = req.userId;
-//         const usersUpdatedInformation = req.body;
-//         const updatedUser = await User.findById(userId);
+router.put("/update/",Validate, async (req,res) => {
+    try {
+        const userId = req.user.email;
 
-//         if (updatedUser === null) {
-//             res.status(404).json({error: "User not found."});
-//             return;
-//         }
-//         if (usersUpdatedInformation.password !== undefined) {
-//             const salt = bcrypt.genSaltSync();
-//             usersUpdatedInformation.password = bcrypt.hashSync(usersUpdatedInformation.password, salt);
-//         }
+        const usersUpdatedInformation = req.body;
+        const updatedUser = await User.findOne({email: userId});
+        console.log(updatedUser);
+        if (updatedUser === null) {
+            res.status(404).json({error: "User not found Wahoooo whooa yah."});
+            return;
+        }
+        if (usersUpdatedInformation.password !== undefined) {
+            const salt = bcrypt.genSaltSync();
+            usersUpdatedInformation.password = bcrypt.hashSync(usersUpdatedInformation.password, salt);
+        }
        
-//         await updatedUser.updateOne(usersUpdatedInformation, {new: true });
+       await User.updateOne({_id: updatedUser._id}, usersUpdatedInformation);
+        
 
-//         res.status(200).json({
-//             status: "User information updated successfully",
-//             email: usersUpdatedInformation.email,
-//             firstName: usersUpdatedInformation.firstName,
-//             lastName: usersUpdatedInformation.lastName,
-//         });
-//     } catch (error) {
-//         res.status(500).json({ error });
-//     }
-// });
+        res.status(200).json({
+            status: "User information updated successfully",
+            firstName: usersUpdatedInformation.firstName,
+            lastName: usersUpdatedInformation.lastName,
+            email: usersUpdatedInformation.email,
+            password: usersUpdatedInformation.password,
+        
+        });
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+});
 
 router.delete("/delete/:id", async (req, res) => {
     try {

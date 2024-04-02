@@ -1,11 +1,10 @@
-//jsonwebtoken - I'm still not sure what this does, but we need it for user validation
 const jwt= require("jsonwebtoken");
 
 const User = require("../models/user");
 
 
 const validate = async(req, res, next) => {
-    // Middleware still has access to the request, response, and requires the next() function to move past it
+
     try{
         //? Take token provided by the request object (headers.authorization)
         const auth = req.headers.authorization
