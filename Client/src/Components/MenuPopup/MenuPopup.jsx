@@ -34,12 +34,6 @@ export default function MenuPopup() {
             <p>My Profile</p>
           </NavLink>
         </li>
-        <li className="menu-btns-container settings">
-          <NavLink to="/settings">
-            <i className="fa-solid fa-gear"></i>
-            <p>Settings</p>
-          </NavLink>
-        </li>
         <li className="menu-btns-container logout">
           <NavLink to="/">
             <i className="fa-solid fa-right-from-bracket"></i>

@@ -7,6 +7,7 @@ import Inbox from './Routes/Inbox/Inbox';
 import MyLibrary from './Routes/MyLibrary/MyLibrary';
 import Users from './Routes/Users/Users';
 import Settings from './Routes/Settings/Settings';
+import MyProfile from './Routes/MyProfile/MyProfile'
 import './style.scss'
 
 const router = createBrowserRouter([
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
     // settings
     path: "/settings",
     element: <Settings />,
+  },
+  {
+    // my profile
+    path: "/my-profile",
+    element: <MyProfile />,
   },
 ]);
 
