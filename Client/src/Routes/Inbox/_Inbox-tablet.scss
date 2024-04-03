@@ -1,46 +1,46 @@
-.inbox-page {
-    .inbox-content-container {
-      .notification-panel {
-        .input-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-top: 7rem;
-          .draft-msg-btn {
-            font-size: 2.5rem;
-          }
-          .inbox-search {
-            width: 65%;
-            height: 2.5rem;
-            padding-left: 1.5rem;
-            font-size: 1.25rem;
-            border-radius: 1.5rem;
-          }
-        }
-      }
-    }
-  }
+// .inbox-page {
+//     .inbox-content-container {
+//       .notification-panel {
+//         .input-container {
+//           display: flex;
+//           justify-content: center;
+//           align-items: center;
+//           margin-top: 7rem;
+//           .draft-msg-btn {
+//             font-size: 2.5rem;
+//           }
+//           .inbox-search {
+//             width: 65%;
+//             height: 2.5rem;
+//             padding-left: 1.5rem;
+//             font-size: 1.25rem;
+//             border-radius: 1.5rem;
+//           }
+//         }
+//       }
+//     }
+//   }
   
-  // Notification Tile CSS
-  //! need to figure out whats wrong with the div in overflow cutting off content
-  .notification-tile-container {
-    width: 100%;
-    height: fit-content;
-    padding-top: 2rem;
-    overflow-y: auto;
-    gap: 1.5rem;
-    .notification-tile {
-      gap: 1rem;
-      padding: 24px;
-      width: 70%;
-      font-size: 14pt;
-      .placeholder {
-        width: 4rem;
-        height: 4rem;
-      }
-      .tile-content {
-        width: 85%;
-      }
-    }
-  }
+//   // Notification Tile CSS
+//   //! need to figure out whats wrong with the div in overflow cutting off content
+//   .notification-tile-container {
+//     width: 100%;
+//     height: fit-content;
+//     padding-top: 2rem;
+//     overflow-y: auto;
+//     gap: 1.5rem;
+//     .notification-tile {
+//       gap: 1rem;
+//       padding: 24px;
+//       width: 70%;
+//       font-size: 14pt;
+//       .placeholder {
+//         width: 4rem;
+//         height: 4rem;
+//       }
+//       .tile-content {
+//         width: 85%;
+//       }
+//     }
+//   }
   
