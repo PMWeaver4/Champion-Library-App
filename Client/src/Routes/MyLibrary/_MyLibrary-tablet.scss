@@ -1,0 +1,19 @@
+@media screen and (min-width: 768px) {
+    .my-library-page {
+      .tabs {
+        margin-top: 50px; 
+      }
+  
+      .Library-display-container {
+        .display-shelf {
+          height: 25%; 
+        }
+  
+        .display-shelf-headers, .Library-shelf-headers, .lent-shelf-headers {
+          h3 {
+            font-size: 1.5em; 
+          }
+        }
+      }
+    }
+  }
