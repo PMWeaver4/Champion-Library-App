@@ -1,8 +1,49 @@
+// .inbox-page {
+//   /* Container for the entire tabs component */
+//   .tabs-container {
+//     display: flex;
+//     flex-direction: column;
+//   }
+
+//   /* Styling for the list of tabs */
+//   .tab-list {
+//     list-style: none;
+//     padding: 0;
+//     display: flex;
+//     flex-direction: row; /* Horizontal layout by default */
+//     margin-bottom: 20px;
+//   }
+
+//   /* Styling for individual tab items */
+//   .tab-list li {
+//     cursor: pointer; /* Change cursor to indicate clickable items */
+//     padding: 10px 20px; /* Spacing around tab titles */
+//     border: 1px solid #ccc; /* Border around tabs */
+//   }
+
+//   /* Styling for the active tab */
+//   .tab-list li.active {
+//     background-color: #007bff; /* Blue background for active tab */
+//     color: white; /* White text for contrast */
+//     border-color: #007bff; /* Matching border color */
+//   }
+
+//   /* Styling for the content area */
+//   .tab-content {
+//     flex-grow: 1; /* Allow content area to fill available space */
+//   }
+
+//   /* Media query for smaller screens - changes tabs to vertical layout */
+//   @media (max-width: 768px) {
+//     .tab-list {
+//       flex-direction: column; /* Stack tabs vertically on small screens */
+//     }
+//   }
+// }
+
 .inbox-page {
   .inbox-content-container {
     .notification-panel {
-        background-color: whitesmoke;
-
       .input-container {
         display: flex;
         justify-content: center;
@@ -10,10 +51,8 @@
         margin-top: 7rem;
         .draft-msg-btn {
           font-size: 2.5rem;
-
         }
         .inbox-search {
-        background-color: white;
           width: 65%;
           height: 2.5rem;
           padding-left: 1.5rem;
@@ -23,7 +62,7 @@
       }
     }
     .inbox-panel {
-      background-color: white;
+      background-color: whitesmoke;
       box-shadow: inset 0px 2px 2px rgb(0, 0, 0);
       width: 100%;
       height: 100%;
@@ -36,7 +75,7 @@
 // Notification Tile CSS
 //! need to figure out whats wrong with the div in overflow cutting off content
 .notification-tile-container {
-    scrollbar-color: transparent transparent;
+  scrollbar-color: transparent transparent;
   width: 100%;
   height: 20rem;
   overflow-y: auto;
