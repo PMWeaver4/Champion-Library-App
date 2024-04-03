@@ -113,6 +113,8 @@ router.post("/login/", async (req,res) => {
     }
 });
 
+// Add password recovery
+
 //Update user's information
 
 router.put("/update/",Validate, async (req,res) => {
