@@ -14,37 +14,37 @@ export default function NavigationBar({ toggleMenu, pageTitle }) {
           <ul>
             <img className="nav-img" src="/images/south_Meadows.png" />
             <li className="menu-btns-container dashboard">
-              <NavLink to="/home">
+              <NavLink to="/home" exact activeClassName="active">
                 <i className="fa-solid fa-house"></i>
-                <p>Dashboard</p>
+                <p>Home</p>
               </NavLink>
             </li>
             <li className="menu-btns-container inbox">
-              <NavLink to="/inbox">
+              <NavLink to="/inbox" activeClassName="active">
                 <i className="fa-solid fa-inbox"></i>
                 <p>Inbox</p>
               </NavLink>
             </li>
             <li className="menu-btns-container my-library">
-              <NavLink to="/my-library">
+              <NavLink to="/my-library" activeClassName="active">
                 <i className="fa-solid fa-book-bookmark"></i>
                 <p>My Library</p>
               </NavLink>
             </li>
             <li className="menu-btns-container users">
-              <NavLink to="/users">
+              <NavLink to="/users" activeClassName="active">
                 <i className="fa-solid fa-users"></i>
                 <p>Users</p>
               </NavLink>
             </li>
             <li className="menu-btns-container profile">
-              <NavLink to="/my-profile">
+              <NavLink to="/my-profile" activeClassName="active">
                 <i className="fa-solid fa-address-card"></i>
                 <p>My Profile</p>
               </NavLink>
             </li>
             <li className="menu-btns-container logout">
-              <NavLink to="/">
+              <NavLink to="/" activeClassName="active">
                 <i className="fa-solid fa-right-from-bracket"></i>
                 <p>Logout</p>
               </NavLink>

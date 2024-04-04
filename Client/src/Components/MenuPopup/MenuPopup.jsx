@@ -5,10 +5,10 @@ export default function MenuPopup() {
     <nav className="menu-popup">
       <ul>
         
-        <li className="menu-btns-container dashboard">
+        <li className="menu-btns-container home">
           <NavLink to="/home">
             <i className="fa-solid fa-house"></i>
-            <p>Dashboard</p>
+            <p>Home</p>
           </NavLink>
         </li>
         <li className="menu-btns-container inbox">

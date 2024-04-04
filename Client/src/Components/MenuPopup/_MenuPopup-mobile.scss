@@ -7,7 +7,7 @@
   position: absolute;
   z-index: 1;
   left: 0;
-  top: 4rem;
+  top: 3.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,7 +29,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 60%;
+      width: 50%;
       height: 3rem;
       font-size: 1.25rem;
       border-radius: 0.25rem;
@@ -55,7 +55,7 @@
         text-decoration: none;
 
         i {
-            padding-left: 1rem;
+            padding-left: 1.5rem;
         }
       }
     }
