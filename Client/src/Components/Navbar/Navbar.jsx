@@ -1,5 +1,3 @@
-import {useState} from 'react';
-import MenuPopup from '../MenuPopup/MenuPopup';
 export default function Navbar({ toggleMenu, pageTitle}) {
   const username = "Username";
   

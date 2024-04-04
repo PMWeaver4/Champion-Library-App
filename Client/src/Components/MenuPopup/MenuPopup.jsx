@@ -4,6 +4,7 @@ export default function MenuPopup() {
   return (
     <nav className="menu-popup">
       <ul>
+        
         <li className="menu-btns-container dashboard">
           <NavLink to="/home">
             <i className="fa-solid fa-house"></i>

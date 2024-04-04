@@ -1,13 +1,24 @@
 .menu-popup {
-    width: 40%;
-    ul {
-        padding-top: 6rem;
-      gap: 3rem;
-      justify-content: flex-start;
-      .menu-btns-container {
-        height: 4rem;
-        font-size: 1.75rem;
+  overflow: hidden;
+  background-color: #003366;
+  width: 25%;
+  top: 0;
+
+  ul {
+    .nav-img {
+      display: flex;
+      width: 10rem;
+      height: fit-content;
+    }
+    .menu-btns-container {
+      width: 80%;
+      a {
+        i {
+            padding-left: .5rem;
+        }
       }
     }
   }
+}
+
   
