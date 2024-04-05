@@ -38,7 +38,7 @@
       transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
       i {
         font-size: 1.5rem;
-        padding: 4px;
+        padding: 8px;
       }
       &:hover {
         color: greenyellow;
@@ -48,6 +48,7 @@
   }
 }
 
+// css for the nav menu
 .active {
   background-color: white;
   border-radius: 4px;
