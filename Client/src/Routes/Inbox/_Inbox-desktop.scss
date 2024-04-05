@@ -1,96 +1,26 @@
-// .inbox-page {
-//   /* Container for the entire tabs component */
-//   .tabs-container {
-//     display: flex;
-//     flex-direction: column;
-//   }
-
-//   /* Styling for the list of tabs */
-//   .tab-list {
-//     list-style: none;
-//     padding: 0;
-//     display: flex;
-//     flex-direction: row; /* Horizontal layout by default */
-//     margin-bottom: 20px;
-//   }
-
-//   /* Styling for individual tab items */
-//   .tab-list li {
-//     cursor: pointer; /* Change cursor to indicate clickable items */
-//     padding: 10px 20px; /* Spacing around tab titles */
-//     border: 1px solid #ccc; /* Border around tabs */
-//   }
-
-//   /* Styling for the active tab */
-//   .tab-list li.active {
-//     background-color: #007bff; /* Blue background for active tab */
-//     color: white; /* White text for contrast */
-//     border-color: #007bff; /* Matching border color */
-//   }
-
-//   /* Styling for the content area */
-//   .tab-content {
-//     flex-grow: 1; /* Allow content area to fill available space */
-//   }
-
-//   /* Media query for smaller screens - changes tabs to vertical layout */
-//   @media (max-width: 768px) {
-//     .tab-list {
-//       flex-direction: column; /* Stack tabs vertically on small screens */
-//     }
-//   }
-// }
-
 .inbox-page {
-  .inbox-content-container {
-    .notification-panel {
-      .input-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 7rem;
-        .draft-msg-btn {
-          font-size: 2.5rem;
-        }
-        .inbox-search {
-          width: 65%;
-          height: 2.5rem;
-          padding-left: 1.5rem;
-          font-size: 1.25rem;
-          border-radius: 1.5rem;
+  flex-direction: row;
+  justify-content: center;
+  padding-left: 12rem;
+  align-items: center;
+  .inbox-body {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    height: 90%;
+    box-shadow: none;
+    .inbox-container {
+      width: 100%;
+      height: 100%;
+      .inbox-tabs {
+        padding-top: 16px;
+        background-color: #003366;
+        border-bottom: none;
+        .tab {
+          padding: 8px 20px;
         }
       }
     }
-    .inbox-panel {
-      background-color: whitesmoke;
-      box-shadow: inset 0px 2px 2px rgb(0, 0, 0);
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
   }
 }
 
-// Notification Tile CSS
-//! need to figure out whats wrong with the div in overflow cutting off content
-.notification-tile-container {
-  scrollbar-color: transparent transparent;
-  width: 100%;
-  height: 20rem;
-  overflow-y: auto;
-  gap: 1.5rem;
-  .notification-tile {
-    gap: 1rem;
-    padding: 24px;
-    width: 70%;
-    font-size: 14pt;
-    .placeholder {
-      width: 4rem;
-      height: 4rem;
-    }
-    .tile-content {
-      width: 85%;
-    }
-  }
-}

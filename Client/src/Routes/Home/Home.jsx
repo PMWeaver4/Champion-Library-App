@@ -22,7 +22,7 @@ export default function Home() {
         <div className="home-body">
           <div className="home-banner">
             <h1 className="welcome-msg">Welcome to South Meadow's Lending Library!</h1>
-            <h2 className="slogan">Building Community Beyond Books</h2>
+            <h2 className="slogan">Neighborhood Book Sharing Made Easy</h2>
           </div>
         <div className="home-section">
           <div className="books-container">
