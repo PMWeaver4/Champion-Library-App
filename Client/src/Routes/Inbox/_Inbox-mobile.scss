@@ -66,13 +66,45 @@
 
       .inbox-tab-content {
         border: 1px solid white;
-        padding: 0 20px;
+        padding: 0;
         width: 100%;
         height: 90%;
         border-radius: 1rem;
-        overflow-y: auto;
-        overflow-x: hidden;
+        .inbox-scrollbar{
+          border-radius: 1rem;
+          display: flex;
+          flex-direction: column;
+          width: 99.9%;
+          height: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
       }
     }
+  }
+}
+
+// NotificationTile.jsx scss
+.component_notification-tile {
+  width: 100%;
+  height: fit-content;
+  padding: 10px 20px;
+  background-color: rgb(247, 247, 247);
+  border: 1px solid rgba(128, 128, 128, 0.249);
+  border-right: none;
+  border-left: none;
+  font-size: 12pt;
+  font-family: "Inter", sans-serif;
+  &:hover {
+    background-color: #003366;
+    color: white;
+    .notification-username {
+      color: greenyellow;
+    }
+  }
+  .notification-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
   }
 }

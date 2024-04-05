@@ -2,6 +2,7 @@ import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 // import Navbar from "../../Components/Navbar/Navbar";
 import NavigationBar from "../../Components/Navigation/NavigationBar";
+import NotificationTile from "./NotificationTile";
 // import NotificationTile from "./NotificationTile";
 
 export default function Inbox({ toggleMenu, pageTitle }) {
@@ -13,7 +14,7 @@ export default function Inbox({ toggleMenu, pageTitle }) {
   }
   // for tab system, starts on all tab
   const [activeTab, setActiveTab] = useState("allRequest");
-// Req = request
+  // Req = request
   const tabs = [
     { id: "allRequest", title: "All", content: "Content for Tab 1" },
     { id: "borrowReq", title: "Borrow Request", content: "Content for Tab 2" },
@@ -34,7 +35,22 @@ export default function Inbox({ toggleMenu, pageTitle }) {
               </button>
             ))}
           </div>
-          <div className="inbox-tab-content">{tabs.find((tab) => tab.id === activeTab)?.content}</div>
+          <div className="inbox-tab-content">
+            <div className="inbox-scrollbar">
+              {/* need to add a div later to create a border between tabs and notifications */}
+              {tabs.find((tab) => tab.id === activeTab)?.content}
+              <NotificationTile />
+              <NotificationTile />
+              <NotificationTile />
+              <NotificationTile />
+              <NotificationTile />
+              <NotificationTile />
+              <NotificationTile />
+              <NotificationTile />
+              <NotificationTile />
+              <NotificationTile />
+            </div>
+          </div>
         </div>
       </div>
       {/* </div> */}
