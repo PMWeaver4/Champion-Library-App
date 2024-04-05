@@ -38,6 +38,9 @@ export default function Inbox({ toggleMenu, pageTitle }) {
           <div className="inbox-tab-content">
             <div className="inbox-scrollbar">
               {/* need to add a div later to create a border between tabs and notifications */}
+              <div className="inbox-tab-email">
+              <button><i className="fa-solid fa-envelope"></i></button>
+              </div>
               {tabs.find((tab) => tab.id === activeTab)?.content}
               <NotificationTile />
               <NotificationTile />
