@@ -1,21 +1,13 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@shadcn/components/ui/carousel";
-
 // import BookProfileCard from "../../Components/BookProfileCard/BookProfileCard";
-
-import { useState } from "react";
-import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import BookTile from "../../Components/BookProfileCard/BookTile";
-export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  function toggleMenu() {
-    setIsMenuOpen(!isMenuOpen);
-  }
+export default function Home() {
   return (
     // home page that contains the "dashboard or main page once logged in"
     <main className="home-page">
-      <PageTemplate toggleMenu={toggleMenu} pageTitle="HOME">
+      <PageTemplate pageTitle="HOME">
         <div className="home-body">
           <div className="home-banner">
             <h1 className="welcome-msg">Welcome to South Meadow's Lending Library!</h1>
@@ -115,7 +107,6 @@ export default function Home() {
           </div>
         </div>
       </PageTemplate>
-      {isMenuOpen && <MenuPopup />}
       {/* <BookProfileCard /> */}
       {/* will need to make book profile card open when book tile is clicked same format will be done for item tile */}
     </main>

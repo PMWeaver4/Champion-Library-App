@@ -8,6 +8,9 @@ import MyLibrary from "./Routes/MyLibrary/MyLibrary";
 import Users from "./Routes/Users/Users";
 import MyProfile from "./Routes/MyProfile/MyProfile";
 import "./style.scss";
+import AllBooks from "./Routes/ViewAllItems/AllBooks";
+import AllGames from "./Routes/ViewAllItems/AllGames";
+import AllOthers from "./Routes/ViewAllItems/AllOthers";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +42,21 @@ const router = createBrowserRouter([
     // my profile
     path: "/my-profile",
     element: <MyProfile />,
+  },
+  {
+    // view all books
+    path: "/books",
+    element: <AllBooks />,
+  },
+  {
+    // view all games
+    path: "/games",
+    element: <AllGames/>,
+  },
+  {
+    // view all other
+    path: "/others",
+    element: <AllOthers/>,
   },
 ]);
 

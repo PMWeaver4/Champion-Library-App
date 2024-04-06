@@ -41,17 +41,17 @@ export default function MyLibrary() {
             {activeTab === "myLibrary" && (
               <>
                 <div className="display-shelf-headers">
-                  <h3>Books in My Library</h3>
+                  <h3>My Books</h3>
                   <button className="view-books-btn">View All</button>
                 </div>
                 <div className="display-shelf books"></div>
                 <div className="display-shelf-headers">
-                  <h3>Board Games in My Library</h3>
+                  <h3>My Games</h3>
                   <button className="view-games-btn">View All</button>
                 </div>
                 <div className="display-shelf boardgames"></div>
                 <div className="display-shelf-headers">
-                  <h3>Miscellaneous Items in My Library</h3>
+                  <h3>Other</h3>
                   <button className="view-items-btn">View All</button>
                 </div>
                 <div className="display-shelf items"></div>
