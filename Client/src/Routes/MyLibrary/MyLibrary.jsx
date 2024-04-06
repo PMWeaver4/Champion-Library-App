@@ -51,7 +51,7 @@ export default function MyLibrary() {
                 </div>
                 <div className="display-shelf boardgames"></div>
                 <div className="display-shelf-headers">
-                  <h3>Other</h3>
+                  <h3>Other Items</h3>
                   <button className="view-items-btn">View All</button>
                 </div>
                 <div className="display-shelf items"></div>
@@ -66,12 +66,12 @@ export default function MyLibrary() {
                 </div>
                 <div className="display-shelf books"></div>
                 <div className="display-shelf-headers">
-                  <h3>Board Games Borrowed</h3>
+                  <h3>Games Borrowed</h3>
                   <button className="view-games-btn">View All</button>
                 </div>
                 <div className="display-shelf boardgames"></div>
                 <div className="display-shelf-headers">
-                  <h3>Miscellaneous Items Borrowed</h3>
+                  <h3>Items Borrowed</h3>
                   <button className="view-items-btn">View All</button>
                 </div>
                 <div className="display-shelf items"></div>
@@ -86,12 +86,12 @@ export default function MyLibrary() {
                 </div>
                 <div className="display-shelf books"></div>
                 <div className="display-shelf-headers">
-                  <h3>Board Games Lent</h3>
+                  <h3>Games Lent</h3>
                   <button className="view-games-btn">View All</button>
                 </div>
                 <div className="display-shelf boardgames"></div>
                 <div className="display-shelf-headers">
-                  <h3>Miscellaneous Items Lent</h3>
+                  <h3>Items Lent</h3>
                   <button className="view-items-btn">View All</button>
                 </div>
                 <div className="display-shelf items"></div>
