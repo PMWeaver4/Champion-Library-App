@@ -52,6 +52,7 @@ export default function NavigationBar({ toggleMenu, pageTitle }) {
           </ul>
         </nav>
       </div>
+      <div className="nav-body"></div>
     </div>
   );
 }

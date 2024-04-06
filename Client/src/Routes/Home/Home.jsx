@@ -19,11 +19,11 @@ export default function Home() {
       {isMenuOpen && <MenuPopup />}
       {/* <BookProfileCard /> */}
       {/* will need to make book profile card open when book tile is clicked same format will be done for item tile */}
-        <div className="home-body">
-          <div className="home-banner">
-            <h1 className="welcome-msg">Welcome to South Meadow's Lending Library!</h1>
-            <h2 className="slogan">Neighborhood Book Sharing Made Easy</h2>
-          </div>
+      <div className="home-body">
+        <div className="home-banner">
+          <h1 className="welcome-msg">Welcome to South Meadow's Lending Library!</h1>
+          <h2 className="slogan">Neighborhood Book Sharing Made Easy</h2>
+        </div>
         <div className="home-section">
           <div className="books-container">
             <div className="view-container">
@@ -115,8 +115,8 @@ export default function Home() {
               <CarouselNext />
             </Carousel>
           </div>
-          </div>
         </div>
+      </div>
     </main>
   );
 }

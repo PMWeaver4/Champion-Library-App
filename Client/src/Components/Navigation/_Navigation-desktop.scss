@@ -1,2 +1,20 @@
-
-  
+.navigation-page {
+  background-color: #003366;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  .nav-body {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    height: 90%;
+    box-shadow: none;
+    margin-right: 2rem;
+  }
+  .navigation-bar {
+    display: none;
+  }
+  .navigation-side-bar {
+    display: flex;
+  }
+}
