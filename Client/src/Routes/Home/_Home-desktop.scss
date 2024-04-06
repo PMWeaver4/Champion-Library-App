@@ -6,7 +6,7 @@
     height: 90%;
     box-shadow: none;
     .home-banner {
-      margin-top: 2rem;
+      margin-top: 1.25rem;
       border-radius: 16px;
       height: 30%;
       .welcome-msg,
@@ -23,6 +23,7 @@
       }
     }
     .home-section {
+      margin-bottom: 8px;
       .books-container,
       .board-games-container,
       .others-container {
