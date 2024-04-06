@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import BookTile from "../../Components/BookProfileCard/BookTile";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 
@@ -7,7 +8,7 @@ export default function AllBooks() {
       <PageTemplate pageTitle="BOOKS">
         <div className="all-books-body">
           <div className="view-all-headers">
-            <button><i className="fa-solid fa-arrow-left"></i></button>
+            <NavLink to="/home"><i className="fa-solid fa-arrow-left"></i></NavLink>
             <h1>BOOKS</h1>
           </div>
           <div className="view-all-grid">

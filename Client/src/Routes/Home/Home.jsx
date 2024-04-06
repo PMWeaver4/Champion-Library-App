@@ -2,6 +2,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 // import BookProfileCard from "../../Components/BookProfileCard/BookProfileCard";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import BookTile from "../../Components/BookProfileCard/BookTile";
+import { NavLink } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -17,7 +18,9 @@ export default function Home() {
             <div className="books-container">
               <div className="view-container">
                 <h3>BOOKS</h3>
-                <button className="view-btn view-books-btn">View all</button>
+                <NavLink to="/books" className="view-btn view-books-btn">
+                  View all
+                </NavLink>
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
@@ -47,7 +50,7 @@ export default function Home() {
             <div className="board-games-container">
               <div className="view-container">
                 <h3>GAMES</h3>
-                <button className="view-btn view-boardgames-btn">View all</button>
+                <NavLink to="/games" className="view-btn view-boardgames-btn">View all</NavLink>
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
@@ -77,7 +80,7 @@ export default function Home() {
             <div className="others-container">
               <div className="view-container">
                 <h3>OTHER</h3>
-                <button className="view-btn view-others-btn">View all</button>
+                <NavLink to="/others" className="view-btn view-others-btn">View all</NavLink>
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
