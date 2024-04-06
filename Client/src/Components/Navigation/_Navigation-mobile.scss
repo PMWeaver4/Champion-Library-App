@@ -1,4 +1,4 @@
-.navigation-page {
+.page-template {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -9,7 +9,7 @@
   .navigation-side-bar {
     display: none;
   }
-  .nav-body {
+  .page-body {
     max-height: 100%;
     display: flex;
     flex-direction: column;

@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
-export default function NavigationBar({ toggleMenu, pageTitle }) {
+export default function PageTemplate({ toggleMenu, pageTitle, children }) {
+  console.log(children);
   const username = "Username";
   return (
-    <div className="navigation-page">
+    <div className="page-template">
       <div className="navigation-bar">
         <h1 className="page-title">{pageTitle}</h1>
         <button onClick={toggleMenu} className="menu-btn">
@@ -14,37 +15,37 @@ export default function NavigationBar({ toggleMenu, pageTitle }) {
           <ul>
             <img className="nav-img" src="/images/south_Meadows.png" />
             <li className="menu-btns-container dashboard">
-              <NavLink to="/home" exact activeClassName="active">
+              <NavLink to="/home" exact="true" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                 <i className="fa-solid fa-house"></i>
                 <p>Home</p>
               </NavLink>
             </li>
             <li className="menu-btns-container inbox">
-              <NavLink to="/inbox" activeClassName="active">
+              <NavLink to="/inbox" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                 <i className="fa-solid fa-inbox"></i>
                 <p>Inbox</p>
               </NavLink>
             </li>
             <li className="menu-btns-container my-library">
-              <NavLink to="/my-library" activeClassName="active">
+              <NavLink to="/my-library" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                 <i className="fa-solid fa-book-bookmark"></i>
                 <p>My Library</p>
               </NavLink>
             </li>
             <li className="menu-btns-container users">
-              <NavLink to="/users" activeClassName="active">
+              <NavLink to="/users" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                 <i className="fa-solid fa-users"></i>
                 <p>Users</p>
               </NavLink>
             </li>
             <li className="menu-btns-container profile">
-              <NavLink to="/my-profile" activeClassName="active">
+              <NavLink to="/my-profile" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                 <i className="fa-solid fa-address-card"></i>
                 <p>My Profile</p>
               </NavLink>
             </li>
             <li className="menu-btns-container logout">
-              <NavLink to="/" activeClassName="active">
+              <NavLink to="/" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                 <i className="fa-solid fa-right-from-bracket"></i>
                 <p>Logout</p>
               </NavLink>
@@ -52,7 +53,7 @@ export default function NavigationBar({ toggleMenu, pageTitle }) {
           </ul>
         </nav>
       </div>
-      <div className="nav-body"></div>
+      <div className="page-body">{children}</div>
     </div>
   );
 }
