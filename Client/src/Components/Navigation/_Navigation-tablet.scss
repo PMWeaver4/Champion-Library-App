@@ -1,5 +1,16 @@
-.navigation-page {
-    background-color: #003366;
+.page-template {
+  background-color: #003366;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  .page-body {
+    display: flex;
+    justify-content: center;
+    width: 70%;
+    box-shadow: none;
+    margin-right: 2rem;
+    margin-bottom: 0;
+  }
   .navigation-bar {
     display: none;
   }

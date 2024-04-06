@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 // import Navbar from "../../Components/Navbar/Navbar";
-import NavigationBar from "../../Components/Navigation/NavigationBar";
+import PageTemplate from "../../Components/Navigation/PageTemplate";
 import NotificationTile from "./NotificationTile";
 // import NotificationTile from "./NotificationTile";
 
@@ -23,39 +23,41 @@ export default function Inbox({ toggleMenu, pageTitle }) {
 
   return (
     <main className="inbox-page">
-      <NavigationBar toggleMenu={toggleMenu} pageTitle="INBOX" />
-      {isMenuOpen && <MenuPopup />}
-      {/* <div className="inbox"> */}
-      <div className="inbox-body">
-        <div className="inbox-container">
-          <div className="inbox-tabs">
-            {tabs.map((tab) => (
-              <button key={tab.id} className={`tab ${activeTab === tab.id ? "active" : ""}`} onClick={() => setActiveTab(tab.id)}>
-                {tab.title}
-              </button>
-            ))}
-          </div>
-          <div className="inbox-tab-content">
-            <div className="inbox-scrollbar">
-              {/* need to add a div later to create a border between tabs and notifications */}
-              <div className="inbox-tab-email">
-              <button><i className="fa-solid fa-envelope"></i></button>
+      <PageTemplate toggleMenu={toggleMenu} pageTitle="INBOX">
+        <div className="inbox-body">
+          <div className="inbox-container">
+            <div className="inbox-tabs">
+              {tabs.map((tab) => (
+                <button key={tab.id} className={`tab ${activeTab === tab.id ? "active" : ""}`} onClick={() => setActiveTab(tab.id)}>
+                  {tab.title}
+                </button>
+              ))}
+            </div>
+            <div className="inbox-tab-content">
+              <div className="inbox-scrollbar">
+                {/* need to add a div later to create a border between tabs and notifications */}
+                <div className="inbox-tab-email">
+                  <button>
+                    <i className="fa-solid fa-envelope"></i>
+                  </button>
+                </div>
+                {tabs.find((tab) => tab.id === activeTab)?.content}
+                <NotificationTile />
+                <NotificationTile />
+                <NotificationTile />
+                <NotificationTile />
+                <NotificationTile />
+                <NotificationTile />
+                <NotificationTile />
+                <NotificationTile />
+                <NotificationTile />
+                <NotificationTile />
               </div>
-              {tabs.find((tab) => tab.id === activeTab)?.content}
-              <NotificationTile />
-              <NotificationTile />
-              <NotificationTile />
-              <NotificationTile />
-              <NotificationTile />
-              <NotificationTile />
-              <NotificationTile />
-              <NotificationTile />
-              <NotificationTile />
-              <NotificationTile />
             </div>
           </div>
         </div>
-      </div>
+      </PageTemplate>
+      {isMenuOpen && <MenuPopup />}
       {/* </div> */}
     </main>
   );
