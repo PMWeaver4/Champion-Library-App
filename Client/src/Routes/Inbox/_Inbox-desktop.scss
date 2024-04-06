@@ -5,8 +5,8 @@
   .inbox-body {
     display: flex;
     justify-content: center;
-    width: 80%;
-    height: 90%;
+    width: 100%;
+    height: 99%;
     box-shadow: none;
     .inbox-container {
       width: 100%;
@@ -16,8 +16,11 @@
         background-color: #003366;
         border-bottom: none;
         .tab {
-          padding: 8px 20px;
+          padding: 16px 20px;
         }
+      }
+      .inbox-tab-content {
+        padding: 4px;
       }
     }
   }

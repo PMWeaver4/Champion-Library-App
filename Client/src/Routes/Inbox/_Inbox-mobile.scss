@@ -13,7 +13,6 @@
     align-items: center;
     width: 100%;
     height: 90%;
-    position: absolute;
     margin-bottom: 1rem;
     border-radius: 1rem;
     .inbox-container {
@@ -23,6 +22,7 @@
         padding-top: 4px;
         display: flex;
         background-color: #003366;
+        gap: 4px;
         .tab {
           font-family: "Inter", sans-serif;
           width: 100%;

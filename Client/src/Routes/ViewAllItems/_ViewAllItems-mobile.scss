@@ -1,0 +1,53 @@
+.all-books-page,
+.all-games-page,
+.all-others-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .all-books-body,
+  .all-games-body,
+  .all-others-body {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .view-all-headers {
+      button {
+        i {
+          position: absolute;
+          top: 0.5rem;
+          left: 0.5rem;
+          display: flex;
+          font-size: 1.5rem;
+          padding: 8px;
+          color: #003366;
+          &:hover {
+            color: greenyellow;
+          }
+        }
+
+      }
+      h1 {
+        display: none;
+      }
+    }
+    .view-all-grid {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      justify-items: center;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 2rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+}

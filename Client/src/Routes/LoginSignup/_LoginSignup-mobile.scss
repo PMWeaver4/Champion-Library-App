@@ -11,195 +11,196 @@
   height: 100%;
   width: 100%;
   font-family: "Inika", serif;
-}
 
-.login-signup-content {
-  height: fit-content;
-  background-color: whitesmoke;
-  justify-content: center;
-  width: 85%;
-  border-radius: 8px;
-  text-align: center;
-  gap: 1rem;
-  padding-bottom: 8px;
-}
+  .login-signup-content {
+    height: fit-content;
+    background-color: white;
+    justify-content: center;
+    width: 85%;
+    border-radius: 8px;
+    text-align: center;
+    gap: 1rem;
+    padding-bottom: 8px;
+  }
 
-.LOGO {
-  flex-direction: column;
-  width: 100%;
-  padding: 2em 0;
-}
+  .LOGO {
+    flex-direction: column;
+    width: 100%;
+    padding: 2em 0;
+  }
 
-.tabs {
-  display: flex;
-  margin-bottom: 1em;
-  justify-content: center;
-  box-shadow: 0 2px 2px -1px gray;
-}
+  .tabs {
+    display: flex;
+    margin-bottom: 1em;
+    justify-content: center;
+    box-shadow: 0 2px 2px -1px gray;
+    .tab {
+      position: relative;
+      padding: 10px 20px;
+      flex: 1;
+      text-align: center;
+      cursor: pointer;
+      margin-right: 0;
+      margin: 0 5px;
+    }
+  }
 
-.tab {
-  position: relative;
-  padding: 10px 20px;
-  flex: 1;
-  text-align: center;
-  cursor: pointer;
-  margin-right: 0;
-  margin: 0 5px;
-}
+  .indicator {
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    z-index: 1;
+    justify-content: center;
+  }
 
-.indicator {
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 100%;
-  height: 10px;
-  z-index: 1;
-  justify-content: center;
-}
+  .tab.active {
+    color: rgb(1, 1, 15);
+    justify-content: center;
+  }
 
-.tab.active {
-  color: rgb(1, 1, 15);
-  justify-content: center;
-}
+  .tab-content {
+    padding: 20px;
+    &.active {
+      display: block;
+    }
+  }
 
-.tab-content {
-  padding: 20px;
-  &.active {
+  .tab-content.active {
     display: block;
   }
-}
 
-.tab-content.active {
-  display: block;
-}
+  /*
+  .tabs::before {
+      content: '';
+      position: absolute;
+      bottom:0;
+      left: 0;
+      width:100%;
+      height:1px;
+      background-color: black;
+      z-index: -1;
+  } 
+  
+  */
 
-/*
-.tabs::before {
-    content: '';
-    position: absolute;
-    bottom:0;
-    left: 0;
-    width:100%;
-    height:1px;
-    background-color: black;
-    z-index: -1;
-} 
-
-*/
-
-.login-button, .signUp-button {
-  margin: 1rem 0 1rem 0;
-  padding: 12px;
-  background-color: #003366;
-  width: 16rem;
-  height: 2rem;
-  color: white;
-  font-family: "DotGothic16", sans-serif;
-  font-size: 1em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  border-radius: 5px;
-  border: none;
-}
-
-#email {
-  width: 80%;
-  height: 1rem;
-  border-radius: 0.5rem;
-  font-family: "DotGothic16", sans-serif;
-  font-size: 1rem;
-  border: none;
-  padding-left: 0.5rem;
-}
-
-#password {
-  width: 80%;
-  height: 1rem;
-  border-radius: 0.5rem;
-  font-family: "DotGothic16", sans-serif;
-  font-size: 1rem;
-  border: none;
-  padding-left: 0.5rem;
-}
-
-#firstName {
-  width: 80%;
-  height: 1rem;
-  border-radius: 0.5rem;
-  font-family: "DotGothic16", sans-serif;
-  font-size: 1rem;
-  border: none;
-  padding-left: 0.5rem;
-}
-#lastName {
-  width: 80%;
-  height: 1rem;
-  border-radius: 0.5rem;
-  font-family: "DotGothic16", sans-serif;
-  font-size: 1rem;
-  border: none;
-  padding-left: 0.5rem;
-}
-#confirm_password {
-  width: 80%;
-  height: 1rem;
-  border-radius: 0.5rem;
-  font-family: "DotGothic16", sans-serif;
-  font-size: 1rem;
-  border: none;
-  padding-left: 0.5rem;
-}
-
-.signup-header {
-  color: black;
-  font-size: larger;
-  font-family: "Inika", serif;
-}
-
-.login-header {
-  color: black;
-  font-size: larger;
-  font-family: "Inika", serif;
-}
-
-.indicator {
-  height: 4px;
-}
-
-#signupForm {
-    padding: 0;
-}
-
-#loginForm, #signupForm {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  form {
+  .login-button,
+  .signUp-button {
+    margin: 1rem 0 1rem 0;
+    padding: 12px;
+    background-color: #003366;
+    width: 16rem;
+    height: 2rem;
+    color: white;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1em;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    input {
-      background-color: transparent;
-      border-bottom: 1px solid black;
-      border-radius: 0;
-    }
-    input:focus {
-      outline: none;
-    }
-    label {
-        padding-top: 8px;
-      text-align: left;
-      width: 80%;
-      padding-bottom: 4px;
-    }
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
   }
-  .password-recovery {
-    font-size: 10pt;
-    padding-bottom: 8px;
+
+  #email {
+    width: 80%;
+    height: 1rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1rem;
+    border: none;
+    padding-left: 0.5rem;
+  }
+
+  #password {
+    width: 80%;
+    height: 1rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1rem;
+    border: none;
+    padding-left: 0.5rem;
+  }
+
+  #firstName {
+    width: 80%;
+    height: 1rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1rem;
+    border: none;
+    padding-left: 0.5rem;
+  }
+  #lastName {
+    width: 80%;
+    height: 1rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1rem;
+    border: none;
+    padding-left: 0.5rem;
+  }
+  #confirm_password {
+    width: 80%;
+    height: 1rem;
+    border-radius: 0.5rem;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 1rem;
+    border: none;
+    padding-left: 0.5rem;
+  }
+
+  .signup-header {
     color: black;
-    text-decoration: none;
+    font-size: larger;
+    font-family: "Inika", serif;
+  }
+
+  .login-header {
+    color: black;
+    font-size: larger;
+    font-family: "Inika", serif;
+  }
+
+  .indicator {
+    height: 4px;
+  }
+
+  #signupForm {
+    padding: 0;
+  }
+
+  #loginForm,
+  #signupForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      input {
+        background-color: transparent;
+        border-bottom: 1px solid black;
+        border-radius: 0;
+      }
+      input:focus {
+        outline: none;
+      }
+      label {
+        padding-top: 8px;
+        text-align: left;
+        width: 80%;
+        padding-bottom: 4px;
+      }
+    }
+    .password-recovery {
+      font-size: 10pt;
+      padding-bottom: 8px;
+      color: black;
+      text-decoration: none;
+    }
   }
 }

@@ -1,18 +1,13 @@
 import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
-import Navbar from "../../Components/Navbar/Navbar";
+import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 
 export default function Users() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  function toggleMenu() {
-    setIsMenuOpen(!isMenuOpen);
-  }
-
   return (
-    <main className="users-page">
-      <Navbar toggleMenu={toggleMenu} pageTitle="My Profile" />
-      {isMenuOpen && <MenuPopup />}
+    <main className="my-profile-page">
+      <PageTemplate pageTitle="My Profile">
+        <div className="my-profile-body"></div>
+      </PageTemplate>
     </main>
   );
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 // import Navbar from "../../Components/Navbar/Navbar";
-import PageTemplate from "../../Components/Navigation/PageTemplate";
+import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import NotificationTile from "./NotificationTile";
 // import NotificationTile from "./NotificationTile";
 
