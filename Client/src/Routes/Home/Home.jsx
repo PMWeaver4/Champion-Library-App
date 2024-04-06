@@ -4,7 +4,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 
 import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
-import PageTemplate from "../../Components/Navigation/PageTemplate";
+import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import BookTile from "../../Components/BookProfileCard/BookTile";
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

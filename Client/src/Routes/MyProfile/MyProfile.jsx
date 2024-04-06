@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
-import Navbar from "../../Components/Navbar/Navbar";
+import PageTemplate from "../../Components/PageTemplate/PageTemplate";
+
 
 export default function Users() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,8 +11,12 @@ export default function Users() {
   }
 
   return (
-    <main className="users-page">
-      <Navbar toggleMenu={toggleMenu} pageTitle="My Profile" />
+    <main className="my-profile-page">
+      <PageTemplate toggleMenu={toggleMenu} pageTitle="My Profile" >
+        <div className="my-profile-body">
+
+        </div>
+      </PageTemplate>
       {isMenuOpen && <MenuPopup />}
     </main>
   );
