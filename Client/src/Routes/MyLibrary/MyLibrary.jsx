@@ -1,6 +1,6 @@
 import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
-import Navbar from "../../Components/Navbar/Navbar";
+
 
 // TODO implement logic to grab books, game, etc from data base. Might have to add a add book option and a return book option.
 
@@ -19,7 +19,7 @@ export default function MyLibrary() {
 
   return (
     <main className="my-library-page">
-      <Navbar toggleMenu={toggleMenu} pageTitle="My Library" />
+      <Navigation toggleMenu={toggleMenu} pageTitle="My Library" />
       {isMenuOpen && <MenuPopup />}
 
       <div className="tabs">
