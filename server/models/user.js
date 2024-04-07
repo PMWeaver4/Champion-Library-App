@@ -26,9 +26,9 @@ const UserSchema = new mongoose.Schema({
             minlength: 1,
         },
 
-        passwordrecovery: {
-            type: 
-        }
+        //passwordreset: {
+        //    type: String,
+       // },
 
         isAdmin: {
             type: Boolean,

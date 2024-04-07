@@ -80,6 +80,17 @@ router.get("/email/:email", async (req, res) => {
     }
 });
 
+// Admin access
+
+router.use((req, res, next) => {
+    if (!req.user || !req.user.isAdmin) {
+     res.status(401).json({ error: 'Unauthorized' });
+     return;
+    }
+   
+    next();
+   });
+
 //login
 router.post("/login/", async (req,res) => {
     try {
@@ -114,6 +125,13 @@ router.post("/login/", async (req,res) => {
 });
 
 // Add password recovery
+//router.put("/passwordreset/", async (req, res) => {
+//    try { 
+//        let { passwordreset } = req.body;
+//        password: bcrypt.hashSync(req.body.password,12),
+
+//    }
+// });
 
 //Update user's information
 
