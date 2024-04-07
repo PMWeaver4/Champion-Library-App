@@ -1,0 +1,12 @@
+
+.my-profile-page {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    .my-profile-body {
+      display: flex;
+      justify-content: center;
+      width: 70%;
+      box-shadow: none;
+    }
+}

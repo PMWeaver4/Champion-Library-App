@@ -1,0 +1,11 @@
+.users-page {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    .users-body {
+      display: flex;
+      justify-content: center;
+      width: 70%;
+      box-shadow: none;
+    }
+}

@@ -10,8 +10,6 @@ router.post("/create/", async(req,res) => {
             author: req.body.author,
             description: req.body.description,
             user: req.user.email,
-            rentedUser: "",
-            checkedout: "",
             isbn: req.body.isbn,
             genre: req.body.genre,
             img: req.body.img
@@ -43,7 +41,6 @@ router.post("/create/", async(req,res) => {
             updatedAt: 1,
         });
 
-        // const newBook = await post.save();
         res.status(200).json({
             Created: results,
         })
@@ -56,20 +53,65 @@ router.post("/create/", async(req,res) => {
     }
 });
 
+//get specific book
+router.get("/book/:_id", async (req, res) => {
+    try {
+        let results = await Book.find({_id: req.params._id});
+        res.status(200).json({
+            Results: results,
+        })
+    } catch(err){
+        console.log(err);
+
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+
+//filter
+router.get("/filter/", async (req, res) => {
+    try {
+
+        
+    const {genre,author,user} = req.query;
+    const whatever = {}
+    if(genre != null) {
+        whatever.genre=genre
+    }
+    if(author!=null) {
+        whatever.author=author
+    }
+    if(user!=null){
+        whatever.user=user
+    }
+
+    
+
+    //
+       console.log(`this is the ${genre} and the ${author}`);
+       
+        let results = await Book.find(whatever)     
+        .sort({createdAt: 1});
+
+        res.status(200).json({
+            Results: results,
+        })
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({
+            Error: err,
+        });
+    }
+}
+)
+
 
 //[PUT] Adding Update Endpoint
-router.put("/update/:isbn", async (req, res) => {
+router.put("/update/:_id", async (req, res) => {
     try {
-        //pluck the book out of available books
-
-        //make sure user can update this book
-        if(req.user.email === Book.user)
-        { const bookToUpdate = await Book.findOne({isbn: req.params.isbn}).exec()
-    } else {throw error;}
-        
-
-
-        const bookUpdated = await bookToUpdate.updateOne( {
+        const bookToUpdate = await Book.findOne({_id: req.params._id}).exec()
+        const updatedValues = {
             title: req.body.title,
             author: req.body.author,
             description: req.body.description,
@@ -77,13 +119,12 @@ router.put("/update/:isbn", async (req, res) => {
             condition: req.body.condition,
             rentedUser: req.body.rentedUser,
             checkedout: req.body.checkedOut,
-        }  ).exec();
-
-        const bookReturnUPdated = await Book.findOne({isbn: req.body.isbn}).exec();
+        }  
+       await bookToUpdate.updateOne(updatedValues).exec();
 
         res.status(200).json({
-            Updated: bookReturnUPdated,
-            Results: bookReturnUPdated,
+            Updated: updatedValues,
+            Results: updatedValues,
         });
     } catch (err) {
         res.status(500).json({
@@ -95,8 +136,6 @@ router.put("/update/:isbn", async (req, res) => {
 // [DELETE] - Remove a book.
 router.delete("/delete/:id", async (req, res) => {
     try {
-        //find book and delete
-        //**not used???!?!?!?!?!?!?!!?
         const book = await Book.findByIdAndDelete(req.params.id);
 
             if (!Book) throw new Error("Book not found");

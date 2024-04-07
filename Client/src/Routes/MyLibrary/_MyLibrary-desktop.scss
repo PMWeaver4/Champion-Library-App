@@ -1,0 +1,26 @@
+.my-library-page {
+  .my-library-body {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    height: 90%;
+    box-shadow: none;
+    .tabs {
+      margin-top: 20px;
+    }
+
+    .Library-display-container {
+      .display-shelf {
+        height: 30%;
+      }
+
+      .display-shelf-headers,
+      .Library-shelf-headers,
+      .lent-shelf-headers {
+        h3 {
+          font-size: 1.8em;
+        }
+      }
+    }
+  }
+}
