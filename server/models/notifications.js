@@ -19,7 +19,7 @@ const NotificationsSchema = new mongoose.Schema(
             
         },
 
-        bookAvailable: {
+        available: {
             type: Boolean,
             required: true,
 
