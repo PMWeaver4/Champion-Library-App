@@ -11,9 +11,8 @@ router.post("/create/", async(req,res) => {
             user: req.user.email,
             rentedUser: "",
             checkedout: "",
-            type: req.body.type,
+            itemType: req.body.itemType,
             condition: req.body.condition
-
         });
 
         const newItem = await item.save();
@@ -34,7 +33,7 @@ router.post("/create/", async(req,res) => {
   router.get("/all", async (req, res) => {
     try {
 
-        let results = await Item.find().populate( ["description", "user", "rentedUser", "checkedout", "type", "condition"])
+        let results = await Item.find().populate( ["description", "user", "rentedUser", "checkedout", "itemType", "condition"])
         .select({
             text: 1,
             createdAt:1,
@@ -55,8 +54,48 @@ router.post("/create/", async(req,res) => {
 });
 
 //get by id
-//update
-//delete
 
+//update
+
+router.put("/update/:_id", async (req, res) => {
+    try {
+        const itemToUpdate = await Item.findOne({_id: req.params._id}).exec()
+        const updatedValues = {
+            description: req.body.description,
+            itemType: req.body.itemType,
+            condition: req.body.condition,
+            rentedUser: req.body.rentedUser,
+            checkedout: req.body.checkedOut,
+        }  
+       await itemToUpdate.updateOne(updatedValues).exec();
+
+        res.status(200).json({
+            Updated: updatedValues,
+            Results: updatedValues,
+        });
+    } catch (err) {
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+
+// [DELETE] - Remove an item.
+router.delete("/delete/:itemId", async (req, res) => {
+    try {
+
+        const item = await Item.findByIdAndDelete(req.params.itemId);
+
+            if (!Item) throw new Error("Item not found");
+
+            res.status(200).json({
+                Deleted: 1,
+            });
+        } catch (err) {
+            res.status(500).json({
+                Error: err,
+            });
+        }
+    });
 
 module.exports = router;
