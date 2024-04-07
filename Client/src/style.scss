@@ -1,6 +1,10 @@
 /* browser css reset */
 @import "./assets/CSS/reset";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* font */
 @import "./assets/CSS/font";
 
@@ -16,4 +20,3 @@
 @media only screen and (min-width: 992px) {
   @import "./assets/CSS/desktop";
 }
-

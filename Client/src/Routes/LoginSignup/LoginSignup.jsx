@@ -2,6 +2,8 @@ import { NavLink } from "react-router-dom";
 // Import dependencies
 import { useState } from "react";
 
+//TODO, make buttons work and redirect to dashboard and implement logic for logging in and creating an account. check if passwords match when signing up.
+
 // Component for login page
 export default function LoginSignup() {
   const [activeTab, setActiveTab] = useState("login");
@@ -51,11 +53,11 @@ export default function LoginSignup() {
           <form onSubmit={handleSubmit}>
             <label htmlFor="email">Email</label>
             <br />
-            <input type="email" id="email" name="email" value={inputs.email} onChange={handleInputChange} />
+            <input type="email" placeholder="Enter a email address" id="email" name="email" value={inputs.email} onChange={handleInputChange} />
             <br />
             <label htmlFor="password">Password</label>
             <br />
-            <input type="password" id="password" name="password" value={inputs.password} onChange={handleInputChange} />
+            <input type="password" placeholder="Enter your password" id="password" name="password" value={inputs.password} onChange={handleInputChange} />
             <br />
             <br />
             <button className="login-button" type="submit">
@@ -69,23 +71,23 @@ export default function LoginSignup() {
           <form onSubmit={handleSubmit}>
             <label htmlFor="firstName">First Name</label>
             <br />
-            <input type="text" id="firstName" name="firstName" value={inputs.firstName} onChange={handleInputChange} />
+            <input type="text" placeholder="Enter your first name" id="firstName" name="firstName" value={inputs.firstName} onChange={handleInputChange} />
             <br />
             <label htmlFor="lastName">Last Name</label>
             <br />
-            <input type="text" id="lastName" name="lastName" value={inputs.lastName} onChange={handleInputChange} />
+            <input type="text" placeholder="Enter your last name" id="lastName" name="lastName" value={inputs.lastName} onChange={handleInputChange} />
             <br />
             <label htmlFor="email">Email</label>
             <br />
-            <input type="email" id="email" name="email" value={inputs.email} onChange={handleInputChange} />
+            <input type="email"  placeholder="Enter a email address" id="email" name="email" value={inputs.email} onChange={handleInputChange} />
             <br />
             <label htmlFor="password">Password</label>
             <br />
-            <input type="password" id="password" name="password" value={inputs.password} onChange={handleInputChange} />
+            <input type="password" placeholder="Enter your new password" id="password" name="password" value={inputs.password} onChange={handleInputChange} />
             <br />
             <label htmlFor="confirm_password">Confirm Password</label>
             <br />
-            <input type="password" id="confirm_password" name="confirm_password" value={inputs.confirm_password} onChange={handleInputChange} />
+            <input type="password" placeholder="Confirm your new password" id="confirm_password" name="confirm_password" value={inputs.confirm_password} onChange={handleInputChange} />
             <br />
             <br />
             <button className="signUp-button" type="submit">

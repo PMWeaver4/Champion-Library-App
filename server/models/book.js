@@ -10,7 +10,7 @@ const BookSchema = new mongoose.Schema(
             
         },
         author: {
-            type: String,
+            type: Array,
             required: true,
             
         },
@@ -33,14 +33,18 @@ const BookSchema = new mongoose.Schema(
             type: Number,
         },
         genre: {
-            type: String,
+            type: Array,
             required: true
         },
         img: {
-            thumbnail: String,
+            type: String,
+            // thumbnail: String,
         },
         condition: {
             type: String,
+        },
+        pubDate: {
+            type: Date,
         }
         
     },

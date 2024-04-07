@@ -7,8 +7,10 @@ const itemRoutes = require("./item_routes");
 
 const notificationsRoutes = require("./notifications_routes");
 
+const fetchRoutes = require("./google_fetch")
 
-module.exports = { userRoutes, bookRoutes, itemRoutes, notificationsRoutes};
+
+module.exports = { userRoutes, bookRoutes, itemRoutes, notificationsRoutes, fetchRoutes};
 
 
 

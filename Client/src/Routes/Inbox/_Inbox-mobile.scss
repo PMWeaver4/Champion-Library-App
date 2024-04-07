@@ -1,110 +1,133 @@
 .inbox-page {
   display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
   width: 100%;
   height: 100%;
-
-  .inbox-content-container {
+  position: relative;
+  .inbox-body {
+    max-height: 100%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    height: 100%;
-
-    .notification-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    height: 90%;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    .inbox-container {
       width: 100%;
       height: 100%;
-      background-color: white;
-      //   background: linear-gradient(180deg, rgba(0, 51, 102, 0.92) 0%, rgba(0, 102, 204, 0.92) 100%);
-      box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-      .input-container {
+      .inbox-tabs {
+        padding-top: 4px;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 5rem;
-        margin-bottom: 2rem;
-        width: 100%;
-        height: fit-content;
-        gap: 0.5rem;
-        .draft-msg-btn {
-          display: flex;
-          width: fit-content;
-          height: fit-content;
-          font-size: 1.75rem;
-          background-color: transparent;
+        background-color: #003366;
+        gap: 4px;
+        .tab {
+          font-family: "Inter", sans-serif;
+          width: 100%;
           cursor: pointer;
-          border-radius: 100%;
-          border: none;
-          color: #003366;
-          padding: 0;
-          transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+          padding: 2px 20px;
+          color: white;
+          border: 1px solid #325b84;
+          background-color: #325b84;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+          border-bottom: none;
+          transition: background-color 0.3s;
 
           &:hover {
+            background-color: #194775;
             color: greenyellow;
+            border: 1px solid #194775;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+
+            border-bottom: none;
+          }
+
+          &:not(:last-child) {
+            border-right: none; /* to avoid the double borders */
           }
         }
-        .inbox-search {
-          display: flex;
-          background-color: rgba(211, 211, 211, 0.445);
-          flex-direction: column;
-          width: 70%;
-          height: 1.5rem;
-          padding-left: 1rem;
-          border-radius: 1rem;
-          border: none;
-          box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-        }
-        input:focus {
-          outline: none;
+        .tab.active {
+          background-color: white; /* highlights the active tab */
+          border-color: white;
+          color: #003366;
+          font-weight: bold;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          border-bottom: none;
         }
       }
-    }
-    .inbox-panel {
-      background-color: white;
-      width: 100%;
-      height: 100%;
-      display: none;
+
+      .inbox-tab-content {
+        border: 1px solid white;
+        padding: 0;
+        width: 100%;
+        height: 90%;
+        border-radius: 1rem;
+        .inbox-scrollbar {
+          border-radius: 1rem;
+          display: flex;
+          flex-direction: column;
+          width: 99.9%;
+          height: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+          .inbox-tab-email {
+            color: #003366;
+            width: 100%;
+            padding-right: 1rem;
+            height: fit-content;
+            display: flex;
+            justify-content: right;
+            button {
+              width: fit-content;
+              height: fit-content;
+              padding: 8px;
+              transition: color 300ms ease-in-out, color 300ms ease-in-out;
+              &:hover {
+                color: rgb(153, 255, 0);
+              }
+              i {
+                font-size: 2rem;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
 
-// Notification Tile CSS
-//! need to figure out whats wrong with the div in overflow cutting off content
-.notification-tile-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  
+
+// NotificationTile.jsx scss
+.component_notification-tile {
   width: 100%;
-  height: 30rem;
-  overflow-y: auto;
-  gap: 1rem;
-  .notification-tile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    height: fit-content;
-    padding: 16px;
-    width: 80%;
+  height: fit-content;
+  padding: 10px 20px;
+  background-color: rgb(247, 247, 247);
+  border: 1px solid rgba(128, 128, 128, 0.249);
+  border-right: none;
+  border-left: none;
+  font-size: 12pt;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+  color: #003366;
+  &:hover {
     background-color: #003366;
     color: white;
-    border-radius: 8px;
-    font-family: "Inter", sans-serif;
-    font-size: 12pt;
-    .tile-username {
+    .notification-username {
       color: greenyellow;
-      font-weight: bold;
     }
-    .placeholder {
-      width: 2.5rem;
-      height: 2.5rem;
-      background-color: whitesmoke;
-      border-radius: 100%;
-    }
-    .tile-content {
-      width: 80%;
-    }
+  }
+  .notification-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
   }
 }

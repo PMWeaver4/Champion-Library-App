@@ -4,10 +4,11 @@ export default function MenuPopup() {
   return (
     <nav className="menu-popup">
       <ul>
-        <li className="menu-btns-container dashboard">
+        
+        <li className="menu-btns-container home">
           <NavLink to="/home">
             <i className="fa-solid fa-house"></i>
-            <p>Dashboard</p>
+            <p>Home</p>
           </NavLink>
         </li>
         <li className="menu-btns-container inbox">
@@ -32,12 +33,6 @@ export default function MenuPopup() {
           <NavLink to="/my-profile">
             <i className="fa-solid fa-address-card"></i>
             <p>My Profile</p>
-          </NavLink>
-        </li>
-        <li className="menu-btns-container settings">
-          <NavLink to="/settings">
-            <i className="fa-solid fa-gear"></i>
-            <p>Settings</p>
           </NavLink>
         </li>
         <li className="menu-btns-container logout">
