@@ -1,0 +1,2 @@
+// this should be the tiles youll see in the user page like just name and avatar and when you click on the user tile it should open up the user profile card that will contain a button for view library & send email to the user
+// user tile css can be in the same scss files to save space
