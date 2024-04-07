@@ -1,42 +1,123 @@
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@shadcn/components/ui/carousel";
 // import BookProfileCard from "../../Components/BookProfileCard/BookProfileCard";
+import PageTemplate from "../../Components/PageTemplate/PageTemplate";
+import BookTile from "../../Components/ItemTIles/BookTile";
+import { NavLink } from "react-router-dom";
+import GameTile from "../../Components/ItemTIles/GameTile";
+import OtherTile from "../../Components/ItemTIles/OtherTile";
 
-import { useState } from "react";
-import MenuPopup from "../../Components/MenuPopup/MenuPopup";
-import Navbar from "../../Components/Navbar/Navbar";
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  function toggleMenu() {
-    setIsMenuOpen(!isMenuOpen);
-  }
   return (
     // home page that contains the "dashboard or main page once logged in"
     <main className="home-page">
-      <Navbar toggleMenu={toggleMenu} pageTitle="Dashboard" />
-      {isMenuOpen && <MenuPopup/>}
-      {/* <BookProfileCard/> */}
+      <PageTemplate pageTitle="HOME">
+        <div className="home-body">
+          <div className="home-banner">
+            <h1 className="welcome-msg">Welcome to South Meadow's Lending Library!</h1>
+            <h2 className="slogan">Neighborhood Book Sharing Made Easy</h2>
+          </div>
+          <div className="home-section">
+            <div className="books-container">
+              <div className="view-container">
+                <h3>BOOKS</h3>
+                <NavLink to="/books" className="view-btn view-books-btn">
+                  View all
+                </NavLink>
+              </div>
+              <Carousel className="w-8/12 self-center">
+                <CarouselContent>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <BookTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <BookTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <BookTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <BookTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <BookTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <BookTile />
+                  </CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </div>
+            <div className="board-games-container">
+              <div className="view-container">
+                <h3>GAMES</h3>
+                <NavLink to="/games" className="view-btn view-boardgames-btn">
+                  View all
+                </NavLink>
+              </div>
+              <Carousel className="w-8/12 self-center">
+                <CarouselContent>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <GameTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <GameTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <GameTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <GameTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <GameTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <GameTile />
+                  </CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </div>
+            <div className="others-container">
+              <div className="view-container">
+                <h3>OTHER</h3>
+                <NavLink to="/others" className="view-btn view-others-btn">
+                  View all
+                </NavLink>
+              </div>
+              <Carousel className="w-8/12 self-center">
+                <CarouselContent>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <OtherTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <OtherTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <OtherTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <OtherTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <OtherTile />
+                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <OtherTile />
+                  </CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </div>
+          </div>
+        </div>
+      </PageTemplate>
+      {/* <BookProfileCard /> */}
       {/* will need to make book profile card open when book tile is clicked same format will be done for item tile */}
-      <div className="home-banner">
-        <h1 className="welcome-msg">Welcome to South Meadow's Lending Library!</h1>
-        <h2 className="slogan">Building Community Beyond Books</h2>
-      </div>
-      <div className="dashboard-display-container">
-        <div className="display-shelf-headers">
-          <h3>Books</h3>
-          <button className="view-books-btn">View All</button>
-        </div>
-        <div className="display-shelf books"></div>
-        <div className="display-shelf-headers">
-          <h3>Board Games</h3>
-          <button className="view-games-btn">View All</button>
-        </div>
-        <div className="display-shelf boardgames"></div>
-        <div className="display-shelf-headers">
-          <h3>Miscellaneous Items</h3>
-          <button className="view-items-btn">View All</button>
-        </div>
-        <div className="display-shelf items"></div>
-      </div>
     </main>
   );
 }

@@ -1,13 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LoginSignup from './Routes/LoginSignup/LoginSignup';
-import Home from './Routes/Home/Home';
-import Inbox from './Routes/Inbox/Inbox';
-import MyLibrary from './Routes/MyLibrary/MyLibrary';
-import Users from './Routes/Users/Users';
-import Settings from './Routes/Settings/Settings';
-import './style.scss'
+import LoginSignup from "./Routes/LoginSignup/LoginSignup";
+import Home from "./Routes/Home/Home";
+import Inbox from "./Routes/Inbox/Inbox";
+import MyLibrary from "./Routes/MyLibrary/MyLibrary";
+import Users from "./Routes/Users/Users";
+import MyProfile from "./Routes/MyProfile/MyProfile";
+import "./style.scss";
+import AllBooks from "./Routes/ViewAllItems/AllBooks";
+import AllGames from "./Routes/ViewAllItems/AllGames";
+import AllOthers from "./Routes/ViewAllItems/AllOthers";
 
 const router = createBrowserRouter([
   {
@@ -36,9 +39,24 @@ const router = createBrowserRouter([
     element: <Users />,
   },
   {
-    // settings
-    path: "/settings",
-    element: <Settings />,
+    // my profile
+    path: "/my-profile",
+    element: <MyProfile />,
+  },
+  {
+    // view all books
+    path: "/books",
+    element: <AllBooks />,
+  },
+  {
+    // view all games
+    path: "/games",
+    element: <AllGames/>,
+  },
+  {
+    // view all other
+    path: "/others",
+    element: <AllOthers/>,
   },
 ]);
 

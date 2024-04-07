@@ -1,0 +1,17 @@
+.my-profile-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .my-profile-body {
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: 90%;
+    }
+}

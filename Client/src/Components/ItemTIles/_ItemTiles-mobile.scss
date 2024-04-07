@@ -1,0 +1,26 @@
+// tile scss
+.book-tile, .game-tile, .other-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    height: fit-content;
+    cursor: pointer;
+    img {
+      width: 5rem;
+      aspect-ratio: 100/150;
+      object-fit: cover;
+    }
+    h1,
+    h2 {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 100%;
+      font-size: 10pt;
+      
+    }
+    h2 {
+      font-style: italic;
+      color: #003366;
+    }
+  }

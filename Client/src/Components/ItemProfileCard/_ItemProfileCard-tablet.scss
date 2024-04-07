@@ -1,0 +1,62 @@
+.book-profile-card {
+    width: 30rem;
+    height: 50rem;
+  
+    .about-section {
+      h3 {
+        margin-top: 2rem;
+        font-size: 1.5rem;
+      }
+      .about-content {
+        width: 90%;
+        max-height: 95%;
+        h4 {
+          margin-top: 1rem;
+          font-size: 1.25rem;
+          font-weight: bold;
+          font-family: "Inter", sans-serif;
+        }
+  
+        p {
+          margin-top: 0.5rem;
+          font-size: 14pt;
+        }
+      }
+      .book-card-information {
+        margin-top: 1rem;
+        font-size: 1.25rem;
+      }
+    }
+  
+    .card-overlay {
+      height: 25%;
+      .overlay-content {
+        .book-placeholder {
+          width: 9rem;
+          height: 12rem;
+          bottom: -2rem;
+        }
+        .card-headers {
+          text-align: center;
+          font-size: 1.5rem;
+          .card-title {
+            margin-top: 2rem;
+          }
+          .borrow-btn {
+            font-size: 1.5rem;
+            
+          }
+        }
+      }
+  
+      .close-btn {
+        top: 8px;
+        left: 8px;
+        i {
+          font-size: 1.75rem;
+        }
+      }
+    }
+  }
+
+

@@ -1,27 +1,73 @@
+
 .home-page {
-  .home-banner {
-    margin-top: 6rem;
-    height: 20%;
-    .welcome-msg,
-    .slogan {
-      font-size: 18pt;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .home-body {
+    display: flex;
+    justify-content: center;
+    width: 70%;
+    box-shadow: none;
+    .home-banner {
+      margin-top: 1rem;
+      border-radius: 16px;
+      .welcome-msg,
+      .slogan {
+        font-size: 1.25rem;
+      }
     }
-    .welcome-msg {
-      margin-bottom: 1rem;
+    .view-container {
+
+      .view-btn {
+        font-size: 13pt;
+      }
     }
-  }
-  .dashboard-display-container {
-    .display-shelf {
-      height: 25%;
-      margin-bottom: 1rem;
-    }
-    .display-shelf-headers {
+    .home-section {
+    .books-container,
+    .board-games-container,
+    .others-container {
       h3 {
-        font-size: 1.25rem;
-      }
-      button {
-        font-size: 1.25rem;
+        font-weight: bold;
+        color: #003366;
+        font-family: "Inter", sans-serif;
+        font-size: 13pt;
       }
     }
   }
+  }
+}
+
+
+
+// carousel
+.min-w-0,
+.shrink-0,
+.grow-0 {
+  width: 80px;
+  padding-left: 1rem;
+}
+.books-container > div:nth-child(2) > button:nth-child(3),
+.board-games-container > div:nth-child(2) > button:nth-child(3),
+.others-container > div:nth-child(2) > button:nth-child(3),
+.books-container > div:nth-child(2) > button:nth-child(2),
+.board-games-container > div:nth-child(2) > button:nth-child(2),
+.others-container > div:nth-child(2) > button:nth-child(2) {
+  display: none;
+}
+
+.books-container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) {
+  width: 70px;
+}
+
+.books-container > div:nth-child(2) P {
+  width: 100%;
+}
+
+.books-container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) {
+  width: 60px;
+}
+
+.books-container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+  display: flex;
+  justify-content: center;
 }

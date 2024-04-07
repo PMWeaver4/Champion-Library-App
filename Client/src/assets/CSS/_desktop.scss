@@ -2,11 +2,11 @@
 @import "../../Routes/Inbox/Inbox-desktop";
 @import "../../Routes/LoginSignup/LoginSignup-desktop";
 @import "../../Routes/MyLibrary/MyLibrary-desktop";
-@import "../../Routes/Settings/Settings-desktop";
 @import "../../Routes/Users/Users-desktop";
-@import "../../Components/BookProfileCard/BookProfileCard-desktop";
-@import "../../Components/ItemProfileCard/ItemProfileCard-desktop";
-@import "../../Components/Navbar/Navbar-desktop";
-@import "../../Components/ViewBooksPopup/ViewBooksPopup-desktop";
-@import "../../Components/ViewItemsPopup/ViewItemsPopup-desktop";
+@import "../../Routes/MyProfile/MyProfile-desktop";
 @import "../../Components/MenuPopup/MenuPopup-desktop";
+@import "../../Components/PageTemplate/Navigation-desktop";
+@import "../../Routes/ViewAllItems/ViewAllItems-desktop";
+@import "../../Components/ItemTIles/ItemTile-desktop";
+@import "../../Components/ItemProfileCard/ItemProfileCard-desktop";
+@import "../../Components/UserComponents/UserComponents-desktop";
