@@ -8,6 +8,8 @@ export default function PageTemplate({ toggleMenu, pageTitle, children }) {
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
   }
+
+  
   return (
     <>
       <div className="page-template">
