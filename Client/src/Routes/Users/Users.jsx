@@ -8,7 +8,7 @@ export default function Users() {
     <main className="users-page">
       <PageTemplate pageTitle="Users">
         <div className="users-body">
-          <UserProfileCard/>
+          
         </div>
       </PageTemplate>
     </main>
