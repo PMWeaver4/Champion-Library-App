@@ -26,11 +26,10 @@ router.get("/searchSubmit/:isbn", async (req,res) => {
         `https://www.googleapis.com/books/v1/volumes?q=isbn:${req.params.isbn}`
       );
       const isbn = parseInt(req.params.isbn);
-      console.log(isbn, typeof isbn);
       const data = await response.json();
       
       let book = new Book({
-          ibsn: isbn,
+          isbn: isbn,
         title: data.items[0].volumeInfo.title,
         author: data.items[0].volumeInfo.authors,
         description: data.items[0].volumeInfo.description,
@@ -41,7 +40,6 @@ router.get("/searchSubmit/:isbn", async (req,res) => {
 
       });
 
-      const newBook = await book.save();
     console.log(newBook.isbn);
     res.status(200).json({
         Created: newBook,
