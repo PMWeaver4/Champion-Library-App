@@ -68,21 +68,7 @@ router.get("/book/:_id", async (req, res) => {
         });
     }
 });
-//get all books by user
-router.get("/user/:email", async (req, res) => {
-    try {
-        let results = await Book.find({user: req.params.email});
-        res.status(200).json({
-            Results: results,
-        })
-    } catch(err){
-        console.log(err);
 
-        res.status(500).json({
-            Error: err,
-        });
-    }
-});
 
 //filter
 router.get("/filter/", async (req, res) => {
