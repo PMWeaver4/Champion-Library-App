@@ -13,18 +13,22 @@ const NotificationsSchema = new mongoose.Schema(
             required: true,
         },
 
-        title: {
-            type: String,
-            required: true,
-            
-        },
-
-        bookAvailable: {
+        bookavailable: {
             type: Boolean,
             required: true,
 
         },
 
+        itemavailable: {
+            type: Boolean,
+            required: true,
+        },
+
+        gameavailable: {
+            type: Boolean,
+            required: true,
+        },
+        
         currentholder: {
             type: String,
             required: true,
