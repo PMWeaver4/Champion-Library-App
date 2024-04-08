@@ -2,10 +2,9 @@ const router = require("express").Router();
 const notifications = require("../models/notifications");
 
 
-//
-router.all("/create/", async(req,res) => {
+router.all("/user/", async(req,res) => {
     try {
-        let popup = new Notifications ({
+        let user = new Notifications ({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
