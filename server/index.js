@@ -16,8 +16,10 @@ const MONGODB = process.env.MONGOOSE_STRING + process.env.DB_NAME;
 //? Assign Express
 const app = express();
 
-//? Import controller/s
- const { bookRoutes, userRoutes, itemRoutes, fetchRoutes  } = require("./routes");
+//? Import controller/
+
+ const { bookRoutes, userRoutes, itemRoutes, notificationsRoutes, fetchRoutes  } = require("./routes");
+
 
 //? Import validation middleware
 const validateSession = require("./middleware/validate");
@@ -44,8 +46,9 @@ app.use(validateSession);
 //validate before doing postcontroller
 app.use("/book", bookRoutes);
 app.use("/item", itemRoutes);
-app.use("/notifications", notificationsRoutes);
+app.use("/notifications", notificationsRoutes)
 app.use("/fetch", fetchRoutes);
+
 
 
 //? Initial spin up of the Express server

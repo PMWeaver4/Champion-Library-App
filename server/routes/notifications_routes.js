@@ -25,9 +25,7 @@ router.get("/all", async (req, res) => {
     }
 });
 
-router.
-
-router.delete("", async(req,res) => {
+router.delete("/delete", async(req,res) => {
     try {
         const notifications = await User.findByIdAndDelete(req.params.id);
 

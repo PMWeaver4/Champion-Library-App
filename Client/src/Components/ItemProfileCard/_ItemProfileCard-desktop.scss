@@ -85,18 +85,4 @@
   }
 }
 
- // book tile scss
- .book-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100px;
-  img {
-    width: 100px;
-    aspect-ratio: 100/150;
-  }
-  h1,
-  h2 {
-    font-size: 12pt;
-  }
-}
+ 
