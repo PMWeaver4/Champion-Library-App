@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
             minlength: 1,
         },
 
-        passwordrecovery: {
+        passwordreset: {
             type: String,
         },
 

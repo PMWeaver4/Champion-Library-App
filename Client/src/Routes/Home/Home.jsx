@@ -1,8 +1,10 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@shadcn/components/ui/carousel";
 // import BookProfileCard from "../../Components/BookProfileCard/BookProfileCard";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
-import BookTile from "../../Components/BookProfileCard/BookTile";
+import BookTile from "../../Components/ItemTIles/BookTile";
 import { NavLink } from "react-router-dom";
+import GameTile from "../../Components/ItemTIles/GameTile";
+import OtherTile from "../../Components/ItemTIles/OtherTile";
 
 export default function Home() {
   return (
@@ -50,27 +52,29 @@ export default function Home() {
             <div className="board-games-container">
               <div className="view-container">
                 <h3>GAMES</h3>
-                <NavLink to="/games" className="view-btn view-boardgames-btn">View all</NavLink>
+                <NavLink to="/games" className="view-btn view-boardgames-btn">
+                  View all
+                </NavLink>
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <GameTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <GameTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <GameTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <GameTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <GameTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <GameTile />
                   </CarouselItem>
                 </CarouselContent>
                 <CarouselPrevious />
@@ -80,27 +84,29 @@ export default function Home() {
             <div className="others-container">
               <div className="view-container">
                 <h3>OTHER</h3>
-                <NavLink to="/others" className="view-btn view-others-btn">View all</NavLink>
+                <NavLink to="/others" className="view-btn view-others-btn">
+                  View all
+                </NavLink>
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <OtherTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <OtherTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <OtherTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <OtherTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <OtherTile />
                   </CarouselItem>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                    <OtherTile />
                   </CarouselItem>
                 </CarouselContent>
                 <CarouselPrevious />
