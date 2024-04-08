@@ -28,3 +28,73 @@
   padding: 10px 20px;
   
 }
+
+// EmailPopup.jsx css
+.email-popup {
+  width: 100%;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  z-index: 3;
+  .email-popup-content {
+    display: flex;
+    border-radius: 1rem;
+    flex-direction: column;
+    font-family: "Inter", sans-serif;
+    width: 20rem;
+    height: 20rem;
+    background-color: white;
+    padding: 16px;
+    position: relative;
+    .inbox-close-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 1rem;
+      padding: 8px;
+      i {
+        font-size: 1.5rem;
+      }
+    }
+    h1 {
+      font-weight: bold;
+      padding-left: 0.5rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      label {
+        padding-left: 0.5rem;
+      }
+      #email-textarea {
+        resize: none;
+        width: 18rem;
+        height: 8rem;
+        padding: 8px;
+        border-style: none;
+        border: 1px solid rgba(128, 128, 128, 0.466);
+        border-radius: 6px;
+        overflow: auto;
+        outline: none;
+        align-self: center;
+        margin-bottom: 1rem;
+      }
+      button {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        font-weight: bold;
+        color: white;
+        background-color: #003366;
+        font-size: 1rem;
+        width: 18rem;
+        height: 2rem;
+        border: none;
+        border-radius: 8px;
+        align-self: center;
+      }
+    }
+  }
+}
+
