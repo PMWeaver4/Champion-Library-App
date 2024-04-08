@@ -16,9 +16,9 @@ const MONGODB = process.env.MONGOOSE_STRING + process.env.DB_NAME;
 //? Assign Express
 const app = express();
 
-//? Import controller/
 
- const { bookRoutes, userRoutes, itemRoutes, notificationsRoutes, fetchRoutes  } = require("./routes");
+//? Import controller/s
+ const { bookRoutes, userRoutes, itemRoutes, fetchRoutes, libraryRoutes, notificationsRoutes  } = require("./routes");
 
 
 //? Import validation middleware
@@ -48,6 +48,7 @@ app.use("/book", bookRoutes);
 app.use("/item", itemRoutes);
 app.use("/notifications", notificationsRoutes)
 app.use("/fetch", fetchRoutes);
+app.use("/library", libraryRoutes);
 
 
 
