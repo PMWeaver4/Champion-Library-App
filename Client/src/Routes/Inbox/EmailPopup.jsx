@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import DropDownMenu from "../../Components/DropDownMenu/DropDownMenu";
 
 export default function EmailPopup({ onClose }) {
   return (
@@ -9,7 +10,7 @@ export default function EmailPopup({ onClose }) {
         </button>
         <h1>Send an Email</h1>
         <form>
-          <div></div>
+          <div><DropDownMenu/> </div>
           <label htmlFor="emailTextarea">Message:</label>
           <textarea id="email-textarea" name="emailTextarea" required={true}></textarea>
           <button className="email-popup-btn">Send Email</button>
