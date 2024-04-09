@@ -3,11 +3,17 @@ import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 // import Navbar from "../../Components/Navbar/Navbar";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import NotificationTile from "./NotificationTile";
+import EmailPopup from "./EmailPopup";
 // import NotificationTile from "./NotificationTile";
 
-export default function Inbox({ toggleMenu, pageTitle }) {
+export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
   // opening - closing menu (mobile)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isEmailPopupOpen, setIsEmailPopupOpen] = useState(false);
+
+  function toggleEmailPopup() {
+    setIsEmailPopupOpen(!isEmailPopupOpen);
+  }
 
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
@@ -37,7 +43,7 @@ export default function Inbox({ toggleMenu, pageTitle }) {
               <div className="inbox-scrollbar">
                 {/* need to add a div later to create a border between tabs and notifications */}
                 <div className="inbox-tab-email">
-                  <button>
+                  <button onClick={toggleEmailPopup}>
                     <i className="fa-solid fa-envelope"></i>
                   </button>
                 </div>
@@ -57,8 +63,8 @@ export default function Inbox({ toggleMenu, pageTitle }) {
           </div>
         </div>
       </PageTemplate>
+      {isEmailPopupOpen && <EmailPopup onClose={toggleEmailPopup} />}
       {isMenuOpen && <MenuPopup />}
-      {/* </div> */}
     </main>
   );
 }
