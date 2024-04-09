@@ -36,7 +36,7 @@ export default function LoginSignup() {
     <main className="login-signup-page">
       <div className="login-signup-content">
         <img className="LOGO" src="/images/LOGO.png" alt="Logo" />
-        <div className="tabs">
+        <div className="login-tabs">
           <div className={`tab ${activeTab === "login" ? "active" : ""}`} onClick={() => setActiveTab("login")}>
             <span className="login-header"> Login </span>
             <div className="indicator" style={{ backgroundColor: activeTab === "login" ? "#003366" : "transparent" }}></div>
