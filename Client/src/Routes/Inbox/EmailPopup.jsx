@@ -1,7 +1,7 @@
-import { NavLink } from "react-router-dom";
+
 import DropDownMenu from "../../Components/DropDownMenu/DropDownMenu";
 
-export default function EmailPopup({ onClose }) {
+export default function EmailPopup({ onClose}) {
   return (
     <div className="email-popup">
       <div className="email-popup-content">
