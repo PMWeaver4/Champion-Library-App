@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
-import BookTile from "../../Components/BookProfileCard/BookTile";
+import BookTile from "../../Components/ItemTIles/BookTile";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@shadcn/components/ui/carousel";
 
 // TODO implement logic to grab books, game, etc from data base. Might have to add a add book option and a return book option.
