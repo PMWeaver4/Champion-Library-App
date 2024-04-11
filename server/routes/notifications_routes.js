@@ -37,7 +37,7 @@ router.post("/create/", async(req,res) => {
 router.get("/all", async (req, res) => {
     try {
 
-        let results = await Notifications.find().populate( ["requestingUser", "owner", "borrowrequest", "returnrequest", "status", "message", "item", "book"])
+        let results = await Notifications.find({$or: [{requestingUser: req.user._id}, {currentOwner: req.user._id}]}).populate( ["requestingUser", "owner", "borrowrequest", "returnrequest", "status", "message", "item", "book"])
         .select({
             text: 1,
             createdAt:1,
@@ -57,6 +57,8 @@ router.get("/all", async (req, res) => {
 });
 
 // add code for GET BY OWNER (INDIVIDUALS) 4/10
+
+
 
 router.put("/update/:_id", async (req, res) => {
     try {
