@@ -1,40 +1,92 @@
 const router = require("express").Router();
-const notifications = require("../models/notifications");
+const Notifications = require("../models/notifications");
 
 
-//
-router.all("/create/", async(req,res) => {
-    try {
-        let popup = new Notifications ({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: bcrypt.hashSync(req.body.password,12),
+// Create Notifications
 
+router.post("/create/", async(req,res) => {
     
+    try{
+        
+        let notifications = new Notifications({
+            requestingUser: req.user._id,
+            owner: req.body.owner,
+            borrowrequest: req.body.borrowrequest,
+            returnrequest: req.body.returnrequest,
+            message: req.body.message,
+            item: req.body.item,
+            book: req.body.book,
+
         });
-        const notifications = await user.save();
-
-
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "2 days",
-    });
-
+        
+        const newNotifications = await notifications.save();
+        console.log(Count);
         res.status(200).json({
-            Created: newUser,
-            Token: token,
-        });
+            Created: newNotifications,
+        })
     }catch(err){
         console.log(err);
+        res.status(500).json({
+            Error:err,
+        });
+    }
+});
+
+
+// Display all notifications endpoint
+router.get("/all", async (req, res) => {
+    try {
+
+        let results = await Notifications.find({$or: [{requestingUser: req.user._id}, {currentOwner: req.user._id}]}).populate( ["requestingUser", "owner", "borrowrequest", "returnrequest", "status", "message", "item", "book"])
+        .select({
+            text: 1,
+            createdAt:1,
+            updatedAt: 1,
+        });
+
+        res.status(200).json({
+            Results: results,
+        })
+    } catch(err){
+        console.log(err);
+ 
         res.status(500).json({
             Error: err,
         });
     }
 });
 
-router.delete("", async(req,res) => {
+// add code for GET BY OWNER (INDIVIDUALS) 4/10
+
+
+
+router.put("/update/:_id", async (req, res) => {
     try {
-        const notifications = await User.findByIdAndDelete(req.params.id);
+        const notificationsUpdate = await Notifications.findOne({_id: req.params._id}).exec()
+        const updatedValues = {
+            borrowrequest: req.body.borrowrequest,
+            returnrequest: req.body.returnrequest,
+            status: req.body.status,
+            message: req.body.message,
+            item: req.body.item,
+            book: req.body.book,
+        }  
+       await notificationsUpdate.updateOne(updatedValues).exec();
+
+        res.status(200).json({
+            Updated: updatedValues,
+            Results: updatedValues,
+        });
+    } catch (err) {
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+
+router.delete("/delete/:id", async(req,res) => {
+    try {
+        const notifications = await Notifications.findByIdAndDelete(req.params.id);
 
         if (!notifications) throw new Error("Book/item not found");
 

@@ -83,13 +83,21 @@ router.get("/email/:email", async (req, res) => {
 // Admin access
 
 router.use((req, res, next) => {
-    if (!req.user || !req.user.isAdmin) {
-     res.status(401).json({ error: 'Unauthorized' });
-     return;
+    try {
+        const userId = req.userId;
+        const user = await.findById(userId);
+
+        if (user === null) {
+            return res.status(401).json({ error: "Access Denied"});
+        }
+        req.isAdmin = user.isAdmin;
+        next();
+    } catch (error) {
+        console.error(error);
+        res.status(401).json({ error: "User Not Found"});
     }
-   
-    next();
-   });
+});
+
 
 //login
 router.post("/login/", async (req,res) => {
