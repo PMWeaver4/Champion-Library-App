@@ -10,7 +10,7 @@ router.post("/create/", async(req,res) => {
         
         let notifications = new Notifications({
             requestingUser: req.user._id,
-            owner: req.body.owner,
+            currentOwner: req.body.owner,
             borrowrequest: req.body.borrowrequest,
             returnrequest: req.body.returnrequest,
             message: req.body.message,
