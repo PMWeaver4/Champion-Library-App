@@ -26,3 +26,38 @@
   }
 }
 
+// EmailPopup.jsx css
+.email-popup {
+  .email-popup-content {
+    margin-left: 15%;
+    width: 30rem;
+    .inbox-close-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+      i {
+        font-size: 1.75rem;
+      }
+    }
+    h1 {
+      font-size: 1.25rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      label {
+        padding-left: 0.75rem;
+        padding-bottom: 4px;
+      }
+      #email-textarea {
+        width: 27rem;
+      }
+      button {
+        font-size: 1.25rem;
+        width: 27rem;
+        height: 2.25rem;
+      }
+    }
+  }
+}

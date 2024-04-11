@@ -156,6 +156,11 @@
       padding: 8px;
       i {
         font-size: 1.5rem;
+        &:hover {
+          color: greenyellow;
+          -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+          transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+        }
       }
     }
     h1 {
@@ -196,6 +201,12 @@
         border: none;
         border-radius: 8px;
         align-self: center;
+        -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+        transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+        &:hover {
+          color: #003366;
+          box-shadow: 0 0 40px 40px greenyellow inset;
+        }
       }
     }
   }
