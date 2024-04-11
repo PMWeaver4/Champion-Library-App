@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Navigate, createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginSignup from "./Routes/LoginSignup/LoginSignup";
 import Home from "./Routes/Home/Home";
 import Inbox from "./Routes/Inbox/Inbox";
@@ -57,6 +57,10 @@ const router = createBrowserRouter([
     // view all other
     path: "/others",
     element: <AllOthers/>,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
   },
 ]);
 
