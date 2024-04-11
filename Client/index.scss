@@ -1,9 +1,9 @@
 body {
-  height: 100dvh;
-  width: 100dvw;
+  height: 100svh;
+  width: 100svw;
   #root {
-    height: 100%;
-    width: 100%;
+    height: 100svh;
+    width: 100svw;
     display: flex;
     flex-direction: column;
     background-color: #003366;
