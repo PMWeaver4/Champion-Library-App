@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { Navigate, createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginSignup from "./Routes/LoginSignup/LoginSignup";
