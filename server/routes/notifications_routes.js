@@ -1,8 +1,29 @@
 const router = require("express").Router();
 const Notifications = require("../models/notifications");
-const User = require("../models/user");
+// const User = require("../models/user");
 // const Book = require("./book");
 // const Item = require("./item");
+
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "live.smtp.mailtrap.io",
+  port: 587,
+  auth: {
+    user: "api",
+    pass: "afcdcddfa29ca99ff16996676b0c9aae"
+  }
+});
+async function mail(toEmail, emailSubject, emailText) {
+    // send mail with defined transport object
+    const info = await transporter.sendMail({
+      from: 'info@demomailtrap.com', // sender address
+      to: toEmail, // list of receivers
+      subject: emailSubject, // Subject line
+      text: emailText, // plain text body
+      
+    });
+}
 
 // Create Notifications
 
@@ -40,12 +61,19 @@ router.post("/create/", async(req,res) => {
 router.get("/all", async (req, res) => {
     try {
 
-        let results = await Notifications.find({$or: [{requestingUser: req.user._id}, {currentOwner: req.user._id}]}).populate( ["requestingUser", "currentOwner", "borrowrequest", "returnrequest", "status", "message", "item", "book"])
+        let results = await Notifications.find({$or: [{requestingUser: req.user._id}, {currentOwner: req.user._id}]})
+        .populate({path: "requestingUser", select: "email"})
+        .populate({path: "currentOwner", select: "email"})
+        .populate({path: "book", select: "title"})
+        .populate({path: "item", select: "description"})
+        .populate([ "borrowrequest", "returnrequest", "status", "message"])
         .select({
             text: 1,
             createdAt:1,
             updatedAt: 1,
         });
+
+        //mail(toEmail, emailSubject, emailText)
 
         res.status(200).json({
             Results: results,
