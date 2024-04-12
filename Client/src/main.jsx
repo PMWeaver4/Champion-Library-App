@@ -1,6 +1,5 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Navigate, createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginSignup from "./Routes/LoginSignup/LoginSignup";
 import Home from "./Routes/Home/Home";
 import Inbox from "./Routes/Inbox/Inbox";
@@ -69,6 +68,7 @@ const router = createBrowserRouter([
     element: <AllOthers/>,
   },
 
+
   
   // View all books in My Library
   {
@@ -123,6 +123,12 @@ const router = createBrowserRouter([
       element: <ViewAll_Lent_Items/>
     },
   
+
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
+  },
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

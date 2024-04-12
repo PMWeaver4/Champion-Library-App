@@ -1,6 +1,5 @@
 
 const router = require("express").Router();
-const axios = require('axios');
 const Book = require("../models/book");
 
 
@@ -40,7 +39,8 @@ router.get("/searchSubmit/:isbn", async (req,res) => {
 
       });
 
-    console.log(newBook.isbn);
+      const newBook = await book.save();
+    
     res.status(200).json({
         Created: newBook,
         
