@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Notifications = require("../models/notifications");
-
+const User = require("../models/user");
+// const Book = require("./book");
+// const Item = require("./item");
 
 // Create Notifications
 
@@ -10,7 +12,8 @@ router.post("/create/", async(req,res) => {
         
         let notifications = new Notifications({
             requestingUser: req.user._id,
-            owner: req.body.owner,
+            // currentOwner: User.findbyId(req.body.currentOwner),
+            currentOwner: req.body.currentOwner,
             borrowrequest: req.body.borrowrequest,
             returnrequest: req.body.returnrequest,
             message: req.body.message,
@@ -20,7 +23,7 @@ router.post("/create/", async(req,res) => {
         });
         
         const newNotifications = await notifications.save();
-        console.log(Count);
+        
         res.status(200).json({
             Created: newNotifications,
         })
@@ -37,7 +40,7 @@ router.post("/create/", async(req,res) => {
 router.get("/all", async (req, res) => {
     try {
 
-        let results = await Notifications.find({$or: [{requestingUser: req.user._id}, {currentOwner: req.user._id}]}).populate( ["requestingUser", "owner", "borrowrequest", "returnrequest", "status", "message", "item", "book"])
+        let results = await Notifications.find({$or: [{requestingUser: req.user._id}, {currentOwner: req.user._id}]}).populate( ["requestingUser", "currentOwner", "borrowrequest", "returnrequest", "status", "message", "item", "book"])
         .select({
             text: 1,
             createdAt:1,

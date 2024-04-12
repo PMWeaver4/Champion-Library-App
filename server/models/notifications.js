@@ -1,49 +1,54 @@
 const mongoose = require("mongoose");
-
+const User = require("./user");
+const Book = require("./book");
+const Item = require("./item");
 const NotificationsSchema = new mongoose.Schema(
     {
-        user: {
-            type: String,
-            required: true,
+    
+    // User is making request
 
+        requestingUser: {
+            type: mongoose.ObjectId,
+            required: true,
+            ref: User
         },
-
-        email: {
-            type: String,
+    // Book/item being currently owned by a user 
+        currentOwner: {
+            type: mongoose.ObjectId,
             required: true,
-        },
-
-        bookavailable: {
-            type: Boolean,
-            required: true,
-
-        },
-
-        itemavailable: {
-            type: Boolean,
-            required: true,
-        },
-
-        gameavailable: {
-            type: Boolean,
-            required: true,
-        },
-        
-        currentholder: {
-            type: String,
-            required: true,
+            ref: User
         },
 
         borrowrequest: {
-            type: Boolean,
+            type: Date,
             required: true,
         },
 
         returnrequest: {
-            type: Boolean,
+            type: Date,
             required: true,
-
         },
+
+        status: {
+            type: String,
+            required: true,
+            enum: ['pending', 'accepted', 'declined'],
+            default: 'pending',
+        },
+
+        message: {
+            type: String,
+        },
+
+        item: {
+            type: mongoose.ObjectId,
+            ref: Item,
+        },
+
+        book: { 
+            type: mongoose.ObjectId,
+            ref: Book,
+        }, 
 
         },
 
@@ -54,4 +59,4 @@ const NotificationsSchema = new mongoose.Schema(
 );
  
 // Exports
-module.exports = mongoose.model("notifications", NotificationsSchema);
+module.exports = mongoose.model("Notifications", NotificationsSchema);

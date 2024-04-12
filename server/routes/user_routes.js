@@ -80,23 +80,6 @@ router.get("/email/:email", async (req, res) => {
     }
 });
 
-// Admin access
-
-router.use((req, res, next) => {
-    try {
-        const userId = req.userId;
-        const user = await.findById(userId);
-
-        if (user === null) {
-            return res.status(401).json({ error: "Access Denied"});
-        }
-        req.isAdmin = user.isAdmin;
-        next();
-    } catch (error) {
-        console.error(error);
-        res.status(401).json({ error: "User Not Found"});
-    }
-});
 
 
 //login
@@ -168,23 +151,33 @@ router.put("/update/",Validate, async (req,res) => {
             lastName: usersUpdatedInformation.lastName,
             email: usersUpdatedInformation.email,
             password: usersUpdatedInformation.password,
-        
+            
         });
     } catch (error) {
         res.status(500).json({ error });
     }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:_id", Validate, async (req, res) => {
     try {
-
-        const user = await User.findByIdAndDelete(req.params.id);
-
-            if (!user) throw new Error("User not found");
-
-            res.status(200).json({
-                Deleted: 1,
-            });
+        if (!req.user.isAdmin){
+        const user = await User.findByIdAndDelete(req.user.id);
+        
+        if (!user) throw new Error("User not found");
+        
+        res.status(200).json({
+            Deleted: 1,
+        });
+    } else {
+        const user = await User.findByIdAndDelete(req.params._id);
+        
+        if (!user) throw new Error("User not found");
+        
+        res.status(200).json({
+            Deleted: 1,
+        });
+        
+    }
         } catch (err) {
             res.status(500).json({
                 Error: err,
