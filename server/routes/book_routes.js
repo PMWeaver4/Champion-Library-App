@@ -12,8 +12,7 @@ router.post("/create/", async(req,res) => {
             user: req.user.email,
             isbn: req.body.isbn,
             genre: req.body.genre,
-            img: req.body.img
-
+            img: req.body.img,
         });
 
         const newBook = await book.save();
@@ -35,6 +34,28 @@ router.post("/create/", async(req,res) => {
     try {
 
         let results = await Book.find().populate( ["title", "author", "description", "user", "genre", "rentedUser", "isbn"])
+        .select({
+            text: 1,
+            createdAt:1,
+            updatedAt: 1,
+        });
+
+        res.status(200).json({
+            Created: results,
+        })
+    } catch(err){
+        console.log(err);
+
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+// Display all available book endpoint
+  router.get("/allavailable", async (req, res) => {
+    try {
+
+        let results = await Book.find({checkedOut: false}).populate( ["title", "author", "description", "user", "genre", "rentedUser", "isbn"])
         .select({
             text: 1,
             createdAt:1,
@@ -86,7 +107,7 @@ router.get("/filter/", async (req, res) => {
     if(user!=null){
         whatever.user=user
     }
-    
+
     
 
     //

@@ -52,6 +52,29 @@ router.post("/create/", async(req,res) => {
         });
     }
 });
+// Display all available item endpoint
+  router.get("/allavailable", async (req, res) => {
+    try {
+
+        let results = await Item.find({checkedout: false}).populate( ["description", "user", "rentedUser", "checkedout", "itemType", "condition"])
+        .select({
+            text: 1,
+            createdAt:1,
+            updatedAt: 1,
+        });
+
+        // const newBook = await post.save();
+        res.status(200).json({
+            Results: results,
+        })
+    } catch(err){
+        console.log(err);
+
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
 
 //get by id
 
