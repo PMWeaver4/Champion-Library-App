@@ -16,6 +16,7 @@ const NotificationsSchema = new mongoose.Schema(
         currentOwner: {
             type: mongoose.ObjectId,
             required: true,
+            ref: User
         },
 
         borrowrequest: {
