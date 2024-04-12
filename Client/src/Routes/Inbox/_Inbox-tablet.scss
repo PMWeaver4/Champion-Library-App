@@ -26,5 +26,14 @@
 // NotificationTile.jsx scss
 .component_notification-tile {
   padding: 10px 20px;
-  
+}
+
+// EmailPopup.jsx css
+.email-popup {
+  width: 100%;
+  flex-direction: row;
+  z-index: 3;
+  .email-popup-content {
+    margin-left: 20%;
+  }
 }

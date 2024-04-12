@@ -10,7 +10,7 @@ router.post("/create/", async(req,res) => {
         
         let notifications = new Notifications({
             requestingUser: req.user._id,
-            currentOwner: req.body.owner,
+            currentOwner: req.body.currentOwner,
             borrowrequest: req.body.borrowrequest,
             returnrequest: req.body.returnrequest,
             message: req.body.message,
@@ -20,7 +20,7 @@ router.post("/create/", async(req,res) => {
         });
         
         const newNotifications = await notifications.save();
-        console.log(Count);
+        
         res.status(200).json({
             Created: newNotifications,
         })

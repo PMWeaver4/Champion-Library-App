@@ -39,7 +39,8 @@ router.get("/searchSubmit/:isbn", async (req,res) => {
 
       });
 
-    console.log(newBook.isbn);
+      const newBook = await book.save();
+    
     res.status(200).json({
         Created: newBook,
         

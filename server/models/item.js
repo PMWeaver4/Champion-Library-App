@@ -19,8 +19,8 @@ const ItemSchema = new mongoose.Schema(
             default:""
         },
         checkedout: {
-            type: Date,
-            default:""
+            type: Boolean,
+            default: false
         },
         condition: {
             type: String,

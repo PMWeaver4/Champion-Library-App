@@ -11,7 +11,7 @@
   height: 100%;
   width: 100%;
   font-family: "Inika", serif;
-
+  padding: 0;
   .login-signup-content {
     height: fit-content;
     background-color: white;
@@ -29,7 +29,7 @@
     padding: 2em 0;
   }
 
-  .tabs {
+  .login-tabs {
     display: flex;
     margin-bottom: 1em;
     justify-content: center;
@@ -71,20 +71,6 @@
     display: block;
   }
 
-  /*
-  .tabs::before {
-      content: '';
-      position: absolute;
-      bottom:0;
-      left: 0;
-      width:100%;
-      height:1px;
-      background-color: black;
-      z-index: -1;
-  } 
-  
-  */
-
   .login-button,
   .signUp-button {
     margin: 1rem 0 1rem 0;
@@ -104,7 +90,7 @@
     border: none;
   }
 
-  #email {
+  .email {
     width: 80%;
     height: 1rem;
     border-radius: 0.5rem;
@@ -114,7 +100,7 @@
     padding-left: 0.5rem;
   }
 
-  #password {
+  .password {
     width: 80%;
     height: 1rem;
     border-radius: 0.5rem;
@@ -124,7 +110,7 @@
     padding-left: 0.5rem;
   }
 
-  #firstName {
+  .firstName {
     width: 80%;
     height: 1rem;
     border-radius: 0.5rem;
@@ -133,7 +119,7 @@
     border: none;
     padding-left: 0.5rem;
   }
-  #lastName {
+  .lastName {
     width: 80%;
     height: 1rem;
     border-radius: 0.5rem;
@@ -142,7 +128,7 @@
     border: none;
     padding-left: 0.5rem;
   }
-  #confirm_password {
+  .confirm_password {
     width: 80%;
     height: 1rem;
     border-radius: 0.5rem;
@@ -181,6 +167,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      
       input {
         background-color: transparent;
         border-bottom: 1px solid black;
