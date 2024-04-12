@@ -2,7 +2,9 @@ import { NavLink } from "react-router-dom";
 // Import dependencies
 import { useState } from "react";
 
-//TODO, make buttons work and redirect to dashboard and implement logic for logging in and creating an account. check if passwords match when signing up.
+//TODO, make buttons work and redirect to dashboard and implement logic for logging in and creating an account. 
+// TODO check if passwords match when signing up.
+// TODO store data in backend so user can return
 
 // Component for login page
 export default function LoginSignup() {
