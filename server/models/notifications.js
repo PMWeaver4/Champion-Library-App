@@ -13,7 +13,7 @@ const NotificationsSchema = new mongoose.Schema(
             ref: User
         },
     // Book/item being currently owned by a user 
-        currentOwner: {
+        currentHolder: {
             type: mongoose.ObjectId,
             required: true,
             ref: User

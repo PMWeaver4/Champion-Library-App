@@ -4,7 +4,7 @@ const Item = require("../models/item");
 
 //create item
 router.post("/create/", async(req,res) => {
-    console.log(req);
+    //insert information into Item schema to create an item
     try{     
             let item = new Item({
             description: req.body.description,
@@ -14,9 +14,9 @@ router.post("/create/", async(req,res) => {
             itemType: req.body.itemType,
             condition: req.body.condition
         });
-
+        //save it
         const newItem = await item.save();
-
+        //display it
         res.status(200).json({
             Created: newItem,
         });
@@ -32,7 +32,7 @@ router.post("/create/", async(req,res) => {
 // Display all item endpoint
   router.get("/all", async (req, res) => {
     try {
-
+        //displays all items
         let results = await Item.find().populate( ["description", "user", "rentedUser", "checkedout", "itemType", "condition"])
         .select({
             text: 1,
@@ -40,7 +40,6 @@ router.post("/create/", async(req,res) => {
             updatedAt: 1,
         });
 
-        // const newBook = await post.save();
         res.status(200).json({
             Results: results,
         })
@@ -55,7 +54,7 @@ router.post("/create/", async(req,res) => {
 // Display all available item endpoint
   router.get("/allavailable", async (req, res) => {
     try {
-
+        //finds all items where they are not checked out, i.e. available
         let results = await Item.find({checkedout: false}).populate( ["description", "user", "rentedUser", "checkedout", "itemType", "condition"])
         .select({
             text: 1,
@@ -63,7 +62,6 @@ router.post("/create/", async(req,res) => {
             updatedAt: 1,
         });
 
-        // const newBook = await post.save();
         res.status(200).json({
             Results: results,
         })
@@ -77,12 +75,29 @@ router.post("/create/", async(req,res) => {
 });
 
 //get by id
+router.get("/item/:_id", async (req, res) => {
+    try {
+        //find an item where the mongo id matches what's in the paramter
+        let results = await Item.find({_id: req.params._id});
+        res.status(200).json({
+            Results: results,
+        })
+    } catch(err){
+        console.log(err);
+
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
 
 //update
 
 router.put("/update/:_id", async (req, res) => {
     try {
+        //find a single item by its mongodb id
         const itemToUpdate = await Item.findOne({_id: req.params._id}).exec()
+        //receives values to update
         const updatedValues = {
             description: req.body.description,
             itemType: req.body.itemType,
@@ -90,8 +105,9 @@ router.put("/update/:_id", async (req, res) => {
             rentedUser: req.body.rentedUser,
             checkedout: req.body.checkedOut,
         }  
+        //inserts values into item
        await itemToUpdate.updateOne(updatedValues).exec();
-
+        //display it
         res.status(200).json({
             Updated: updatedValues,
             Results: updatedValues,
@@ -106,9 +122,9 @@ router.put("/update/:_id", async (req, res) => {
 // [DELETE] - Remove an item.
 router.delete("/delete/:itemId", async (req, res) => {
     try {
-
+        //find item by mongodb id, and say goodbye
         const item = await Item.findByIdAndDelete(req.params.itemId);
-
+            //unless the id doesn't match an item
             if (!Item) throw new Error("Item not found");
 
             res.status(200).json({
