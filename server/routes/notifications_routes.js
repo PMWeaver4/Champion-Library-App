@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const Notifications = require("../models/notifications");
-// const User = require("../models/user");
-// const Book = require("./book");
-// const Item = require("./item");
+const User = require("../models/user");
+const Book = require("../models/book");
+const Item = require("../models/item");
 
 const nodemailer = require("nodemailer");
 
@@ -33,7 +33,6 @@ router.post("/create/", async(req,res) => {
         //create new notifications from schema
         let notifications = new Notifications({
             requestingUser: req.user._id,
-            // currentOwner: User.findbyId(req.body.currentOwner),
             currentOwner: req.body.currentOwner,
             borrowrequest: req.body.borrowrequest,
             returnrequest: req.body.returnrequest,
@@ -44,6 +43,28 @@ router.post("/create/", async(req,res) => {
         });
         //save the new notification
         const newNotifications = await notifications.save();
+        let theRequest = "";
+        let Email = await User.find({_id: newNotifications.currentOwner},{"email":1,"_id":0});
+        let toEmail = Email[0].email;
+        if (newNotifications.book!=null){
+        let RequestedBook = await Book.find({_id: newNotifications.book},{"title":1,"_id":0});
+        theRequest = RequestedBook[0].title;
+        }
+        if (newNotifications.item!=null){
+        let RequestedItem = await Item.find({_id: newNotifications.item},{"description":1,"_id":0});
+        theRequest = RequestedItem[0].description;
+        }
+        let Requester = await User.find({_id: newNotifications.requestingUser},{"email":1,"_id":0});
+        let requester = Requester[0].email;
+        let emailSubject = `New Request`;
+        let emailText = `${requester} is requesting ${theRequest} from ${toEmail}`
+        console.log(emailSubject);
+        console.log(emailText);
+        
+        mail(toEmail, emailSubject, emailText);
+
+
+
         //notify.....about the new notification
         res.status(200).json({
             Created: newNotifications,
@@ -73,7 +94,6 @@ router.get("/all", async (req, res) => {
             updatedAt: 1,
         });
 
-        //mail(toEmail, emailSubject, emailText)
 
         res.status(200).json({
             Results: results,
