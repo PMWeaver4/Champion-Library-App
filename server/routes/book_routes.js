@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const Book = require("../models/book");
 
-
+//Create a new book
 router.post("/create/", async(req,res) => {
     console.log(req);
     try{     
+            //assign book from schema
             let book = new Book({
             title: req.body.title,
             author: req.body.author,
@@ -14,9 +15,9 @@ router.post("/create/", async(req,res) => {
             genre: req.body.genre,
             img: req.body.img,
         });
-
+        //save the new info
         const newBook = await book.save();
-
+        //display new book
         res.status(200).json({
             Created: newBook,
         });
@@ -32,7 +33,7 @@ router.post("/create/", async(req,res) => {
 // Display all book endpoint
   router.get("/all", async (req, res) => {
     try {
-
+        //the find has no filters, so every book within the database is displayed
         let results = await Book.find().populate( ["title", "author", "description", "user", "genre", "rentedUser", "isbn"])
         .select({
             text: 1,
@@ -54,7 +55,7 @@ router.post("/create/", async(req,res) => {
 // Display all available book endpoint
   router.get("/allavailable", async (req, res) => {
     try {
-
+        //this find will show only books that are not checked out, i.e. available
         let results = await Book.find({checkedOut: false}).populate( ["title", "author", "description", "user", "genre", "rentedUser", "isbn"])
         .select({
             text: 1,
@@ -77,6 +78,7 @@ router.post("/create/", async(req,res) => {
 //get specific book
 router.get("/book/:_id", async (req, res) => {
     try {
+        //find a book where the mongo id matches what's in the paramter
         let results = await Book.find({_id: req.params._id});
         res.status(200).json({
             Results: results,
@@ -95,7 +97,7 @@ router.get("/book/:_id", async (req, res) => {
 router.get("/filter/", async (req, res) => {
     try {
 
-        
+        //filter, can decide what books to show based on query.
     const {genre,author,user} = req.query;
     const whatever = {}
     if(genre != null) {
@@ -107,14 +109,10 @@ router.get("/filter/", async (req, res) => {
     if(user!=null){
         whatever.user=user
     }
-
-    
-
-    //
        console.log(`this is the ${genre} and the ${author}`);
        
         let results = await Book.find(whatever)     
-        .sort({createdAt: 1});
+        .sort({createdAt: 1}); //sort by when it was created, +1, shows newest first
 
         res.status(200).json({
             Results: results,
@@ -128,11 +126,12 @@ router.get("/filter/", async (req, res) => {
 }
 )
 
-
 //[PUT] Adding Update Endpoint
 router.put("/update/:_id", async (req, res) => {
     try {
+        //find a book that matches the mongo id
         const bookToUpdate = await Book.findOne({_id: req.params._id}).exec()
+        //a list of values to be updated
         const updatedValues = {
             title: req.body.title,
             author: req.body.author,
@@ -142,6 +141,7 @@ router.put("/update/:_id", async (req, res) => {
             rentedUser: req.body.rentedUser,
             checkedout: req.body.checkedOut,
         }  
+        //update values into the matched book
        await bookToUpdate.updateOne(updatedValues).exec();
 
         res.status(200).json({
@@ -158,8 +158,9 @@ router.put("/update/:_id", async (req, res) => {
 // [DELETE] - Remove a book.
 router.delete("/delete/:id", async (req, res) => {
     try {
+        //find a book by its mongo id and delete it
         const book = await Book.findByIdAndDelete(req.params.id);
-
+            //error if the book id does not match
             if (!Book) throw new Error("Book not found");
 
             res.status(200).json({
