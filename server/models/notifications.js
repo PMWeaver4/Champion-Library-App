@@ -18,17 +18,20 @@ const NotificationsSchema = new mongoose.Schema(
             required: true,
             ref: User
         },
-
+    
+    // A user is requesting to borrow book/item
         borrowrequest: {
             type: Date,
             required: true,
         },
 
+    // A user is requesting to return book/item         
         returnrequest: {
             type: Date,
             required: true,
         },
 
+        
         status: {
             type: String,
             required: true,

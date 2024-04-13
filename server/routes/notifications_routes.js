@@ -87,7 +87,65 @@ router.get("/all", async (req, res) => {
     }
 });
 
-// add code for GET BY OWNER (INDIVIDUALS) 4/10
+// add code for GET BY OWNER (INDIVIDUALS) 
+// get all notifications for just requestingUser
+router.get("/user/:_id", async (req, res) => {
+    try {
+
+        let results = await Notifications.find([{requestingUser: req.user._id}])
+        .populate({path: "requestingUser", select: "email"})
+        .populate({path: "book", select: "title"})
+        .populate({path: "item", select: "description"})
+        .populate([ "borrowrequest", "returnrequest", "status", "message"])
+        .select({
+            text: 1,
+            createdAt:1,
+            updatedAt: 1,
+        });
+
+        //mail(toEmail, emailSubject, emailText)
+
+        res.status(200).json({
+            Results: results,
+        })
+    } catch(err){
+        console.log(err);
+ 
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
+
+// get all current
+
+router.get("/user/:_id", async (req, res) => {
+    try {
+
+        let results = await Notifications.find([{requestingUser: req.user._id}])
+        .populate({path: "requestingUser", select: "email"})
+        .populate({path: "book", select: "title"})
+        .populate({path: "item", select: "description"})
+        .populate([ "borrowrequest", "returnrequest", "status", "message"])
+        .select({
+            text: 1,
+            createdAt:1,
+            updatedAt: 1,
+        });
+
+        //mail(toEmail, emailSubject, emailText)
+
+        res.status(200).json({
+            Results: results,
+        })
+    } catch(err){
+        console.log(err);
+ 
+        res.status(500).json({
+            Error: err,
+        });
+    }
+});
 
 
 
