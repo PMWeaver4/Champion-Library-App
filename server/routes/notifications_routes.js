@@ -30,7 +30,7 @@ async function mail(toEmail, emailSubject, emailText) {
 router.post("/create/", async(req,res) => {
     
     try{
-        
+        //create new notifications from schema
         let notifications = new Notifications({
             requestingUser: req.user._id,
             // currentOwner: User.findbyId(req.body.currentOwner),
@@ -42,9 +42,9 @@ router.post("/create/", async(req,res) => {
             book: req.body.book,
 
         });
-        
+        //save the new notification
         const newNotifications = await notifications.save();
-        
+        //notify.....about the new notification
         res.status(200).json({
             Created: newNotifications,
         })
@@ -60,7 +60,7 @@ router.post("/create/", async(req,res) => {
 // Display all notifications endpoint
 router.get("/all", async (req, res) => {
     try {
-
+        //filters for all notifications by and for the specific user calling this function. Displays keys of notification schema.
         let results = await Notifications.find({$or: [{requestingUser: req.user._id}, {currentOwner: req.user._id}]})
         .populate({path: "requestingUser", select: "email"})
         .populate({path: "currentOwner", select: "email"})
@@ -90,10 +90,12 @@ router.get("/all", async (req, res) => {
 // add code for GET BY OWNER (INDIVIDUALS) 4/10
 
 
-
+//updates specific notification
 router.put("/update/:_id", async (req, res) => {
     try {
+        //finds notification by ID
         const notificationsUpdate = await Notifications.findOne({_id: req.params._id}).exec()
+        //receives and stores values to update the notification
         const updatedValues = {
             borrowrequest: req.body.borrowrequest,
             returnrequest: req.body.returnrequest,
@@ -102,8 +104,10 @@ router.put("/update/:_id", async (req, res) => {
             item: req.body.item,
             book: req.body.book,
         }  
+        //inserts values into updated notification
        await notificationsUpdate.updateOne(updatedValues).exec();
 
+        //shows the new values
         res.status(200).json({
             Updated: updatedValues,
             Results: updatedValues,
@@ -115,6 +119,7 @@ router.put("/update/:_id", async (req, res) => {
     }
 });
 
+//gets notification by id and deletes
 router.delete("/delete/:id", async(req,res) => {
     try {
         const notifications = await Notifications.findByIdAndDelete(req.params.id);
