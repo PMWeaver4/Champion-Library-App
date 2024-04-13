@@ -1,12 +1,14 @@
+import "./style.scss";
 import ReactDOM from "react-dom/client";
+import React from "react";
 import { Navigate, createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import LoginSignup from "./Routes/LoginSignup/LoginSignup";
 import Home from "./Routes/Home/Home";
 import Inbox from "./Routes/Inbox/Inbox";
 import MyLibrary from "./Routes/MyLibrary/MyLibrary";
 import Users from "./Routes/Users/Users";
 import MyProfile from "./Routes/MyProfile/MyProfile";
-import "./style.scss";
 import AllBooks from "./Routes/ViewAllItems/AllBooks";
 import AllGames from "./Routes/ViewAllItems/AllGames";
 import AllOthers from "./Routes/ViewAllItems/AllOthers";
@@ -60,75 +62,71 @@ const router = createBrowserRouter([
   {
     // view all games
     path: "/games",
-    element: <AllGames/>,
+    element: <AllGames />,
   },
   {
     // view all other
     path: "/others",
-    element: <AllOthers/>,
+    element: <AllOthers />,
   },
 
-
-  
   // View all books in My Library
   {
-  path:"/Books-MyLibrary",
-  element: <ViewAll_LibraryBooks/>,
+    path: "/Books-MyLibrary",
+    element: <ViewAll_LibraryBooks />,
   },
 
   // View all Games in My Library
   {
-  path:"/Games-MyLibrary",
-  element: <ViewAll_LibraryGames/>
+    path: "/Games-MyLibrary",
+    element: <ViewAll_LibraryGames />,
   },
 
   // View all Items
   {
     path: "/Items-MyLibrary",
-    element: <ViewAll_LibraryItems/>
+    element: <ViewAll_LibraryItems />,
   },
 
   // View all borrowed books in borrowed tab
-    {
-    path:"/BorrowedBooks-MyLibrary",
-    element: <ViewAll_BorrowedBooks/>,
-    },
-  
-    // View all  borrowed Games in borrowed tab
-    {
-    path:"/BorrowedGames-MyLibrary",
-    element: <ViewAll_BorrowedGames/>
-    },
-  
-    // View all borrowed Items in borrowed tab
-    {
-      path: "/BorrowedItems-MyLibrary",
-      element: <ViewAll_BorrowedItems/>
-    },
+  {
+    path: "/BorrowedBooks-MyLibrary",
+    element: <ViewAll_BorrowedBooks />,
+  },
 
-    // View all Lent books in lent tab
-    {
-      path:"/LentBooks-MyLibrary",
-      element: <ViewAll_LentBooks/>
-    },
+  // View all  borrowed Games in borrowed tab
+  {
+    path: "/BorrowedGames-MyLibrary",
+    element: <ViewAll_BorrowedGames />,
+  },
 
-    // View all Lent Games in lent tab
-    {
-      path:"/LentGames-MyLibrary",
-      element: <ViewAll_LentGames/>
-    },
-    // View all Lent Items in the lent tab
-    {
-      path:"/LentItems-MyLibrary",
-      element: <ViewAll_Lent_Items/>
-    },
-  
+  // View all borrowed Items in borrowed tab
+  {
+    path: "/BorrowedItems-MyLibrary",
+    element: <ViewAll_BorrowedItems />,
+  },
+
+  // View all Lent books in lent tab
+  {
+    path: "/LentBooks-MyLibrary",
+    element: <ViewAll_LentBooks />,
+  },
+
+  // View all Lent Games in lent tab
+  {
+    path: "/LentGames-MyLibrary",
+    element: <ViewAll_LentGames />,
+  },
+  // View all Lent Items in the lent tab
+  {
+    path: "/LentItems-MyLibrary",
+    element: <ViewAll_Lent_Items />,
+  },
 
   {
     path: "*",
     element: <Navigate to="/" replace />,
   },
-
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
