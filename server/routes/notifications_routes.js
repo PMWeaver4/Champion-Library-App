@@ -109,20 +109,23 @@ router.get("/all", async (req, res) => {
 
 // get by individual user to be notified
 
-router.get("/user/:_id", async (req, res) => {
-    try {
-// filtering out by individual user
-        let filtered = await User.find({User: req.params._id}).populate({path: "requestingUser", select: "email"})
-        .populate({path: "currentHolder", select: "email"})
-        .populate({path: "book", select: "title"})
-        .populate({path: "item", select: "description"})
-        .populate([ "borrowrequest", "returnrequest", "status", "message"])
-        .select({
-            text: 1,
-            createdAt:1,
-            updatedAt: 1,
-
-        });
+        router.post("/create/", async(req, res) => {
+            try {
+                // Determine if the request is for a book or an item
+                let theRequest = "";
+                let itemDetails;
+                if (req.body.book) {
+                    itemDetails = await Book.findById(req.body.book);
+                    theRequest = `'${itemDetails.title}' by ${itemDetails.author}`;
+                } else if (req.body.item) {
+                    itemDetails = await Item.findById(req.body.item);
+                    theRequest = itemDetails.description; // Assuming description is meaningful
+                }
+        
+                // Construct a message based on the item type
+                const message = `${req.user._id} has requested to borrow ${theRequest}.`;
+        
+                // Create new notification
 
         //mail(toEmail, emailSubject, emailText)
 
