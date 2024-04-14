@@ -107,13 +107,13 @@ router.get("/all", async (req, res) => {
     }
 });
 
-// add code for GET BY OWNER (INDIVIDUALS) 
-// get all notifications for just requestingUser
+// get by individual user to be notified
+
 router.get("/user/:_id", async (req, res) => {
     try {
-
-        let results = await Notifications.find([{requestingUser: req.user._id}])
-        .populate({path: "requestingUser", select: "email"})
+// filtering out by individual user
+        let filtered = await User.find({User: req.params._id}).populate({path: "requestingUser", select: "email"})
+        .populate({path: "currentHolder", select: "email"})
         .populate({path: "book", select: "title"})
         .populate({path: "item", select: "description"})
         .populate([ "borrowrequest", "returnrequest", "status", "message"])
@@ -121,13 +121,14 @@ router.get("/user/:_id", async (req, res) => {
             text: 1,
             createdAt:1,
             updatedAt: 1,
+
         });
 
         //mail(toEmail, emailSubject, emailText)
 
         res.status(200).json({
-            Results: results,
-        })
+            Results: filtered,
+        });
     } catch(err){
         console.log(err);
  
@@ -137,35 +138,7 @@ router.get("/user/:_id", async (req, res) => {
     }
 });
 
-// get all current
 
-router.get("/user/:_id", async (req, res) => {
-    try {
-
-        let results = await Notifications.find([{requestingUser: req.user._id}])
-        .populate({path: "requestingUser", select: "email"})
-        .populate({path: "book", select: "title"})
-        .populate({path: "item", select: "description"})
-        .populate([ "borrowrequest", "returnrequest", "status", "message"])
-        .select({
-            text: 1,
-            createdAt:1,
-            updatedAt: 1,
-        });
-
-        //mail(toEmail, emailSubject, emailText)
-
-        res.status(200).json({
-            Results: results,
-        })
-    } catch(err){
-        console.log(err);
- 
-        res.status(500).json({
-            Error: err,
-        });
-    }
-});
 
 
 //updates specific notification
