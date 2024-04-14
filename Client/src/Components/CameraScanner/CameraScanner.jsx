@@ -10,8 +10,8 @@ export default function CameraScanner({ onDetected }) {
           type: "LiveStream",
           constraints: {
             // the width and height of our video feed
-            width: 320,
-            height: 180,
+            width: 600,
+            height: 300,
             facingMode: "environment", // this tells the cam to face out (uses rear cam)
           },
           target: document.querySelector("#camera-scanner"),
@@ -31,6 +31,7 @@ export default function CameraScanner({ onDetected }) {
 
     Quagga.onDetected((data) => {
       onDetected(data.codeResult.code);
+      Quagga.stop();
     });
 
     return () => {
