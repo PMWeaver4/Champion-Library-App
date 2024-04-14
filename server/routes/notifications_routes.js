@@ -43,6 +43,8 @@ router.post("/create/", async(req,res) => {
         });
         //save the new notification
         const newNotifications = await notifications.save();
+
+        //send an email to the owner that a request has been made
         let theRequest = "";
         let Email = await User.find({_id: newNotifications.currentOwner},{"email":1,"_id":0});
         let toEmail = Email[0].email;
@@ -58,12 +60,9 @@ router.post("/create/", async(req,res) => {
         let requester = Requester[0].email;
         let emailSubject = `New Request`;
         let emailText = `${requester} is requesting ${theRequest} from ${toEmail}`
-        console.log(emailSubject);
-        console.log(emailText);
+
         
         mail(toEmail, emailSubject, emailText);
-
-
 
         //notify.....about the new notification
         res.status(200).json({
@@ -126,6 +125,26 @@ router.put("/update/:_id", async (req, res) => {
         }  
         //inserts values into updated notification
        await notificationsUpdate.updateOne(updatedValues).exec();
+
+               //send an email to the owner that a request has been made
+               let theRequest = "";
+               let Email = await User.find({_id: notificationsUpdate.requestingUser},{"email":1,"_id":0});
+               let toEmail = Email[0].email;
+               if (notificationsUpdate.book!=null){
+               let RequestedBook = await Book.find({_id: notificationsUpdate.book},{"title":1,"_id":0});
+               theRequest = RequestedBook[0].title;
+               }
+               if (notificationsUpdate.item!=null){
+               let RequestedItem = await Item.find({_id: notificationsUpdate.item},{"description":1,"_id":0});
+               theRequest = RequestedItem[0].description;
+               }
+               let CurrentOwner = await User.find({_id: notificationsUpdate.currentOwner},{"email":1,"_id":0});
+               let owner = CurrentOwner[0].email;
+               let emailSubject = `Updated Request`;
+               let emailText = `${owner} has changed the status of your request for ${theRequest} to ${notificationsUpdate.status}`
+       
+               
+               mail(toEmail, emailSubject, emailText);
 
         //shows the new values
         res.status(200).json({
