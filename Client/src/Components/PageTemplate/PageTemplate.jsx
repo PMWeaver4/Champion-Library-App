@@ -9,7 +9,6 @@ export default function PageTemplate({ toggleMenu, pageTitle, children }) {
     setIsMenuOpen(!isMenuOpen);
   }
 
-  
   return (
     <>
       <div className="page-template">
@@ -47,10 +46,16 @@ export default function PageTemplate({ toggleMenu, pageTitle, children }) {
                   <p>Users</p>
                 </NavLink>
               </li>
-              <li className="menu-btns-container profile">
-                <NavLink to="/my-profile" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
+              <li className="menu-btns-container admin">
+                <NavLink to="/admin" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
+                <i className="fa-solid fa-user-tie"></i>
+                  <p>Admin</p>
+                </NavLink>
+              </li>
+              <li className="menu-btns-container account">
+                <NavLink to="/account" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                   <i className="fa-solid fa-address-card"></i>
-                  <p>My Profile</p>
+                  <p>Account</p>
                 </NavLink>
               </li>
               <li className="menu-btns-container logout">

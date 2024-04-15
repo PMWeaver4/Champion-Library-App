@@ -7,14 +7,17 @@
     display: flex;
     justify-content: center;
     width: 70%;
+    height: 85%;
     box-shadow: none;
     margin-right: 2rem;
     margin-bottom: 0;
+    border-radius: 1rem;
   }
   .navigation-bar {
     display: none;
   }
   .navigation-side-bar {
     display: flex;
+    
   }
 }
