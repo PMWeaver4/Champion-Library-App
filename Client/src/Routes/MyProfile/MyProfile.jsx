@@ -2,6 +2,7 @@ import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 
+
 // TODO: config.backend_url + then your route/url for logic. 
 // TODO finish styling
 
@@ -79,6 +80,14 @@ export default function Users() {
           <button className="settings-del-btn" onClick={handleDeleteAccount}>Delete Account</button>
           <button className="settings-logout-btn" onClick={handleLogout}>Logout</button>
         </div>
+
+
+export default function MyAccount() {
+  return (
+    <main className="my-account-page">
+      <PageTemplate pageTitle="My Account">
+        <div className="my-account-body"></div>
+
       </PageTemplate>
     </main>
   );

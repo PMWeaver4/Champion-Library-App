@@ -29,10 +29,16 @@ export default function MenuPopup() {
             <p>Users</p>
           </NavLink>
         </li>
+        <li className="menu-btns-container admin">
+          <NavLink to="/admin">
+          <i className="fa-solid fa-user-tie"></i>
+            <p>Admin</p>
+          </NavLink>
+        </li>
         <li className="menu-btns-container profile">
-          <NavLink to="/my-profile">
+          <NavLink to="/account">        
             <i className="fa-solid fa-address-card"></i>
-            <p>My Profile</p>
+            <p>Account</p>
           </NavLink>
         </li>
         <li className="menu-btns-container logout">
