@@ -9,6 +9,7 @@ import Inbox from "./Routes/Inbox/Inbox";
 import MyLibrary from "./Routes/MyLibrary/MyLibrary";
 import Users from "./Routes/Users/Users";
 import MyAccount from "./Routes/MyProfile/MyProfile";
+import Admin from "./Routes/Admin/Admin";
 import AllBooks from "./Routes/ViewAllItems/AllBooks";
 import AllGames from "./Routes/ViewAllItems/AllGames";
 import AllOthers from "./Routes/ViewAllItems/AllOthers";
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
   {
     // admin
     path: "/admin",
-    element: <Users />,
+    element: <Admin />,
   },
   {
     // my acount or my profile

@@ -1,0 +1,62 @@
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .admin-body {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 90%;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    padding-top: 1rem;
+    .admin-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        height: 100%;
+        overflow-y: scroll;
+        gap: 1rem;
+        filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.547));
+        .widget {
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: #003366;
+            display: flex;
+            border-radius: 1rem;
+            border: 1px solid rgba(128, 128, 128, 0.278);
+            padding: 8px;
+            cursor: pointer;
+            img {
+                width: 9rem;
+                height: 9rem;
+            }
+        }
+        p {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: bold;
+            font-family: "Inter", sans-serif;
+            width: 100%;
+            text-align: center;
+        }
+    }
+  }
+}
+
+// Admin Popups
+.pending-users-popup {
+    z-index: 100;
+    width: 10rem;
+    height: 10rem;
+    background-color: purple;
+}
