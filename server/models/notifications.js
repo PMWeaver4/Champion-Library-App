@@ -31,7 +31,7 @@ const NotificationsSchema = new mongoose.Schema(
             required: true,
         },
 
-        
+    // Status of book/item   
         status: {
             type: String,
             required: true,
@@ -39,15 +39,18 @@ const NotificationsSchema = new mongoose.Schema(
             default: 'pending',
         },
 
+    // Message to be sent to notify users
         message: {
             type: String,
         },
 
+    // Item is listed to notify what item is being checked out/returned
         item: {
             type: mongoose.ObjectId,
             ref: Item,
         },
-
+    
+    // Book is listed to notify what book is being checked out/returned
         book: { 
             type: mongoose.ObjectId,
             ref: Book,
