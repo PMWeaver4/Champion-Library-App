@@ -3,100 +3,104 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import config from "../../config.json";
 
-//TODO, make buttons work and redirect to dashboard and implement logic for logging in and creating an account. [when i log in with current approved user it does not work]
-// TODO check if passwords match when signing up. DONE********
-// TODO store data in backend so user can return [Still not storing created user in backend]
-// TODO when i try to create a user online it doesnt work, but works fine in postman. 
+
+
+//TODO, Sign up and login WORK WOOOHOOO.✅
+// TODO Browser displays a message notifying user needs to be approved✅
+// TODO deleted confirm password was having issues in the browser ✅
+// TODO need to check on password assistance. 
+
 
 // Component for login page
 export default function LoginSignup() {
   // state variables
   const [activeTab, setActiveTab] = useState("login");
-  const [inputs, setInputs] = useState({
+
+  const [SignupInputs, setSignupInputs] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    // confirmPassword: "",
   });
   
-  // checks password when signing up
-  const [passwordMatchError, setPasswordMatchError] = useState(false);
+  const [loginInputs, setLoginInputs] = useState({
+    email:"",
+    password: "",
+  });
+
+  // const [passwordMatchError, setPasswordMatchError] = useState(false);
+  const [signupPending, setSignupPending] = useState(false);
+  const [signupError, setSignupError] = useState("");
   const [loginError, setLoginError] = useState("");
 
   // event handler for handling input change
-  const handleInputChange = (event) => {
+  const handleSignupInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setInputs((values) => ({ ...values, [name]: value }));
+    setSignupInputs((values) => ({ ...values, [name]: value }));
 
     // resets password match error
-    if (name === "password" || name === "confirmPassword") {
-      setPasswordMatchError(false);
+    // if (name === "password" || name === "confirmPassword") {
+    //   setPasswordMatchError(false);
+    // }
+  };
+
+  const handleLoginInputChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setLoginInputs((values) => ({ ...values, [name]: value}));
+  }
+
+  const handleSignupSubmit = async (event) => {
+    event.preventDefault();
+    try {
+       const response = await fetch(`${config.backend_url}user/create`,{
+        method: "POST",
+        body: JSON.stringify(SignupInputs),
+        headers: {
+          "Content-Type": "application/json",
+        }
+       });
+
+       if (response.ok) {
+        setSignupPending(true);
+        setSignupError("");
+       } else {
+        const data = await response.json();
+        setSignupError(data.message);
+       }
+    } catch (err) {
+      console.error("Error occurred:", err);
     }
   };
 
-  const handleSubmit = async (event) => {
+
+  const handleLoginSubmit = async (event) => {
     event.preventDefault();
     try {
-      if (inputs.password !== inputs.confirmPassword){
-        setPasswordMatchError(true);
-        return;
-      }
-
-      let endpoint = "";
-      let requestBody = {};
-
-      if (activeTab === "login") {
-        // using config to avoid hardcoding URL and having issues
-        endpoint = `${config.backend_url}/user/login`;
-
-        requestBody = {
-          email: inputs.email,
-          password: inputs.password,
-        };
-
-
-      } else {
-        endpoint = `${config.backend_url}/user/create`;
-        requestBody = {
-          firstName: inputs.firstName,
-          lastName: inputs.lastName,
-          email: inputs.email,
-          password: inputs.password,
-          confirmPassword: inputs.confirmPassword,
-        };
-      }
-
-      const response = await fetch(endpoint, {
+      const response = await fetch(`${config.backend_url}user/login`,{
         method: "POST",
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify(loginInputs),
         headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (activeTab === "login") {
-          // save token in local storage
-          localStorage.setItem("token", data.Token);
-          // redirect to home page
-          nav("/home");
-        } else {
-          // message for approval
-          setLoginError("Your account is pending approval by the admin.");
+          "Content-type": "application/json"
         }
-      } else {
-        console.error("Login/Signup failed");
-      }
+      });
+      if (response.ok) {
+        // handle successful login
+        const data = await response.json();
+        setLoginError(data.message);
+        window.location.href="/home";
+
+      } 
+     
     } catch (error) {
       console.error("Error occurred:", error);
     }
   };
-  
 
-  return (
+  return  (
+   
     <main className="login-signup-page">
       <div className="login-signup-content">
         <img className="LOGO" src="/images/LOGO.png" alt="Logo" />
@@ -114,7 +118,7 @@ export default function LoginSignup() {
         </div>
 
         <div id="loginForm" className="tabContent" style={{ display: activeTab === "login" ? "block" : "none" }}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLoginSubmit}>
             <label htmlFor="email">Email</label>
 
             <input
@@ -123,8 +127,9 @@ export default function LoginSignup() {
               className="email"
               id="email"
               name="email"
-              value={inputs.email}
-              onChange={handleInputChange}
+              value={loginInputs.email}
+              onChange={handleLoginInputChange}
+              autoComplete="email"
             />
 
             <label htmlFor="password">Password</label>
@@ -135,19 +140,20 @@ export default function LoginSignup() {
               className="password"
               id="password"
               name="password"
-              value={inputs.password}
-              onChange={handleInputChange}
+              value={loginInputs.password}
+              onChange={handleLoginInputChange}
             />
 
             <button className="login-button" type="submit">
               Login
             </button>
           </form>
+          {loginError && <p>{loginError}</p>}
           <NavLink className="password-recovery">Forgot Password?</NavLink>
         </div>
 
         <div id="signupForm" className="tab-content" style={{ display: activeTab === "signup" ? "block" : "none" }}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSignupSubmit}>
             <label htmlFor="firstName">First Name</label>
             <input
               type="text"
@@ -155,8 +161,8 @@ export default function LoginSignup() {
               className="firstName"
               id="firstName"
               name="firstName"
-              value={inputs.firstName}
-              onChange={handleInputChange}
+              value={SignupInputs.firstName}
+              onChange={handleSignupInputChange}
             />
             <label htmlFor="lastName">Last Name</label>
             <input
@@ -165,8 +171,8 @@ export default function LoginSignup() {
               className="lastName"
               id="lastName"
               name="lastName"
-              value={inputs.lastName}
-              onChange={handleInputChange}
+              value={SignupInputs.lastName}
+              onChange={handleSignupInputChange}
             />
             <label htmlFor="email">Email</label>
             <input
@@ -175,8 +181,9 @@ export default function LoginSignup() {
               className="email"
               id="Signup-email"
               name="email"
-              value={inputs.email}
-              onChange={handleInputChange}
+              value={SignupInputs.email}
+              onChange={handleSignupInputChange}
+              autoComplete="email"
             />
             <label htmlFor="password">Password</label>
             <input
@@ -185,25 +192,23 @@ export default function LoginSignup() {
               className="password"
               id="Signup-password"
               name="password"
-              value={inputs.password}
-              onChange={handleInputChange}
-            />
-            <label htmlFor="confirm_password">Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Confirm your new password"
-              className="confirm_password"
-              id="signup-password"
-              name="confirm-signup-password"
-              value={inputs.confirmPassword}
-              onChange={handleInputChange}
+              value={SignupInputs.password}
+              onChange={handleSignupInputChange}
             />
             <button className="signUp-button" type="submit">
               Sign Up
             </button>
           </form>
+          {signupPending && (
+            <p> Your account is pending approval by the admin.</p>
+          )}
+          {signupError && <p>{signupError}</p>}
         </div>
       </div>
     </main>
   );
 }
+
+
+
+  
