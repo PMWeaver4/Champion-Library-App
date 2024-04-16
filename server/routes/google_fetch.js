@@ -13,6 +13,7 @@ router.get("/bookSearch/:isbn", async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching data: ", error);
+    res.status(500).send();
   }
 });
 //search for a book with the isbn and create a new book object with that info
@@ -24,6 +25,11 @@ router.post("/bookSubmit/:isbn", async (req, res) => {
     //convert isbn from a string to a number
     const isbn = parseInt(req.params.isbn);
     const data = await response.json();
+
+    const isThumbnailUndefined = data.items[0].volumeInfo.imageLinks == undefined || data.items[0].volumeInfo.imageLinks.thumbnail == undefined;
+    // if thumbnail link from google api is undefined replace img with placeholder book img link
+    const img = isThumbnailUndefined ? "/images/books.png" : data.items[0].volumeInfo.imageLinks.thumbnail;
+
     //add the book to the DB
     let book = new Book({
       isbn: isbn,
@@ -31,7 +37,7 @@ router.post("/bookSubmit/:isbn", async (req, res) => {
       author: data.items[0].volumeInfo.authors,
       description: data.items[0].volumeInfo.description,
       user: req.user.email,
-      img: data.items[0].volumeInfo.imageLinks.thumbnail,
+      img: img,
       genre: data.items[0].volumeInfo.categories,
     });
     //save it
@@ -42,6 +48,7 @@ router.post("/bookSubmit/:isbn", async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching data: ", error);
+    res.status(500).send();
   }
 });
 

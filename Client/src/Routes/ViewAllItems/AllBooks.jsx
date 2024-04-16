@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import BookTile from "../../Components/ItemTIles/BookTile";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
+import SearchBar from "../../Components/SearchBar/SearchBar";
 
 export default function AllBooks() {
   return (
@@ -13,22 +14,11 @@ export default function AllBooks() {
             </NavLink>
             <h1>BOOKS</h1>
           </div>
-          <div className="view-all-grid">
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
+          <SearchBar />
+          <div className="view-all-grid">{/* display all the available books */}
+          <BookTile/>
+          <BookTile/>
+          <BookTile/>
           </div>
         </div>
       </PageTemplate>
