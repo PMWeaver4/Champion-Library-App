@@ -2,11 +2,10 @@ import { useState } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 
-
-// TODO: config.backend_url + then your route/url for logic. 
+// TODO: config.backend_url + then your route/url for logic.
 // TODO finish styling
 
-export default function Users() {
+export default function MyProfile() {
   // State variables for user data
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,17 +27,17 @@ export default function Users() {
   const handleLogout = () => {
     // Perform logout action, such as clearing user session
   };
-  
+
   return (
     <main className="my-profile-page">
       <PageTemplate pageTitle="My Profile">
         <div className="my-profile-body">
           <h2 className="settings-title"> SETTINGS ⚙️ </h2>
           <h3 className="second-title"> Update user account information </h3>
-        <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <label htmlFor="firstName">First Name:</label>
             <input
-            className="settings-firstName"
+              className="settings-firstName"
               type="text"
               id="firstName"
               name="firstName"
@@ -48,7 +47,7 @@ export default function Users() {
             />
             <label htmlFor="lastName">Last Name:</label>
             <input
-            className="Settings-astName"
+              className="Settings-astName"
               type="text"
               id="lastName"
               name="lastName"
@@ -58,7 +57,7 @@ export default function Users() {
             />
             <label htmlFor="email">Email:</label>
             <input
-            className="settings-email"
+              className="settings-email"
               type="email"
               id="email"
               name="email"
@@ -68,26 +67,24 @@ export default function Users() {
             />
             <label htmlFor="password">New Password:</label>
             <input
-            className="settings-password"
+              className="settings-password"
               type="password"
               id="password"
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button className="settings-btn" type="submit">Update</button>
+            <button className="settings-btn" type="submit">
+              Update
+            </button>
           </form>
-          <button className="settings-del-btn" onClick={handleDeleteAccount}>Delete Account</button>
-          <button className="settings-logout-btn" onClick={handleLogout}>Logout</button>
+          <button className="settings-del-btn" onClick={handleDeleteAccount}>
+            Delete Account
+          </button>
+          <button className="settings-logout-btn" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
-
-
-export default function MyAccount() {
-  return (
-    <main className="my-account-page">
-      <PageTemplate pageTitle="My Account">
-        <div className="my-account-body"></div>
-
       </PageTemplate>
     </main>
   );
