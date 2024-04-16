@@ -66,14 +66,16 @@ router.get("/all/", async (req, res) => {
 });
 
 //Get user's email - we're using email as username
-router.get("/email/:email", async (req, res) => {
+router.get("/email/:email", Validate, async (req, res) => {
     try {
+        if (req.user.isAdmin == true){
         //find by parameter
         let results = await User.find({email: req.params.email});
         res.status(200).json({
             Results: results,
         })
-    } catch(err){
+    } 
+    }catch(err){
         console.log(err);
 
         res.status(500).json({
@@ -99,7 +101,7 @@ router.post("/login/", async (req,res) => {
         if(!passwordMatch) throw new Error("Invalid Details");
         //assign a new web token for a day
         const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET, {
-        expiresIn: 60 * 60 * 24,
+        expiresIn: "30 days",
         });
 
         res.status(200).json({
@@ -163,6 +165,43 @@ router.put("/update/",Validate, async (req,res) => {
         res.status(500).json({ error });
     }
 });
+//Update user's information
+//need to insert validate middleware declared above because of user_routes' position before validation in the index.js
+router.put("/adminUpdate/:email",Validate, async (req,res) => {
+    try {
+        if (req.user.isAdmin == true){
+  
+        //accessing validate allows us to get the current user's email
+        const email = req.params.email;
+        //get the info to update user
+        const usersUpdatedInformation = req.body;
+        //match the user by email
+        const updatedUser = await User.findOne({email: email});
+         //if no user match
+        if (updatedUser === null) {
+            res.status(404).json({error: "User not found Wahoooo whooa yah."});
+            return;
+        }
+
+       //otherwise, update that user w/ new info
+       await User.updateOne({_id: updatedUser._id}, usersUpdatedInformation);
+        
+    
+        res.status(200).json({
+            status: "User information updated successfully",
+            firstName: usersUpdatedInformation.firstName,
+            lastName: usersUpdatedInformation.lastName,
+            email: usersUpdatedInformation.email,
+            password: usersUpdatedInformation.password,
+            
+        });
+    }
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+});
+
+
 
 router.delete("/delete/:_id", Validate, async (req, res) => {
     try {

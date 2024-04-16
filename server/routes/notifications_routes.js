@@ -163,7 +163,7 @@ router.delete("/delete/:id", async(req,res) => {
     try {
         const notifications = await Notifications.findByIdAndDelete(req.params.id);
 
-        if (!notifications) throw new Error("Book/item not found");
+        if (!notifications) throw new Error("Book/item notification not found");
 
         res.status(200).json({
             Deleted: 1,
