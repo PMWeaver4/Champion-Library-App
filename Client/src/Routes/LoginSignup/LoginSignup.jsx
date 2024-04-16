@@ -1,13 +1,16 @@
-import { NavLink } from "react-router-dom";
 // Import dependencies
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import config from "../../config.json";
 
-//TODO, make buttons work and redirect to dashboard and implement logic for logging in and creating an account. 
-// TODO check if passwords match when signing up.
-// TODO store data in backend so user can return
+//TODO, make buttons work and redirect to dashboard and implement logic for logging in and creating an account. [when i log in with current approved user it does not work]
+// TODO check if passwords match when signing up. DONE********
+// TODO store data in backend so user can return [Still not storing created user in backend]
+// TODO when i try to create a user online it doesnt work, but works fine in postman. 
 
 // Component for login page
 export default function LoginSignup() {
+  // state variables
   const [activeTab, setActiveTab] = useState("login");
   const [inputs, setInputs] = useState({
     firstName: "",
@@ -16,23 +19,82 @@ export default function LoginSignup() {
     password: "",
     confirmPassword: "",
   });
-  // const [currentStatusMessage, currentStatusMessage] = useState(null);
+  
+  // checks password when signing up
+  const [passwordMatchError, setPasswordMatchError] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
+  // event handler for handling input change
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setInputs({ ...inputs, [name]: value });
-  };
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Add login or signup logic
-    if (activeTab === "login") {
-      console.log("Login", inputs);
-      // need to add logic to handle login
-    } else {
-      console.log("Sign up", inputs);
+    // resets password match error
+    if (name === "password" || name === "confirmPassword") {
+      setPasswordMatchError(false);
     }
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      if (inputs.password !== inputs.confirmPassword){
+        setPasswordMatchError(true);
+        return;
+      }
+
+      let endpoint = "";
+      let requestBody = {};
+
+      if (activeTab === "login") {
+        // using config to avoid hardcoding URL and having issues
+        endpoint = `${config.backend_url}/user/login`;
+
+        requestBody = {
+          email: inputs.email,
+          password: inputs.password,
+        };
+
+
+      } else {
+        endpoint = `${config.backend_url}/user/create`;
+        requestBody = {
+          firstName: inputs.firstName,
+          lastName: inputs.lastName,
+          email: inputs.email,
+          password: inputs.password,
+          confirmPassword: inputs.confirmPassword,
+        };
+      }
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(requestBody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (activeTab === "login") {
+          // save token in local storage
+          localStorage.setItem("token", data.Token);
+          // redirect to home page
+          nav("/home");
+        } else {
+          // message for approval
+          setLoginError("Your account is pending approval by the admin.");
+        }
+      } else {
+        console.error("Login/Signup failed");
+      }
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
+  };
+  
 
   return (
     <main className="login-signup-page">
@@ -59,6 +121,7 @@ export default function LoginSignup() {
               type="email"
               placeholder="Enter a email address"
               className="email"
+              id="email"
               name="email"
               value={inputs.email}
               onChange={handleInputChange}
@@ -70,6 +133,7 @@ export default function LoginSignup() {
               type="password"
               placeholder="Enter your password"
               className="password"
+              id="password"
               name="password"
               value={inputs.password}
               onChange={handleInputChange}
@@ -89,6 +153,7 @@ export default function LoginSignup() {
               type="text"
               placeholder="Enter your first name"
               className="firstName"
+              id="firstName"
               name="firstName"
               value={inputs.firstName}
               onChange={handleInputChange}
@@ -98,6 +163,7 @@ export default function LoginSignup() {
               type="text"
               placeholder="Enter your last name"
               className="lastName"
+              id="lastName"
               name="lastName"
               value={inputs.lastName}
               onChange={handleInputChange}
@@ -107,6 +173,7 @@ export default function LoginSignup() {
               type="email"
               placeholder="Enter a email address"
               className="email"
+              id="Signup-email"
               name="email"
               value={inputs.email}
               onChange={handleInputChange}
@@ -116,6 +183,7 @@ export default function LoginSignup() {
               type="password"
               placeholder="Enter your new password"
               className="password"
+              id="Signup-password"
               name="password"
               value={inputs.password}
               onChange={handleInputChange}
@@ -125,8 +193,9 @@ export default function LoginSignup() {
               type="password"
               placeholder="Confirm your new password"
               className="confirm_password"
-              name="confirm_password"
-              value={inputs.confirm_password}
+              id="signup-password"
+              name="confirm-signup-password"
+              value={inputs.confirmPassword}
               onChange={handleInputChange}
             />
             <button className="signUp-button" type="submit">
