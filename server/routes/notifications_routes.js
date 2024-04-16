@@ -11,18 +11,17 @@ const transporter = nodemailer.createTransport({
   port: 587,
   auth: {
     user: "api",
-    pass: "afcdcddfa29ca99ff16996676b0c9aae"
-  }
+    pass: "afcdcddfa29ca99ff16996676b0c9aae",
+  },
 });
 async function mail(toEmail, emailSubject, emailText) {
-    // send mail with defined transport object
-    const info = await transporter.sendMail({
-      from: 'info@demomailtrap.com', // sender address
-      to: toEmail, // list of receivers
-      subject: emailSubject, // Subject line
-      text: emailText, // plain text body
-      
-    });
+  // send mail with defined transport object
+  const info = await transporter.sendMail({
+    from: "info@demomailtrap.com", // sender address
+    to: toEmail, // list of receivers
+    subject: emailSubject, // Subject line
+    text: emailText, // plain text body
+  });
 }
 
 // Create Notifications
@@ -73,41 +72,94 @@ router.post("/create/", async(req,res) => {
         res.status(500).json({
             Error:err,
         });
-    }
-});
 
+    }
+    let Requester = await User.find(
+      { _id: newNotifications.requestingUser },
+      { email: 1, _id: 0 }
+    );
+    let requester = Requester[0].email;
+    let emailSubject = `New Request`;
+    let emailText = `${requester} is requesting ${theRequest} from ${toEmail}`;
+    console.log(emailSubject);
+    console.log(emailText);
+
+    mail(toEmail, emailSubject, emailText);
+
+    //notify.....about the new notification
+    res.status(200).json({
+      Created: newNotifications,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
 
 // Display all notifications endpoint
 router.get("/all", async (req, res) => {
-    try {
-        //filters for all notifications by and for the specific user calling this function. Displays keys of notification schema.
-        let results = await Notifications.find({$or: [{requestingUser: req.user._id}, {currentOwner: req.user._id}]})
-        .populate({path: "requestingUser", select: "email"})
-        .populate({path: "currentOwner", select: "email"})
-        .populate({path: "book", select: "title"})
-        .populate({path: "item", select: "description"})
-        .populate([ "borrowrequest", "returnrequest", "status", "message"])
-        .select({
-            text: 1,
-            createdAt:1,
-            updatedAt: 1,
-        });
+  try {
+    //filters for all notifications by and for the specific user calling this function. Displays keys of notification schema.
+    let results = await Notifications.find({
+      $or: [{ requestingUser: req.user._id }, { currentHolder: req.user._id }],
+    
+    })
+      .populate({ path: "requestingUser", select: "email" })
+      .populate({ path: "currentHolder", select: "email" })
+      .populate({ path: "book", select: "title" })
+      .populate({ path: "item", select: "description" })
+      .populate(["borrowrequest", "returnrequest", "status", "message"])
+      .select({
+        text: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      });
 
+    res.status(200).json({
+      Results: results,
+    });
+  } catch (err) {
+    console.log(err);
 
-        res.status(200).json({
-            Results: results,
-        })
-    } catch(err){
-        console.log(err);
- 
-        res.status(500).json({
-            Error: err,
-        });
-    }
+    res.status(500).json({
+      Error: err,
+    });
+  }
 });
 
-// add code for GET BY OWNER (INDIVIDUALS) 4/10
+// get by individual user to be notified that is relevant to the user
+router.get("/user/", async (req, res) => {
+  try {
+    // finds the specific individual user id to send relevent notifications to
+    let filtered = await Notifications.find({
+        requestingUser: req.user._id })
+    let filtered2 = await Notifications.find({
+        currentOwner: req.user._id})
+        filtered = filtered.concat(filtered2)
+        .populate({ path: "requestingUser", select: "email" })
+        .populate({ path: "currentHolder", select: "email" })
+        .populate({ path: "book", select: "title" })
+        .populate({ path: "item", select: "description" })
+        .populate(["borrowrequest", "returnrequest", "status", "message"])
+        .select({
+          text: 1,
+          createdAt: 1,
+          updatedAt: 1,
+        });
 
+    res.status(200).json({
+        Results: filtered,
+    });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
 
 //updates specific notification
 router.put("/update/:_id", async (req, res) => {
@@ -159,20 +211,20 @@ router.put("/update/:_id", async (req, res) => {
 });
 
 //gets notification by id and deletes
-router.delete("/delete/:id", async(req,res) => {
-    try {
-        const notifications = await Notifications.findByIdAndDelete(req.params.id);
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const notifications = await Notifications.findByIdAndDelete(req.params.id);
 
-        if (!notifications) throw new Error("Book/item not found");
+    if (!notifications) throw new Error("Book/item not found");
 
-        res.status(200).json({
-            Deleted: 1,
-        });
-    } catch (err) {
-        res.status(500).json({
-            Error: err,
-        });
-    }
+    res.status(200).json({
+      Deleted: 1,
+    });
+  } catch (err) {
+    res.status(500).json({
+      Error: err,
+    });
+  }
 });
 
 module.exports = router;
