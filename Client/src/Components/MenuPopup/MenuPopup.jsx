@@ -1,6 +1,13 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
+import { clearStorage } from "../../localStorage";
 
 export default function MenuPopup() {
+
+function onLogout(){
+clearStorage();
+return <Navigate to="/" replace/>
+}
+
   return (
     <nav className="menu-popup">
       <ul>
@@ -41,11 +48,11 @@ export default function MenuPopup() {
             <p>Account</p>
           </NavLink>
         </li>
-        <li className="menu-btns-container logout">
-          <NavLink to="/">
+        <li className="menu-btns-container logout" onClick={() => onLogout()}>
+          <button>
             <i className="fa-solid fa-right-from-bracket"></i>
             <p>Logout</p>
-          </NavLink>
+          </button>
         </li>
       </ul>
     </nav>

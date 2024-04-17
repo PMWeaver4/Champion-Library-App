@@ -1,6 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import MenuPopup from "../MenuPopup/MenuPopup";
 import { useState } from "react";
+import { clearStorage } from "../../localStorage";
+
 export default function PageTemplate({ toggleMenu, pageTitle, children }) {
   const username = "Username";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,6 +10,11 @@ export default function PageTemplate({ toggleMenu, pageTitle, children }) {
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
   }
+
+  function onLogout(){
+    clearStorage();
+    return <Navigate to="/" replace/>
+    }
 
   return (
     <>
@@ -59,10 +66,10 @@ export default function PageTemplate({ toggleMenu, pageTitle, children }) {
                 </NavLink>
               </li>
               <li className="menu-btns-container logout">
-                <NavLink to="/" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
+                <button className="logout-btn" onClick={() => onLogout()}>
                   <i className="fa-solid fa-right-from-bracket"></i>
                   <p>Logout</p>
-                </NavLink>
+                </button>
               </li>
             </ul>
           </nav>

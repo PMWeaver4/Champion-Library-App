@@ -38,14 +38,14 @@
       transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
       &:hover {
         box-shadow: 0 0 40px 40px white inset;
-        a {
+        a, button {
           color: #003366;
         }
         i {
           color: #003366;
         }
       }
-      a {
+      a, button {
         height: 100%;
         width: 100%;
         display: flex;

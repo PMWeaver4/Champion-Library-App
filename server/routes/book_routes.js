@@ -50,25 +50,17 @@ router.get("/all", async (req, res) => {
     });
   }
 });
-// Display all available book endpoint
-router.get("/allavailable", async (req, res) => {
+// Display all available book endpoint (modified)
+router.get('/allavailable', async (req, res) => {
   try {
-    //this find will show only books that are not checked out, i.e. available
-    let results = await Book.find({ checkedOut: false }).populate(["title", "author", "description", "user", "genre", "rentedUser", "isbn"]).select({
-      text: 1,
-      createdAt: 1,
-      updatedAt: 1,
-    });
+    // Find books where 'checkedout' is false
+    const availableBooks = await Book.find({ checkedout: false })
+      .exec(); // Execute the query
 
-    res.status(200).json({
-      Created: results,
-    });
+    res.status(200).json(availableBooks);
   } catch (err) {
     console.log(err);
-
-    res.status(500).json({
-      Error: err,
-    });
+    res.status(500).json({ Error: err.message }); // More descriptive error messages
   }
 });
 

@@ -1,13 +1,57 @@
+import { useState, useEffect } from "react";
+import config from "../../config.json";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@shadcn/components/ui/carousel";
 // import BookProfileCard from "../../Components/BookProfileCard/BookProfileCard";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import BookTile from "../../Components/ItemTIles/BookTile";
-import { NavLink } from "react-router-dom";
-import GameTile from "../../Components/ItemTIles/GameTile";
-import OtherTile from "../../Components/ItemTIles/OtherTile";
+import { NavLink, Navigate } from "react-router-dom";
+import { getToken, isLoggedIn } from "../../localStorage";
+
+// SETTINGS CONSTANTS
+const MAX_NUM_ELEMENTS_IN_CAROUSEL = 10;
+
+// RANDOMIZE AN ARRAY
+function shuffle(array) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+}
 
 export default function Home() {
-  return (
+  // this state will store the book data in frontend (initially will be an empty array)
+  const [books, setBooks] = useState([]);
+
+  async function getAvailableBooks() {
+    const response = await fetch(config.backend_url + "book/allavailable", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const bookData = await response.json(); // the response is directly an array of books
+    if (response.status !== 200) {
+      console.error("Failed to fetch books");
+      return;
+    }
+    shuffle(bookData); // randomise the array
+    setBooks(bookData.splice(0, Math.min(bookData.length, MAX_NUM_ELEMENTS_IN_CAROUSEL))); // keep only up to MAX_NUM_ELEMENTS_IN_CAROUSEL books
+  }
+
+  useEffect(() => {
+    getAvailableBooks(); // im calling the fetchBooks function
+  }, []); // empty array this effect should run once when the component mounts
+
+  return !isLoggedIn() ? (
+    <Navigate to="/" replace />
+  ) : (
     // home page that contains the "dashboard or main page once logged in"
     <main className="home-page">
       <PageTemplate pageTitle="HOME">
@@ -26,24 +70,12 @@ export default function Home() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
+                  {/* Map over books array and create a CarouselItem for each book */}
+                  {books.map((book) => (
+                    <CarouselItem key={book._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <BookTile book={book} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -58,24 +90,7 @@ export default function Home() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -90,24 +105,7 @@ export default function Home() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />

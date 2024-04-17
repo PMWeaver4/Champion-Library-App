@@ -1,31 +1,49 @@
 const mongoose = require("mongoose");
+// added enum to itemType to differentiate and also PreSave hook for the correct corresponding image
+const ItemSchema = new mongoose.Schema({
+  itemName: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  itemType: {
+    type: String,
+    required: true,
+    enum: ["game", "other"],
+  },
+  img: {
+    type: String,
 
-const ItemSchema = new mongoose.Schema(
-    {
-        description: {
-            type: String,
-            required: true
-        },
-        itemType: {
-            type: String,
-            required: true
-        },
-        user: {
-            type: String,
-            minlength: 1,
-        },
-        rentedUser: {
-            type: String,
-            default:""
-        },
-        checkedout: {
-            type: Boolean,
-            default: false
-        },
-        condition: {
-            type: String,
-        }
-    }
-)
+    // thumbnail: String,
+  },
+  user: {
+    type: String,
+    minlength: 1,
+  },
+  rentedUser: {
+    type: String,
+    default: "",
+  },
+  checkedout: {
+    type: Boolean,
+    default: false,
+  },
+  condition: {
+    type: String,
+  },
+});
+
+// Pre-save hook to set the image URL based on itemType
+ItemSchema.pre("save", function (next) {
+  if (this.itemType === "game") {
+    this.img = "/images/games.png"; // Set the URL for game image
+  } else if (this.itemType === "other") {
+    this.img = "/images/others.png"; // Set the URL for other types of items
+  }
+  next();
+});
 
 module.exports = mongoose.model("item", ItemSchema);
