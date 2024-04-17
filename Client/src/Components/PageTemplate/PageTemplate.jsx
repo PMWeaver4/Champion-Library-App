@@ -1,6 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import MenuPopup from "../MenuPopup/MenuPopup";
 import { useState } from "react";
+import { clearStorage } from "../../localStorage";
+
 export default function PageTemplate({ toggleMenu, pageTitle, children }) {
   const username = "Username";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,7 +11,11 @@ export default function PageTemplate({ toggleMenu, pageTitle, children }) {
     setIsMenuOpen(!isMenuOpen);
   }
 
-  
+  function onLogout(){
+    clearStorage();
+    return <Navigate to="/" replace/>
+    }
+
   return (
     <>
       <div className="page-template">
@@ -47,17 +53,23 @@ export default function PageTemplate({ toggleMenu, pageTitle, children }) {
                   <p>Users</p>
                 </NavLink>
               </li>
-              <li className="menu-btns-container profile">
-                <NavLink to="/my-profile" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
+              <li className="menu-btns-container admin">
+                <NavLink to="/admin" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
+                <i className="fa-solid fa-user-tie"></i>
+                  <p>Admin</p>
+                </NavLink>
+              </li>
+              <li className="menu-btns-container account">
+                <NavLink to="/account" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                   <i className="fa-solid fa-address-card"></i>
-                  <p>My Profile</p>
+                  <p>Account</p>
                 </NavLink>
               </li>
               <li className="menu-btns-container logout">
-                <NavLink to="/" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
+                <button className="logout-btn" onClick={() => onLogout()}>
                   <i className="fa-solid fa-right-from-bracket"></i>
                   <p>Logout</p>
-                </NavLink>
+                </button>
               </li>
             </ul>
           </nav>
