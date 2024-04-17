@@ -1,15 +1,13 @@
 // Import dependencies
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
 import config from "../../config.json";
-
-
+import { isLoggedIn, setEmail, setFirstName, setLastName, setToken } from "../../localStorage";
 
 //TODO, Sign up and login WORK WOOOHOOO.✅
 // TODO Browser displays a message notifying user needs to be approved✅
 // TODO deleted confirm password was having issues in the browser ✅
-// TODO need to check on password assistance. 
-
+// TODO need to check on password assistance.
 
 // Component for login page
 export default function LoginSignup() {
@@ -23,9 +21,9 @@ export default function LoginSignup() {
     password: "",
     // confirmPassword: "",
   });
-  
+
   const [loginInputs, setLoginInputs] = useState({
-    email:"",
+    email: "",
     password: "",
   });
 
@@ -33,6 +31,7 @@ export default function LoginSignup() {
   const [signupPending, setSignupPending] = useState(false);
   const [signupError, setSignupError] = useState("");
   const [loginError, setLoginError] = useState("");
+  const navigate = useNavigate(); // you get a reference to the navigation function like this
 
   // event handler for handling input change
   const handleSignupInputChange = (event) => {
@@ -49,58 +48,67 @@ export default function LoginSignup() {
   const handleLoginInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setLoginInputs((values) => ({ ...values, [name]: value}));
-  }
+    setLoginInputs((values) => ({ ...values, [name]: value }));
+  };
 
   const handleSignupSubmit = async (event) => {
     event.preventDefault();
     try {
-       const response = await fetch(`${config.backend_url}user/create`,{
+      const response = await fetch(`${config.backend_url}user/create`, {
         method: "POST",
         body: JSON.stringify(SignupInputs),
         headers: {
           "Content-Type": "application/json",
-        }
-       });
+        },
+      });
 
-       if (response.ok) {
+      if (response.ok) {
         setSignupPending(true);
         setSignupError("");
-       } else {
+      } else {
         const data = await response.json();
         setSignupError(data.message);
-       }
+      }
     } catch (err) {
       console.error("Error occurred:", err);
     }
   };
 
-
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch(`${config.backend_url}user/login`,{
+      const response = await fetch(`${config.backend_url}user/login`, {
         method: "POST",
         body: JSON.stringify(loginInputs),
         headers: {
-          "Content-type": "application/json"
-        }
+          "Content-type": "application/json",
+        },
       });
-      if (response.ok) {
+      if (response.status == 200) {
         // handle successful login
+        console.log("User LoggedIn Successfully");
         const data = await response.json();
-        setLoginError(data.message);
-        window.location.href="/home";
-
-      } 
-     
+        console.log(data);
+        //data are never store anywhereohbruh
+        setEmail(data.User.email);
+        setToken(data.Token);
+        setFirstName(data.User.firstName);
+        setLastName(data.User.lastName);
+        navigate("/home");
+        return;
+      }
+      //handle wrong credentials
+      setLoginError(data.message);
     } catch (error) {
+      console.log("User Login Failed");
       console.error("Error occurred:", error);
     }
   };
 
-  return  (
-   
+  // if user is loggedin allow render of the homepage
+  return isLoggedIn() ? (
+    <Navigate to="/home" replace />
+  ) : (
     <main className="login-signup-page">
       <div className="login-signup-content">
         <img className="LOGO" src="/images/LOGO.png" alt="Logo" />
@@ -199,16 +207,10 @@ export default function LoginSignup() {
               Sign Up
             </button>
           </form>
-          {signupPending && (
-            <p> Your account is pending approval by the admin.</p>
-          )}
+          {signupPending && <p> Your account is pending approval by the admin.</p>}
           {signupError && <p>{signupError}</p>}
         </div>
       </div>
     </main>
   );
 }
-
-
-
-  
