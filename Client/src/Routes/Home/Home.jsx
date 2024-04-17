@@ -7,6 +7,24 @@ import GameTile from "../../Components/ItemTIles/GameTile";
 import OtherTile from "../../Components/ItemTIles/OtherTile";
 
 export default function Home() {
+
+// this state will store the book data in frontend (initially will be an empty array)
+const [books, setBooks] = useState([]);
+
+useEffect(() => {
+  const fetchBooks = async () => {
+    try {
+      // get request for the books
+      const response = await fetch(config.backend_url +'book/allavailable');
+      const bookData = await response.json();
+      setBooks(bookData); // update the state with the fetched books
+    } catch (error) {
+      console.error('Failed to fetch books:', error);
+    }
+  };
+  fetchBooks(); // im calling the fetchBooks function
+}, []); // empty array this effect should run once when the component mounts
+
   return (
     // home page that contains the "dashboard or main page once logged in"
     <main className="home-page">
@@ -26,23 +44,10 @@ export default function Home() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
+                  {/* this will map over the books array and create a carousel item for each book */}
+                  
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile />
+                  
                   </CarouselItem>
                 </CarouselContent>
                 <CarouselPrevious />
@@ -59,22 +64,7 @@ export default function Home() {
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
                   <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile />
+                    
                   </CarouselItem>
                 </CarouselContent>
                 <CarouselPrevious />
@@ -90,24 +80,7 @@ export default function Home() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile />
-                  </CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
