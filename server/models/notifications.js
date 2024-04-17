@@ -13,22 +13,25 @@ const NotificationsSchema = new mongoose.Schema(
             ref: User
         },
     // Book/item being currently owned by a user 
-        currentOwner: {
+        currentHolder: {
             type: mongoose.ObjectId,
             required: true,
             ref: User
         },
-
+    
+    // A user is requesting to borrow book/item
         borrowrequest: {
             type: Date,
             required: true,
         },
 
+    // A user is requesting to return book/item         
         returnrequest: {
             type: Date,
             required: true,
         },
 
+    // Status of book/item   
         status: {
             type: String,
             required: true,
@@ -36,15 +39,18 @@ const NotificationsSchema = new mongoose.Schema(
             default: 'pending',
         },
 
+    // Message to be sent to notify users
         message: {
             type: String,
         },
 
+    // Item is listed to notify what item is being checked out/returned
         item: {
             type: mongoose.ObjectId,
             ref: Item,
         },
-
+    
+    // Book is listed to notify what book is being checked out/returned
         book: { 
             type: mongoose.ObjectId,
             ref: Book,

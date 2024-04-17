@@ -81,9 +81,11 @@ router.get("/item/:_id", async (req, res) => {
 
 router.put("/update/:_id", async (req, res) => {
     try {
+        
         //find a single item by its mongodb id
         const itemToUpdate = await Item.findOne({_id: req.params._id}).exec()
         //receives values to update
+        if (itemToUpdate.user == req.user.email || req.user.isAdmin == true){
         const updatedValues = {
             description: req.body.description,
             itemType: req.body.itemType,
@@ -98,6 +100,7 @@ router.put("/update/:_id", async (req, res) => {
             Updated: updatedValues,
             Results: updatedValues,
         });
+    }
     } catch (err) {
         res.status(500).json({
             Error: err,
@@ -109,6 +112,8 @@ router.put("/update/:_id", async (req, res) => {
 router.delete("/delete/:itemId", async (req, res) => {
     try {
         //find item by mongodb id, and say goodbye
+        const checkItem = await Item.findById(req.params.itemId)
+        if (checkItem.user == req.user.email || req.user.isAdmin == true){
         const item = await Item.findByIdAndDelete(req.params.itemId);
             //unless the id doesn't match an item
             if (!Item) throw new Error("Item not found");
@@ -116,7 +121,8 @@ router.delete("/delete/:itemId", async (req, res) => {
             res.status(200).json({
                 Deleted: 1,
             });
-        } catch (err) {
+        }
+     } catch (err) {
             res.status(500).json({
                 Error: err,
             });
