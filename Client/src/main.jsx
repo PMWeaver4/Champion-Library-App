@@ -8,7 +8,8 @@ import Home from "./Routes/Home/Home";
 import Inbox from "./Routes/Inbox/Inbox";
 import MyLibrary from "./Routes/MyLibrary/MyLibrary";
 import Users from "./Routes/Users/Users";
-import MyProfile from "./Routes/MyProfile/MyProfile";
+import MyAccount from "./Routes/MyProfile/MyProfile";
+import Admin from "./Routes/Admin/Admin";
 import AllBooks from "./Routes/ViewAllItems/AllBooks";
 import AllGames from "./Routes/ViewAllItems/AllGames";
 import AllOthers from "./Routes/ViewAllItems/AllOthers";
@@ -50,9 +51,14 @@ const router = createBrowserRouter([
     element: <Users />,
   },
   {
-    // my profile
-    path: "/my-profile",
-    element: <MyProfile />,
+    // admin
+    path: "/admin",
+    element: <Admin />,
+  },
+  {
+    // my acount or my profile
+    path: "/account",
+    element: <MyAccount />,
   },
   {
     // view all books

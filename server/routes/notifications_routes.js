@@ -3,6 +3,8 @@ const Notifications = require("../models/notifications");
 const User = require("../models/user");
 const Book = require("../models/book");
 const Item = require("../models/item");
+//? Assigning a variable from .env
+const PASS = process.env.PASS;
 
 const nodemailer = require("nodemailer");
 
@@ -11,7 +13,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   auth: {
     user: "api",
-    pass: "afcdcddfa29ca99ff16996676b0c9aae",
+    pass: PASS
   },
 });
 async function mail(toEmail, emailSubject, emailText) {
@@ -74,32 +76,10 @@ router.post("/create/", async(req,res) => {
         });
 
     }
-    let Requester = await User.find(
-      { _id: newNotifications.requestingUser },
-      { email: 1, _id: 0 }
-    );
-    let requester = Requester[0].email;
-    let emailSubject = `New Request`;
-    let emailText = `${requester} is requesting ${theRequest} from ${toEmail}`;
-    console.log(emailSubject);
-    console.log(emailText);
-
-    mail(toEmail, emailSubject, emailText);
-
-    //notify.....about the new notification
-    res.status(200).json({
-      Created: newNotifications,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      Error: err,
-    });
-  }
 });
 
-// Display all notifications endpoint
-router.get("/all", async (req, res) => {
+// Display all notifications endpoint for that user
+router.get("/allYourNotifications", async (req, res) => {
   try {
     //filters for all notifications by and for the specific user calling this function. Displays keys of notification schema.
     let results = await Notifications.find({
@@ -128,31 +108,28 @@ router.get("/all", async (req, res) => {
     });
   }
 });
-
-// get by individual user to be notified that is relevant to the user
-router.get("/user/", async (req, res) => {
+// Display all notifications (for admin only)
+router.get("/all", async (req, res) => {
   try {
-    // finds the specific individual user id to send relevent notifications to
-    let filtered = await Notifications.find({
-        requestingUser: req.user._id })
-    let filtered2 = await Notifications.find({
-        currentOwner: req.user._id})
-        filtered = filtered.concat(filtered2)
-        .populate({ path: "requestingUser", select: "email" })
-        .populate({ path: "currentHolder", select: "email" })
-        .populate({ path: "book", select: "title" })
-        .populate({ path: "item", select: "description" })
-        .populate(["borrowrequest", "returnrequest", "status", "message"])
-        .select({
-          text: 1,
-          createdAt: 1,
-          updatedAt: 1,
-        });
+    //filters for all notifications 
+    if(req.user.isAdmin == true){
+    let results = await Notifications.find({ })
+      .populate({ path: "requestingUser", select: "email" })
+      .populate({ path: "currentHolder", select: "email" })
+      .populate({ path: "book", select: "title" })
+      .populate({ path: "item", select: "description" })
+      .populate(["borrowrequest", "returnrequest", "status", "message"])
+      .select({
+        text: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      });
 
     res.status(200).json({
-        Results: filtered,
+      Results: results,
     });
-  } catch (err) {
+  }
+ } catch (err) {
     console.log(err);
 
     res.status(500).json({
@@ -160,6 +137,7 @@ router.get("/user/", async (req, res) => {
     });
   }
 });
+
 
 //updates specific notification
 router.put("/update/:_id", async (req, res) => {

@@ -90,12 +90,6 @@ router.get("/email/:email", Validate, async (req, res) => {
 
 
 
-    res.status(500).json({
-      Error: err,
-    });
-  }
-});
-
 //login
 
 router.post("/login/", async (req,res) => {
