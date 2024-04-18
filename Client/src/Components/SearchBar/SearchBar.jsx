@@ -1,13 +1,12 @@
 import { useState } from "react";
 import config from "../../config.json";
+import { getToken } from "../../localStorage";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState(""); // State to hold the user input
   const [books, setBooks] = useState([]); // State to hold the search results
   const [showResultsPopup, setShowResultsPopup] = useState(false); // State to control popup visibility
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MWJmY2QzMzcwODdmNGM0ZjNlODNmYyIsImlhdCI6MTcxMzIzMjI2OSwiZXhwIjoxNzEzMzE4NjY5fQ._oWH1WzFRk7p9KEQiC1psEAPK-gCMKDcSfr90u4snHU";
   // Function to fetch books based on the search term
   const searchBooks = async (event) => {
     event.preventDefault();
@@ -15,7 +14,7 @@ export default function SearchBar() {
     const response = await fetch(config.backend_url + `book/searchThrough?q=${encodeURIComponent(searchTerm)}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
     const data = await response.json(); // Parse the JSON response
