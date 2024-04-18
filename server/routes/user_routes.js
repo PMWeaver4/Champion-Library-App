@@ -11,6 +11,28 @@ const User = require("../models/user");
 
 const Validate = require("../middleware/validate");
 
+const PASS = process.env.PASS;
+
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "live.smtp.mailtrap.io",
+  port: 587,
+  auth: {
+    user: "api",
+    pass: PASS
+  },
+});
+async function mail(toEmail, emailSubject, emailText) {
+  // send mail with defined transport object
+  const info = await transporter.sendMail({
+    from: "info@demomailtrap.com", // sender address
+    to: toEmail, // list of receivers
+    subject: emailSubject, // Subject line
+    text: emailText, // plain text body
+  });
+}
+
 //creating Username
 router.post("/create/", async (req, res) => {
   try {
@@ -237,3 +259,5 @@ router.delete("/delete/:_id", Validate, async (req, res) => {
 });
 
 module.exports = router;
+
+//Trang
