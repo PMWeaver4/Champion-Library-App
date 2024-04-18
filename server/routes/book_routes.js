@@ -116,6 +116,8 @@ router.put("/update/:_id", async (req, res) => {
   try {
     //find a book that matches the mongo id
     const bookToUpdate = await Book.findOne({ _id: req.params._id }).exec();
+    if (bookToUpdate.user == req.user.email || req.user.isAdmin == true){
+     
     //a list of values to be updated
     const updatedValues = {
       title: req.body.title,
@@ -133,7 +135,7 @@ router.put("/update/:_id", async (req, res) => {
       Updated: updatedValues,
       Results: updatedValues,
     });
-  } catch (err) {
+  }} catch (err) {
     res.status(500).json({
       Error: err,
     });
@@ -143,6 +145,7 @@ router.put("/update/:_id", async (req, res) => {
 // [DELETE] - Remove a book.
 router.delete("/delete/:id", async (req, res) => {
   try {
+    
     //find a book by its mongo id and delete it
     const book = await Book.findByIdAndDelete(req.params.id);
     //error if the book id does not match
