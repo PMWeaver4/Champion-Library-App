@@ -3,7 +3,6 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import BookTile from "../../Components/ItemTIles/BookTile";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
-import CameraScanner from "../../Components/CameraScanner/CameraScanner";
 import config from "../../config.json";
 const ScanningStateEnum = {
   AddingBookFailed: -1,
@@ -17,7 +16,7 @@ const ScanningStateEnum = {
 // TODO logic for popups to submit and add new item
 export default function ViewAll_LibraryBooks() {
   const [showAddBookPopup, setShowAddBookPopup] = useState(false);
-  const [isBarcodeScannerOpen, setIsBarcodeScannerOpen] = useState(false);
+
 
   // for Adding a new book
   const [newBookTitle, setNewBookTitle] = useState("");
@@ -35,32 +34,6 @@ export default function ViewAll_LibraryBooks() {
 
   function handleCloseBookPopup() {
     setShowAddBookPopup(false);
-  }
-
-  // barcode scanner popup
-  function openBarcodeScannerPopup() {
-    setAddingBookState(ScanningStateEnum.ScanningBook);
-  }
-  // const token for testing purposes only
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MWJmY2QzMzcwODdmNGM0ZjNlODNmYyIsImlhdCI6MTcxMzExMDIyNywiZXhwIjoxNzEzMjgzMDI3fQ.OqOhnLlzsCRF9fBTzT3KyXTN4Kie_qQsucDOoQGt4VY";
-  // decode and close barcode scanner
-  async function handleBarcodeResult(isbn) {
-    console.log(isbn);
-    setAddingBookState(ScanningStateEnum.AddingBookInProgress);
-    const response = await fetch(config.backend_url + `fetch/bookSubmit/${isbn}`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (response.status !== 200) {
-      //error state
-      setAddingBookState(ScanningStateEnum.AddingBookFailed);
-      return;
-    }
-
-    setAddingBookState(ScanningStateEnum.AddingBookSuccess);
-    handleCloseBookPopup();
   }
 
   function handleNewBookSubmit(event) {
@@ -179,7 +152,7 @@ export default function ViewAll_LibraryBooks() {
                   Add Book{" "}
                 </button>
               </form>
-              <button className="popup-btn" onClick={openBarcodeScannerPopup}>
+              <button className="popup-btn">
                 {" "}
                 Barcode scanner{" "}
               </button>
@@ -191,7 +164,6 @@ export default function ViewAll_LibraryBooks() {
             </div>
           </div>
         )}
-        {addingBookState === ScanningStateEnum.ScanningBook && <CameraScanner onDetected={handleBarcodeResult} />}
       </PageTemplate>
     </main>
   );
