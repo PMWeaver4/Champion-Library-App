@@ -57,8 +57,8 @@ router.post("/create/", async(req,res) => {
         let RequestedItem = await Item.find({_id: newNotifications.item},{"description":1,"_id":0});
         theRequest = RequestedItem[0].description;
         }
-        let Requester = await User.find({_id: newNotifications.requestingUser},{"email":1,"_id":0});
-        let requester = Requester[0].email;
+        let Requester = await User.find({_id: newNotifications.requestingUser});
+        let requester = Requester[0].firstName + Requester[0].lastName;
         let emailSubject = `New Request`;
         let emailText = `${requester} is requesting ${theRequest} from ${toEmail}`
 
@@ -144,6 +144,7 @@ router.put("/update/:_id", async (req, res) => {
     try {
         //finds notification by ID
         const notificationsUpdate = await Notifications.findOne({_id: req.params._id}).exec()
+        const oldNotification = notificationsUpdate;
         //receives and stores values to update the notification
         const updatedValues = {
             borrowrequest: req.body.borrowrequest,
@@ -156,7 +157,9 @@ router.put("/update/:_id", async (req, res) => {
         //inserts values into updated notification
        await notificationsUpdate.updateOne(updatedValues).exec();
 
-               //send an email to the owner that a request has been made
+       //sends an email if the status changes from pending
+       if(oldNotification.status == "pending" && (notificationsUpdate.status =="accepted" || notificationsUpdate.status =="declined")){
+               //send an email to the borrower that a change has been made
                let theRequest = "";
                let Email = await User.find({_id: notificationsUpdate.requestingUser},{"email":1,"_id":0});
                let toEmail = Email[0].email;
@@ -169,13 +172,13 @@ router.put("/update/:_id", async (req, res) => {
                theRequest = RequestedItem[0].description;
                }
                let CurrentOwner = await User.find({_id: notificationsUpdate.currentOwner},{"email":1,"_id":0});
-               let owner = CurrentOwner[0].email;
+               let owner = CurrentOwner[0].firstName + CurrentOwner[0].lastName;
                let emailSubject = `Updated Request`;
-               let emailText = `${owner} has changed the status of your request for ${theRequest} to ${notificationsUpdate.status}`
+               let emailText = `${owner} has changed the status of your request for ${theRequest} to ${notificationsUpdate.status}. ${notificationsUpdate.message}`
        
                
                mail(toEmail, emailSubject, emailText);
-
+              }
         //shows the new values
         res.status(200).json({
             Updated: updatedValues,
@@ -193,9 +196,7 @@ router.delete("/delete/:id", async (req, res) => {
   try {
     const notifications = await Notifications.findByIdAndDelete(req.params.id);
 
-
         if (!notifications) throw new Error("Book/item notification not found");
-
 
     res.status(200).json({
       Deleted: 1,
@@ -206,5 +207,8 @@ router.delete("/delete/:id", async (req, res) => {
     });
   }
 });
+
+
+
 
 module.exports = router;
