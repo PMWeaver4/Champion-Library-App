@@ -114,8 +114,11 @@ router.get("/filter/", async (req, res) => {
 //[PUT] Adding Update Endpoint
 router.put("/update/:_id", async (req, res) => {
   try {
+    if (itemToUpdate.user == req.user.email || req.user.isAdmin == true){
     //find a book that matches the mongo id
-    const bookToUpdate = await Book.findOne({ _id: req.params._id }).exec();
+    const bookToUpdate = await Book.findOne({ _id: req.params._id }).exec()};
+    if (bookToUpdate.user == req.user.email || req.user.isAdmin == true){
+     
     //a list of values to be updated
     const updatedValues = {
       title: req.body.title,
@@ -133,7 +136,7 @@ router.put("/update/:_id", async (req, res) => {
       Updated: updatedValues,
       Results: updatedValues,
     });
-  } catch (err) {
+  }} catch (err) {
     res.status(500).json({
       Error: err,
     });
@@ -147,7 +150,7 @@ router.delete("/delete/:id", async (req, res) => {
     const book = await Book.findByIdAndDelete(req.params.id);
     //error if the book id does not match
     if (!Book) throw new Error("Book not found");
-
+    else if (bookToUpdate.user == req.user.email || req.user.isAdmin == true)
     res.status(200).json({
       Deleted: 1,
     });
@@ -164,9 +167,9 @@ router.get("/searchThrough", async (req, res) => {
   try {
     // RegExp is regular expression
     const regex = new RegExp(searchString, "i");
-    const books = await Book.find({
-      $or: [{ genre: regex }, { title: regex }, { author: regex }],
-    });
+    const books = await Book.find(
+      $or, [{ genre: regex }, { title: regex }, { author: regex }],{
+     })
     // Send the found books back to the client
     res.json(books);
   } catch (error) {
