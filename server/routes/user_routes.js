@@ -11,6 +11,28 @@ const User = require("../models/user");
 
 const Validate = require("../middleware/validate");
 
+const PASS = process.env.PASS;
+
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "live.smtp.mailtrap.io",
+  port: 587,
+  auth: {
+    user: "api",
+    pass: PASS
+  },
+});
+async function mail(toEmail, emailSubject, emailText) {
+  // send mail with defined transport object
+  const info = await transporter.sendMail({
+    from: "info@demomailtrap.com", // sender address
+    to: toEmail, // list of receivers
+    subject: emailSubject, // Subject line
+    text: emailText, // plain text body
+  });
+}
+
 //creating Username
 router.post("/create/", async (req, res) => {
   try {
@@ -32,7 +54,17 @@ router.post("/create/", async (req, res) => {
       lastName: newUser.lastName,
       email: newUser.email,
       isAdmin: newUser.isAdmin,
+      approved: newUser.approved
     };
+
+    
+    let usersToEmail = await User.find({isAdmin: true});
+    let toEmail = usersToEmail.map(obj => obj.email);//not just 0th element!
+    let emailSubject = `New User Request from ${newUser.firstName} ${newUser.lastName}`
+    let emailText = `${newUser.firstName} ${newUser.lastName} is requesting to join South Meadows Library with ${newUser.email} as their username/email`
+    console.log(toEmail, emailSubject, emailText);
+    mail(toEmail, emailSubject, emailText);
+
     res.status(200).json({
       // only contains necessary data
       Created: returnData,
@@ -179,6 +211,8 @@ router.put("/adminUpdate/:email",Validate, async (req,res) => {
         const email = req.params.email;
         //get the info to update user
         const usersUpdatedInformation = req.body;
+        //keep the old information to compare (important for if status was changed to approved)
+        const oldUser = await User.findOne({email: email});
         //match the user by email
         const updatedUser = await User.findOne({email: email});
          //if no user match
@@ -189,7 +223,15 @@ router.put("/adminUpdate/:email",Validate, async (req,res) => {
 
        //otherwise, update that user w/ new info
        await User.updateOne({_id: updatedUser._id}, usersUpdatedInformation);
-        
+       
+
+       if(usersUpdatedInformation.approved == true && oldUser.approved == false) {
+        let userToEmail = await User.find({email: email});
+        let toEmail = userToEmail[0].email
+        let emailSubject = `Welcome to South Meadows Library`
+        let emailText = `Congratulations! You have been approved to use the South Meadows Library.`;
+        mail(toEmail, emailSubject, emailText);
+       }
     
         res.status(200).json({
             status: "User information updated successfully",
@@ -237,3 +279,5 @@ router.delete("/delete/:_id", Validate, async (req, res) => {
 });
 
 module.exports = router;
+
+//Trang
