@@ -80,23 +80,25 @@ router.get("/item/:_id", async (req, res) => {
 
 router.put("/update/:_id", async (req, res) => {
     try {
-        
         //find a single item by its mongodb id
         const itemToUpdate = await Item.findOne({_id: req.params._id}).exec()
         //receives values to update
+        console.log(itemToUpdate.user, req.user.email, req.user.isAdmin)
         if (itemToUpdate.user == req.user.email || req.user.isAdmin == true){
-        const updatedValues = {
-            description: req.body.description,
-            itemType: req.body.itemType,
-            condition: req.body.condition,
-            rentedUser: req.body.rentedUser,
-            checkedout: req.body.checkedOut,
-        }  
-        //inserts values into item
-       await itemToUpdate.updateOne(updatedValues).exec();
-        //display it
-        res.status(200).json({
-            Updated: updatedValues,
+                const updatedValues = {
+                description: req.body.description,
+                itemType: req.body.itemType,
+                condition: req.body.condition,
+                rentedUser: req.body.rentedUser,
+                checkedout: req.body.checkedOut,
+            }  
+            //inserts values into item
+            await itemToUpdate.updateOne(updatedValues).exec();
+            //display it
+            res.status(200).json(
+               {
+                // Updated: updatedValues,
+                
             Results: updatedValues,
         });
     }
