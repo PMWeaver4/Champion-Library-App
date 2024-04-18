@@ -8,7 +8,8 @@
     .home-banner {
       margin-top: 1.25rem;
       border-radius: 16px;
-      height: 30%;
+      height: fit-content;
+      padding: 1.5rem;
       .welcome-msg,
       .slogan {
         font-size: 1.25rem;

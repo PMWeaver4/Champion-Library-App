@@ -1,7 +1,7 @@
 export default function BookTile({ book }) {
 
 // maximum characters
-  const MAX_CHAR = 20;
+  const MAX_CHAR = 12;
 
   return (
     <div className="book-tile">

@@ -6,6 +6,8 @@ import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import BookTile from "../../Components/ItemTIles/BookTile";
 import { NavLink, Navigate } from "react-router-dom";
 import { getToken, isLoggedIn } from "../../localStorage";
+import GameTile from "../../Components/ItemTIles/GameTile";
+import OtherTile from "../../Components/ItemTIles/OtherTile";
 
 // SETTINGS CONSTANTS
 const MAX_NUM_ELEMENTS_IN_CAROUSEL = 10;
@@ -49,6 +51,32 @@ export default function Home() {
     getAvailableBooks(); // im calling the fetchBooks function
   }, []); // empty array this effect should run once when the component mounts
 
+  // fetch items
+  const [items, setItems] = useState([]);
+  const [gameItems, setGameItems] = useState([]);
+  const [otherItems, setOtherItems] = useState([]);
+
+  async function getAvailableItems() {
+    const response = await fetch(config.backend_url + "item/allavailable", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const itemData = await response.json(); // the response is directly an array of items
+    if (response.status !== 200) {
+      console.error("Failed to fetch items");
+      return;
+    }
+    setItems(itemData);
+    setOtherItems(itemData.Results.filter((item) => item.itemType === "other"));
+    setGameItems(itemData.Results.filter((item) => item.itemType === "game"));
+  }
+
+  useEffect(() => {
+    getAvailableItems();
+  }, []);
+
   return !isLoggedIn() ? (
     <Navigate to="/" replace />
   ) : (
@@ -90,7 +118,11 @@ export default function Home() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {gameItems.map((game) => (
+                  <CarouselItem key={game._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <GameTile game={game} />
+                  </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -105,7 +137,11 @@ export default function Home() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {otherItems.map((other) => (
+                  <CarouselItem key={other._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                    <OtherTile other={other}/>
+                  </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
