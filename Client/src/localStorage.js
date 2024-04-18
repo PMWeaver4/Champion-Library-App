@@ -1,6 +1,5 @@
 // logged in
 export function isLoggedIn() {
-    console.log("isLoggedIn");
     return getEmail() != null && getToken() != null;
 }
 

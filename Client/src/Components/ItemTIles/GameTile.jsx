@@ -1,8 +1,8 @@
-export default function GameTile(){
-    return (
-        <div className="game-tile">
-            <img src="/images/games.png"/>
-            <h1 className="game-title">Chess</h1>
-        </div>
-    );
+export default function GameTile({ game }) {
+  return (
+    <div className="game-tile">
+      <img src={game.img} />
+      <h1 className="game-title">{game.itemName}</h1>
+    </div>
+  );
 }
