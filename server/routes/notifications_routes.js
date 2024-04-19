@@ -138,6 +138,53 @@ router.get("/all", async (req, res) => {
   }
 });
 
+// get all for borrowRequest
+
+router.get("/all/:borrowRequest", async (req, res) => {
+  try {
+  let filtered = await Notifications.find({borrowRequest: req.params.borrowRequest})
+  .populate(["borrowrequest", "status", "message"])
+  .select({
+  text: 1,
+  createdAt:1,
+  updatedAt: 1,
+  });
+  res.status(200).json({
+  Results: filtered,
+  });
+  } catch (err) {
+  console.log(err);
+  
+  res.status(500).json({
+  Error: err,
+  });
+  }
+  });
+  
+  // get all returnRequest
+  
+  router.get("/all/:returnRequest", async (req, res) => {
+  try {
+  let filtered = await Notifications.find({returnrequest: req.params.returnRequest})
+  .populate(["returnrequest", "status", "message"])
+  .select({
+  text: 1,
+  createdAt: 1,
+  updatedAt: 1,
+  });
+  
+  res.status(200).json({
+  Results: filtered,
+  });
+  } catch (err) {
+  console.log(err);
+  
+  res.status(500).json({
+  Error: err,
+  });
+  }
+  });
+
 
 //updates specific notification
 router.put("/update/:_id", async (req, res) => {
