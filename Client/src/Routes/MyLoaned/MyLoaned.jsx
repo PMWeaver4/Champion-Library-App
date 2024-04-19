@@ -6,10 +6,11 @@ export default function MyLoaned() {
     <main className="loaned-page">
       <PageTemplate pageTitle="Loaned">
         <div className="loaned-body">
+        <div className="library-msg">Loaned To Users</div>
           <nav className="library-nav">
             <ul>
               <li className="not-selected">
-                <NavLink to="/my-library"> My Library</NavLink>
+                <NavLink to="/my-library">Library</NavLink>
               </li>
               <li className="not-selected">
                 <NavLink to="/my-library/borrowed">Borrowed</NavLink>

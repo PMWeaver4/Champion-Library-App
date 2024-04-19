@@ -4,12 +4,13 @@ import { NavLink, Navigate } from "react-router-dom";
 export default function MyLibrary() {
   return (
     <main className="library-page">
-      <PageTemplate pageTitle="My Library">
+      <PageTemplate pageTitle="Library">
         <div className="library-body">
+          <div className="library-msg">Your Personal Library</div>
           <nav className="library-nav">
             <ul>
               <li className="selected">
-                <NavLink> My Library</NavLink>
+                <NavLink> Library</NavLink>
               </li>
               <li>
                 <NavLink to="/my-library/borrowed">Borrowed</NavLink>

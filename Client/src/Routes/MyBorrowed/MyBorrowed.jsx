@@ -6,9 +6,10 @@ export default function MyBorrowed() {
     <main className="borrowed-page">
       <PageTemplate pageTitle="Borrowed">
         <div className="borrowed-body">
+        <div className="library-msg">Borrowed Currently</div>
             <nav className="library-nav">
                 <ul>
-                    <li className="not-selected"><NavLink to="/my-library"> My Library</NavLink></li>
+                    <li className="not-selected"><NavLink to="/my-library">Library</NavLink></li>
                     <li className="selected"><NavLink to="/my-library/borrowed">Borrowed</NavLink></li>
                     <li className="not-selected"><NavLink to="/my-library/loaned">Loaned</NavLink></li>
                 </ul>
