@@ -40,67 +40,69 @@ export default function MyLoaned() {
   return (
     <main className="loaned-page">
       <PageTemplate pageTitle="Loaned">
-        <div className="loaned-body">
-          <div className="library-msg">Loaned To Users</div>
-          <nav className="library-nav">
-            <ul>
-              <li className="not-selected">
-                <NavLink to="/my-library">Library</NavLink>
-              </li>
-              <li className="not-selected">
-                <NavLink to="/my-library/borrowed">Borrowed</NavLink>
-              </li>
-              <li className="selected">
-                <NavLink to="/my-library/loaned">Loaned</NavLink>
-              </li>
-            </ul>
-          </nav>
-          <div className="books-container">
-            <div className="view-container">
-              <h3>Loaned Books</h3>
-              <button className="view-btn view-books-btn" onClick={() => openLoanedPopup(MyLoanedPopupsEnum.AllBooks)}>
-                View all
-              </button>
+        {loanedPopupState == MyLoanedPopupsEnum.None && (
+          <div className="loaned-body">
+            <div className="library-msg">Loaned To Users</div>
+            <nav className="library-nav">
+              <ul>
+                <li className="not-selected">
+                  <NavLink to="/my-library">Library</NavLink>
+                </li>
+                <li className="not-selected">
+                  <NavLink to="/my-library/borrowed">Borrowed</NavLink>
+                </li>
+                <li className="selected">
+                  <NavLink to="/my-library/loaned">Loaned</NavLink>
+                </li>
+              </ul>
+            </nav>
+            <div className="books-container">
+              <div className="view-container">
+                <h3>Loaned Books</h3>
+                <button className="view-btn view-books-btn" onClick={() => openLoanedPopup(MyLoanedPopupsEnum.AllBooks)}>
+                  View all
+                </button>
+              </div>
+              <Carousel className="w-8/12 self-center">
+                <CarouselContent>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
             </div>
-            <Carousel className="w-8/12 self-center">
-              <CarouselContent>
-                <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
-          <div className="board-games-container">
-            <div className="view-container">
-              <h3>Loaned Games</h3>
-              <button className="view-btn view-boardgames-btn" onClick={() => openLoanedPopup(MyLoanedPopupsEnum.AllGames)}>
-                View all
-              </button>
+            <div className="board-games-container">
+              <div className="view-container">
+                <h3>Loaned Games</h3>
+                <button className="view-btn view-boardgames-btn" onClick={() => openLoanedPopup(MyLoanedPopupsEnum.AllGames)}>
+                  View all
+                </button>
+              </div>
+              <Carousel className="w-8/12 self-center">
+                <CarouselContent>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
             </div>
-            <Carousel className="w-8/12 self-center">
-              <CarouselContent>
-                <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
-          <div className="others-container">
-            <div className="view-container">
-              <h3>Loaned Items</h3>
-              <button className="view-btn view-others-btn" onClick={() => openLoanedPopup(MyLoanedPopupsEnum.AllOther)}>
-                View all
-              </button>
+            <div className="others-container">
+              <div className="view-container">
+                <h3>Loaned Items</h3>
+                <button className="view-btn view-others-btn" onClick={() => openLoanedPopup(MyLoanedPopupsEnum.AllOther)}>
+                  View all
+                </button>
+              </div>
+              <Carousel className="w-8/12 self-center">
+                <CarouselContent>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
             </div>
-            <Carousel className="w-8/12 self-center">
-              <CarouselContent>
-                <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
           </div>
-        </div>
+        )}
         {loanedPopupState !== MyLoanedPopupsEnum.None && getCurrentOpennedPopup()}
       </PageTemplate>
     </main>
