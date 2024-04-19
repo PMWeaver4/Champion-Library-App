@@ -33,7 +33,7 @@ export default function AllBooks() {
       <PageTemplate pageTitle="BOOKS">
         <div className="all-books-body">
           <div className="view-all-headers">
-            <NavLink to="/home">
+            <NavLink className="back-btn-home" to="/home">
               <i className="fa-solid fa-arrow-left"></i>
             </NavLink>
             <h1>BOOKS</h1>
