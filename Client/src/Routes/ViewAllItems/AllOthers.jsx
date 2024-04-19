@@ -35,7 +35,7 @@ export default function AllOthers({ pageTitle }) {
       <PageTemplate pageTitle="OTHER">
         <div className="all-others-body">
           <div className="view-all-headers">
-            <NavLink to="/home">
+            <NavLink className="back-btn-home" to="/home">
               <i className="fa-solid fa-arrow-left"></i>
             </NavLink>
             <h1>OTHER</h1>
