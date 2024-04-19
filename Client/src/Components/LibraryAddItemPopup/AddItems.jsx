@@ -17,6 +17,8 @@ export default function AddItems({ onClosePopup }) {
   }
 
   return (
+    <div className="popup-background">
+
     <div className="popup">
       <div className="popup-inner">
         <h2 className="title"> Add New Item 📦</h2>
@@ -60,6 +62,7 @@ export default function AddItems({ onClosePopup }) {
           Close{" "}
         </button>
       </div>
+    </div>
     </div>
   );
 }

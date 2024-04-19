@@ -19,6 +19,7 @@ export default function AddGames({ onClosePopup }) {
   }
 
   return (
+    <div className="popup-background">
     <div className="popup">
       <div className="popup-inner">
         <h2 className="title"> Add New Game 🎲</h2>
@@ -62,6 +63,7 @@ export default function AddGames({ onClosePopup }) {
           Close{" "}
         </button>
       </div>
+    </div>
     </div>
   );
 }
