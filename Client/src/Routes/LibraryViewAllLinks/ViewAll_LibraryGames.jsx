@@ -85,21 +85,7 @@ export default function ViewAll_LibraryGames() {
           </div>
 
           <div className="view-all-grid">
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
-            < GameTile />
+
           </div>
         </div>
         

@@ -64,21 +64,7 @@ export default function ViewAll_LibraryBooks() {
             Add New Book +{" "}
           </button>
           <div className="view-all-grid">
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
-            <BookTile />
+
           </div>
         </div>
 

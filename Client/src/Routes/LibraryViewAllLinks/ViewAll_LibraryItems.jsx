@@ -46,19 +46,7 @@ export default function ViewAll_LibraryGames() {
 
           </div>
           <div className="view-all-grid">
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
-            < OtherTile />
+
           </div>
         </div>
         {/* adding misc popup */}
