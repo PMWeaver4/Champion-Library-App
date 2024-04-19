@@ -19,8 +19,9 @@ export default function AddBooks({ onClosePopup }) {
     // close the pop-up
     setShowAddBookPopup(false);
   }
-
+// ! Need to add a popup that will return the book added successfully or failed
   return (
+    <div className="popup-background">
     <div className="popup">
       <div className="popup-inner">
         <h2 className="title"> Add New Book 📚</h2>
@@ -90,6 +91,7 @@ export default function AddBooks({ onClosePopup }) {
           Close
         </button>
       </div>
+    </div>
     </div>
   );
 }

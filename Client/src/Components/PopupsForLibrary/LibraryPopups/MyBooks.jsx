@@ -27,12 +27,7 @@ export default function MyBooks({ onClose, handleAddBookClick }) {
             <i className="fa-solid fa-square-plus"></i>
           </button>
         </div>
-        <div className="view-all-grid">
-          <div>Hello</div>
-          <div>How</div>
-          <div>Are</div>
-          <div>You</div>
-        </div>
+        <div className="view-all-grid"></div>
       </div>
       {showAddBookPopup && <AddBooks onClosePopup={handleCloseBookPopup} />}
       {/* </PageTemplate> */}
