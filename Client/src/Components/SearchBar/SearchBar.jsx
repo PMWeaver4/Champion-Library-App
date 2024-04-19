@@ -32,7 +32,9 @@ export default function SearchBar() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)} // Update state on input change
         />
-        <button className="search-btn">Search</button>
+        <button className="search-btn">
+          <i className="fa-solid fa-magnifying-glass"></i>
+        </button>
       </form>
       {/* Button to trigger the search */}
       {showResultsPopup && (
@@ -47,8 +49,12 @@ export default function SearchBar() {
                 <div className="search-result-book-tile" key={index}>
                   <img src={book.img} />
                   <h3>{book.title}</h3>
-                  <p>Author: {book.author}</p>
-                  <p>Genre: {book.genre}</p>
+                  <p>
+                    <strong>Author:</strong> {book.author}
+                  </p>
+                  <p>
+                    <strong>Genre: </strong> {book.genre}
+                  </p>
                 </div>
               )
             )

@@ -1,11 +1,14 @@
 body {
   height: 100svh;
   width: 100svw;
+  background-color: #003366;
+  font-family: "Inter", sans-serif;
   #root {
     height: 100svh;
     width: 100svw;
     display: flex;
     flex-direction: column;
     background-color: #003366;
+    font-family: "Inter", sans-serif;
   }
 }

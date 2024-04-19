@@ -48,7 +48,7 @@ return <Navigate to="/" replace/>
             <p>Account</p>
           </NavLink>
         </li>
-        <li className="menu-btns-container logout" onClick={() => onLogout()}>
+        <li className="menu-btns-container logout" onClick={onLogout}>
           <button>
             <i className="fa-solid fa-right-from-bracket"></i>
             <p>Logout</p>

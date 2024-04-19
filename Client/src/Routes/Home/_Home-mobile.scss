@@ -74,6 +74,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       border-radius: 1rem;
+      justify-content: space-evenly;
       .books-container,
       .board-games-container,
       .others-container {
@@ -91,11 +92,10 @@
       }
     }
   }
+
 }
 
-.active {
-  background-color: white;
-}
+
 
 // carousel
 .min-w-0,
