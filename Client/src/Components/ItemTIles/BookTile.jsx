@@ -1,6 +1,5 @@
 export default function BookTile({ book }) {
-
-// maximum characters
+  // maximum characters
   const MAX_CHAR = 12;
 
   return (

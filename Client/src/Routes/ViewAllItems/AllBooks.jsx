@@ -38,7 +38,9 @@ export default function AllBooks() {
             </NavLink>
             <h1>BOOKS</h1>
           </div>
+          <div className="search-bar-container">
           <SearchBar />
+          </div>
           <div className="view-all-grid">
             {/* display all the available books */}
             {books.map((book) => (

@@ -1,16 +1,14 @@
-.all-books-page,
-.all-games-page,
-.all-others-page {
+// combines css for all the popups across the library, borrowed, loaned pages
+.my-popups-page {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
   height: 100%;
-  position: relative;
-  .all-books-body,
-  .all-games-body,
-  .all-others-body {
+  position: absolute;
+  inset: 0;
+  .my-popups-body {
     max-height: 100%;
     display: flex;
     flex-direction: column;
@@ -19,7 +17,17 @@
     height: 100%;
     position: relative;
     .view-all-headers {
-      a {
+        .library-popup-msg {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 4px 8px;
+            color: white;
+            background-color: #003366;
+            border-radius: .25rem;
+            text-align: center;
+            filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.547));
+          }
+      button {
         i {
           position: absolute;
           top: 0.5rem;
@@ -32,16 +40,10 @@
             color: greenyellow;
           }
         }
-
       }
       h1 {
         display: none;
       }
-    }
-    .search-bar-container {
-      padding-top: 3rem;
-      width: 80%;
-      border-radius: 4px;
     }
     .view-all-grid {
       display: grid;
