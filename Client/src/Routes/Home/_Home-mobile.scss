@@ -18,7 +18,7 @@
     border-radius: 1rem;
     .home-banner {
       margin-top: 1rem;
-      height: 20%;
+      height: fit-content;
       width: 90%;
       border-radius: 16px;
       background-color: #003366;
@@ -28,7 +28,7 @@
       align-items: center;
       text-align: center;
       filter: drop-shadow(1px 1px 2px grey);
-      padding: 4px;
+      padding: 12px;
       .welcome-msg,
       .slogan {
         color: white;

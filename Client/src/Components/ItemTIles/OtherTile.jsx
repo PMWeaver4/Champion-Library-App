@@ -1,8 +1,8 @@
-export default function OtherTile(){
+export default function OtherTile({other}){
     return (
         <div className="other-tile">
-            <img src="/images/others.png"/>
-            <h1 className="other-title">Tool Box</h1>
+            <img src={other.img}/>
+            <h1 className="other-title">{other.itemName}</h1>
         </div>
     );
 }
