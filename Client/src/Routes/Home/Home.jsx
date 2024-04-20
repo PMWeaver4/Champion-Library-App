@@ -8,6 +8,7 @@ import { NavLink, Navigate } from "react-router-dom";
 import { getToken, isLoggedIn } from "../../localStorage";
 import GameTile from "../../Components/ItemTIles/GameTile";
 import OtherTile from "../../Components/ItemTIles/OtherTile";
+import BookProfileCard from "../../Components/ItemProfileCard/BookProfileCard";
 
 // SETTINGS CONSTANTS
 const MAX_NUM_ELEMENTS_IN_CAROUSEL = 10;
@@ -28,6 +29,32 @@ function shuffle(array) {
 }
 
 export default function Home() {
+  //? ----------------------------------Fetching Book that is selected to render book profile card info--------------------------
+  // states for opening a profilecard with corresponding book
+  const [selectedBook, setSelectedBook] = useState([]); // will contain the array of books
+
+  async function fetchTheBook() {
+    const response = await fetch(config.backend_url + "book/allavailable", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const oneBookData = await response.json();
+    if (response.status !== 200) {
+      console.error("Failed to fetch books");
+      return;
+    }
+  }
+
+  useEffect(() => {
+    setBooks(fetchTheBook());
+  }, []);
+
+  function handleBookClick(book) {
+    setSelectedBook(book);
+  }
+  //?-----------------------------------------Fetching Books To Display-------------------------------------------------
   // this state will store the book data in frontend (initially will be an empty array)
   const [books, setBooks] = useState([]);
 
@@ -50,7 +77,7 @@ export default function Home() {
   useEffect(() => {
     getAvailableBooks(); // im calling the fetchBooks function
   }, []); // empty array this effect should run once when the component mounts
-
+  //?-------------------------------------------Fetching Items (games and misc) to Display-------------------------------------------------------
   // fetch items
   const [items, setItems] = useState([]);
   const [gameItems, setGameItems] = useState([]);
@@ -77,6 +104,7 @@ export default function Home() {
     getAvailableItems();
   }, []);
 
+  //?-------------------------------------Return Home.jsx----------------------------------------------
   return !isLoggedIn() ? (
     <Navigate to="/" replace />
   ) : (
@@ -101,7 +129,7 @@ export default function Home() {
                   {/* Map over books array and create a CarouselItem for each book */}
                   {books.map((book) => (
                     <CarouselItem key={book._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                      <BookTile book={book} />
+                      <BookTile book={book} onClick={() => handleBookClick(book)} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -119,9 +147,9 @@ export default function Home() {
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
                   {gameItems.map((game) => (
-                  <CarouselItem key={game._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <GameTile game={game} />
-                  </CarouselItem>
+                    <CarouselItem key={game._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <GameTile game={game} />
+                    </CarouselItem>
                   ))}
                 </CarouselContent>
                 <CarouselPrevious />
@@ -138,9 +166,9 @@ export default function Home() {
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
                   {otherItems.map((other) => (
-                  <CarouselItem key={other._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <OtherTile other={other}/>
-                  </CarouselItem>
+                    <CarouselItem key={other._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <OtherTile other={other} />
+                    </CarouselItem>
                   ))}
                 </CarouselContent>
                 <CarouselPrevious />
@@ -149,9 +177,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {/* will need to make book profile card open when book tile is clicked same format will be done for item tile */}
+        {selectedBook && <BookProfileCard book={selectedBook} onClose={() => setSelectedBook(null)} />}
       </PageTemplate>
-      {/* <BookProfileCard /> */}
-      {/* will need to make book profile card open when book tile is clicked same format will be done for item tile */}
     </main>
   );
 }
