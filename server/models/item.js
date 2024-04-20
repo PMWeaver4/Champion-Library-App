@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./user");
 // added enum to itemType to differentiate and also PreSave hook for the correct corresponding image
 const ItemSchema = new mongoose.Schema({
   itemName: {
@@ -20,13 +21,14 @@ const ItemSchema = new mongoose.Schema({
     // thumbnail: String,
   },
   user: {
-    type: String,
-    minlength: 1,
-  },
-  rentedUser: {
-    type: String,
-    default: "",
-  },
+    type: mongoose.ObjectId,
+    required: true,
+    ref: User
+},
+rentedUser: {
+    type: mongoose.ObjectId,
+    ref: User
+},
   checkedout: {
     type: Boolean,
     default: false,

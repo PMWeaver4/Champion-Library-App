@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const User = require("./user");
 
 const BookSchema = new mongoose.Schema(
     {
@@ -18,16 +18,17 @@ const BookSchema = new mongoose.Schema(
             type: String,
         },
         user: {
-            type: String,
-            minlength: 1,
+            type: mongoose.ObjectId,
+            required: true,
+            ref: User
         },
         rentedUser: {
-            type: String,
-            default:""
+            type: mongoose.ObjectId,
+            ref: User
         },
         checkedout: {
             type: Boolean,
-            default: "false"
+            default: false
         },
         isbn: {
             type: Number,
