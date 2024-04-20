@@ -31,28 +31,30 @@ function shuffle(array) {
 export default function Home() {
   //? ----------------------------------Fetching Book that is selected to render book profile card info--------------------------
   // states for opening a profilecard with corresponding book
-  const [selectedBook, setSelectedBook] = useState([]); // will contain the array of books
+  const [selectedBook, setSelectedBook] = useState(null); // will contain the array of books
+  const [book, setBook] = useState([]); // for singular book detail? maybe
 
-  async function fetchTheBook() {
-    const response = await fetch(config.backend_url + "book/allavailable", {
+  async function fetchTheBook(bookId) {
+    const response = await fetch(config.backend_url + `book/book/${book._id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
     });
-    const oneBookData = await response.json();
-    if (response.status !== 200) {
-      console.error("Failed to fetch books");
-      return;
+    const bookDetails = await response.json();
+    if (response.status === 200) {
+      setBook(bookDetails);
+    } else {
+      console.error("Failed to fetch book details");
     }
   }
 
   useEffect(() => {
-    setBooks(fetchTheBook());
+    fetchTheBook();
   }, []);
 
   function handleBookClick(book) {
-    setSelectedBook(book);
+    fetchTheBook(book._id);
   }
   //?-----------------------------------------Fetching Books To Display-------------------------------------------------
   // this state will store the book data in frontend (initially will be an empty array)
@@ -178,7 +180,7 @@ export default function Home() {
           </div>
         </div>
         {/* will need to make book profile card open when book tile is clicked same format will be done for item tile */}
-        {selectedBook && <BookProfileCard book={selectedBook} onClose={() => setSelectedBook(null)} />}
+        {selectedBook && <BookProfileCard book={selectedBook} onClose={() => setSelectedBook(false)} />}
       </PageTemplate>
     </main>
   );
