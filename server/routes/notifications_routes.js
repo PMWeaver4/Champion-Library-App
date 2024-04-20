@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const moment = require('moment');
 const Notifications = require("../models/notifications");
 const User = require("../models/user");
 const Book = require("../models/book");
@@ -205,18 +206,26 @@ router.put("/update/:_id", async (req, res) => {
                   }
                   if (updatedNotifications.item!=null){
                   let RequestedItem = await Item.find({_id: updatedNotifications.item});
-                  const updatedItemValues = {
+                  let updatedItemValues = {
                     checkedout: true,
-                    // rentedUser: toEmail
+                    rentedUser: updatedNotifications.requestingUser
                   }
                   console.log(`3.5: ${updatedItemValues}`)
-                  await RequestedItem.updateOne(updatedItemValues).exec();
+                  await RequestedItem[0].updateOne(updatedItemValues).exec();
                   }
+                  console.log("3.6")
                   //set date to current
-                 updatedNotifications.borrowrequest = moment().format('MMMM Do YYYY, h:mm:ss a');
+                  let approveDate = moment().format();
+                  let returnDate = moment().add(14, 'days').calendar();
+                  console.log("3.75", approveDate, returnDate)
+                  const dateValues = {
+                      borrowrequest: approveDate,
+                      returnrequest: returnDate
+                  }
+                 await updatedNotifications.updateOne(dateValues).exec();
                  console.log(`4: ${updatedNotifications.borrowrequest}`)
                  //set return to current + 2 weeks
-                updatedNotifications.returnrequest = moment().add(14, 'days').calendar();
+            
                }
               //shows the new values
                res.status(200).json({
