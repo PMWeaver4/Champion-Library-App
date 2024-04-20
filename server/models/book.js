@@ -16,6 +16,7 @@ const BookSchema = new mongoose.Schema(
         },
         description: {
             type: String,
+            required: true,
         },
         user: {
             type: mongoose.ObjectId,
@@ -32,6 +33,7 @@ const BookSchema = new mongoose.Schema(
         },
         isbn: {
             type: Number,
+            required: false
         },
         genre: {
             type: Array,
