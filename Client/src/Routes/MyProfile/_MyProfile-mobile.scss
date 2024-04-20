@@ -9,8 +9,6 @@
   width: 100%;
   height: 100%;
   position: relative;
-  padding-top: 1rem;
-  padding-bottom: .5rem;
 
   .my-profile-body {
     max-height: 100%;
@@ -57,12 +55,17 @@
     flex-direction: column;
     justify-content: space-evenly;
 
-#firstName, #lastName, #email, #password, .settings-password, .settings-email  {
-  height: 2.5rem;
-  border-radius: .25rem;
-  font-size: 1rem;
-  border: 1px solid #003366;
-}
+    #firstName,
+    #lastName,
+    #email,
+    #password,
+    .settings-password,
+    .settings-email {
+      height: 2.5rem;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+      border: 1px solid #003366;
+    }
 
     label {
       display: block;
@@ -75,8 +78,8 @@
     .settings-btn {
       font-weight: bold;
       margin-top: 1rem;
-      padding: .5rem;
-      border-radius: .25rem;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
       background-color: #003366;
       color: #fff;
       border: none;
@@ -94,8 +97,8 @@
   .settings-del-btn,
   .settings-logout-btn {
     font-weight: bold;
-    padding: .5rem;
-    border-radius: .25rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
     background-color: maroon;
     color: #fff;
     border: none;

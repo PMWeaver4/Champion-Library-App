@@ -1,4 +1,4 @@
-export default function BookProfileCard() {
+export default function BookProfileCard({onClose, selectedBook}) {
   return (
     <div
       className="
@@ -6,13 +6,13 @@ export default function BookProfileCard() {
     >
       <div className="book-profile-card">
         <div className="card-overlay">
-          <button className="close-btn">
+          <button className="close-btn" onClick={onClose}>
             <i className="fa-solid fa-arrow-left"></i>
           </button>
           <div className="overlay-content">
             <div className="book-placeholder"></div>
             <div className="card-headers">
-              <h1 className="card-title">Title</h1>
+              <h1 className="card-title">Title</h1> 
               <h2 className="card-author">Author</h2>
               <button className="borrow-btn">Borrow</button>
             </div>
@@ -33,8 +33,9 @@ export default function BookProfileCard() {
                   <em>Owned By:</em> Genessi B.
                 </li>
                 <li className="title">
-                  <em>Title:</em> Lord of The Rings
-                </li>
+                  <em>Title:</em> Lord of The Rings 
+                </li> 
+                {/* change title class */}
                 <li className="author">
                   <em>Author:</em> Ronald McDonald
                 </li>
