@@ -32,33 +32,30 @@ export default function Home() {
   //? ----------------------------------Fetching Book that is selected to render book profile card info--------------------------
   // states for opening a profilecard with corresponding book
   const [selectedBook, setSelectedBook] = useState(null); // will contain the array of books
-  const [book, setBook] = useState([]); // for singular book detail? maybe
+  // this state will store the book data in frontend (initially will be an empty array)
+  const [books, setBooks] = useState([]);
 
   async function fetchTheBook(bookId) {
-    const response = await fetch(config.backend_url + `book/book/${book._id}`, {
+    const response = await fetch(config.backend_url + `book/book/${bookId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
     });
-    const bookDetails = await response.json();
+
     if (response.status === 200) {
-      setBook(bookDetails);
+      const bookDetails = await response.json();
+      setSelectedBook(bookDetails);
     } else {
       console.error("Failed to fetch book details");
     }
   }
 
-  useEffect(() => {
-    fetchTheBook();
-  }, []);
-
-  function handleBookClick(book) {
-    fetchTheBook(book._id);
+  function handleBookClick(bookId) {
+    fetchTheBook(bookId);
   }
   //?-----------------------------------------Fetching Books To Display-------------------------------------------------
-  // this state will store the book data in frontend (initially will be an empty array)
-  const [books, setBooks] = useState([]);
+
 
   async function getAvailableBooks() {
     const response = await fetch(config.backend_url + "book/allavailable", {
@@ -131,7 +128,8 @@ export default function Home() {
                   {/* Map over books array and create a CarouselItem for each book */}
                   {books.map((book) => (
                     <CarouselItem key={book._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                      <BookTile book={book} onClick={() => handleBookClick(book)} />
+                      <BookTile book={book} onClick={()=> handleBookClick(book._id)} />
+                      {/* trouble shooting here */}
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -180,7 +178,7 @@ export default function Home() {
           </div>
         </div>
         {/* will need to make book profile card open when book tile is clicked same format will be done for item tile */}
-        {selectedBook && <BookProfileCard book={selectedBook} onClose={() => setSelectedBook(false)} />}
+        {selectedBook && <BookProfileCard book={selectedBook} onClose={() => setSelectedBook(null)} />}
       </PageTemplate>
     </main>
   );

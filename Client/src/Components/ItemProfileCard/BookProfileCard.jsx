@@ -1,4 +1,4 @@
-export default function BookProfileCard({onClose}) {
+export default function BookProfileCard({onClose, selectedBook}) {
   return (
     <div
       className="
