@@ -1,17 +1,32 @@
 import { useState } from "react";
+import { getToken } from "../../localStorage";
+import config from "../../config.json";
 
 export default function IsbnEntry({ onClosePopup }) {
   const [newBookIsbn, setNewBookIsbn] = useState("");
 
   function handleNewBookSubmit(event) {
     event.preventDefault();
-    // submit data to backend need to add logic
-    // need to use fetch to make a POST request to backend API, will do this once everything is done and we merge with backend.
-    console.log("New book data:", newBookIsbn);
-    // reset input fields
-    setNewBookIsbn("");
-    // close the pop-up
-    setShowAddBookPopup(false);
+
+    // Use fetch to send a POST request to your backend
+    fetch(config.backend_url + `fetch/bookSubmit/${newBookIsbn}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Book added:", data);
+        // Reset the input field and close the popup after successful book addition
+        setNewBookIsbn("");
+        alert("Book successfully added!");
+        onClosePopup();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Failed to add the book");
+      });
   }
   return (
     <div className="popup-background">
@@ -25,7 +40,7 @@ export default function IsbnEntry({ onClosePopup }) {
             </label>
 
             <input
-              type="text"
+              inputMode="numeric"
               placeholder="Enter your books isbn"
               id="newBookIsbn"
               value={newBookIsbn}

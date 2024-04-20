@@ -5,15 +5,15 @@ const Book = require("../models/book");
 router.post("/create/", async (req, res) => {
   console.log(req);
   try {
+    const img = "/images/books.png";
     //assign book from schema
     let book = new Book({
       title: req.body.title,
       author: req.body.author,
       description: req.body.description,
-      user: req.user.email,
-      isbn: req.body.isbn,
+      user: req.user._id,
       genre: req.body.genre,
-      img: req.body.img,
+      img: img,
     });
     //save the new info
     const newBook = await book.save();
