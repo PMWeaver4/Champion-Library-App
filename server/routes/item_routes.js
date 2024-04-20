@@ -83,8 +83,8 @@ router.put("/update/:_id", async (req, res) => {
         //find a single item by its mongodb id
         const itemToUpdate = await Item.findOne({_id: req.params._id}).exec()
         //receives values to update
-        console.log(itemToUpdate.user, req.user.email, req.user.isAdmin)
-        if (itemToUpdate.user == req.user.email || req.user.isAdmin == true){
+        console.log(itemToUpdate.user, req.user._id, req.user.isAdmin)
+        if (itemToUpdate.user == req.user._id || req.user.isAdmin == true){
                 const updatedValues = {
                 description: req.body.description,
                 itemType: req.body.itemType,
@@ -114,7 +114,7 @@ router.delete("/delete/:itemId", async (req, res) => {
     try {
         //find item by mongodb id, and say goodbye
         const checkItem = await Item.findById(req.params.itemId)
-        if (checkItem.user == req.user.email || req.user.isAdmin == true){
+        if (checkItem.user == req.user._id || req.user.isAdmin == true){
         const item = await Item.findByIdAndDelete(req.params.itemId);
             //unless the id doesn't match an item
             if (!Item) throw new Error("Item not found");

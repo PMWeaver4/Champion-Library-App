@@ -101,6 +101,7 @@ router.get("/all/", async (req, res) => {
 });
 
 //Get user's email - we're using email as username
+//?actually, not anymore, probably no reason to get user by email now
 
 router.get("/email/:email", Validate, async (req, res) => {
     try {
