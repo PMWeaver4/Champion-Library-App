@@ -4,10 +4,10 @@ const Item = require("../models/item")
 
 
 //get all books by user
-router.get("/books/:email", async (req, res) => {
+router.get("/books/:_id", async (req, res) => {
     try {
-        //selects books owned by a specified user (identified by email)
-        let results = await Book.find({user: req.params.email});
+        //selects books owned by a specified user (identified by _id)
+        let results = await Book.find({user: req.params._id});
         res.status(200).json({
             Results: results,
         })
@@ -20,10 +20,10 @@ router.get("/books/:email", async (req, res) => {
     }
 });
 //get all available books by user
-router.get("/availablebooks/:email", async (req, res) => {
+router.get("/availablebooks/:_id", async (req, res) => {
     try {
         //selects all books owned by a specific user that are not checked out
-        let results = await Book.find({user: req.params.email, checkedout: false});
+        let results = await Book.find({user: req.params._id, checkedout: false});
 
         res.status(200).json({
             Results: results,
@@ -37,10 +37,10 @@ router.get("/availablebooks/:email", async (req, res) => {
     }
 });
 //get items by user
-router.get("/items/:email", async (req, res) => {
+router.get("/items/:_id", async (req, res) => {
     try {
-        //selects items owned by a specified user (identified by email)
-        let results = await Item.find({user: req.params.email});
+        //selects items owned by a specified user (identified by _id)
+        let results = await Item.find({user: req.params.id});
         res.status(200).json({
             Results: results,
         })
@@ -53,10 +53,10 @@ router.get("/items/:email", async (req, res) => {
     }
 });
 //get available items by user
-router.get("/availableitems/:email", async (req, res) => {
+router.get("/availableitems/:_id", async (req, res) => {
     try {
         //selects all items owned by a specific user that are not checked out
-        let results = await Item.find({user: req.params.email, checkout:false});
+        let results = await Item.find({user: req.params._id, checkout:false});
         res.status(200).json({
             Results: results,
         })
@@ -69,12 +69,12 @@ router.get("/availableitems/:email", async (req, res) => {
     }
 });
 //get items books and items by user
-router.get("/all/:email", async (req, res) => {
+router.get("/all/:_id", async (req, res) => {
     try {
-        //selects books owned by a specified user (identified by email)
-        let results = await Book.find({user: req.params.email});
-        //selects items owned by a specified user (identified by email)
-        let results2 = await Item.find({user: req.params.email});
+        //selects books owned by a specified user (identified by _id)
+        let results = await Book.find({user: req.params._id});
+        //selects items owned by a specified user (identified by _id)
+        let results2 = await Item.find({user: req.params._id});
         //puts them all together into one set of results
         results = results.concat(results2);
 
@@ -90,12 +90,12 @@ router.get("/all/:email", async (req, res) => {
     }
 });
 //get available items books and items by user
-router.get("/allavailable/:email", async (req, res) => {
+router.get("/allavailable/:_id", async (req, res) => {
     try {
         //selects all books owned by a specific user that are not checked out
-        let results = await Book.find({user: req.params.email, checkedout: false});
+        let results = await Book.find({user: req.params._id, checkedout: false});
         //selects all items owned by a specific user that are not checked out
-        let results2 = await Item.find({user: req.params.email, checkedout: false});
+        let results2 = await Item.find({user: req.params._id, checkedout: false});
         //puts them all together into one set of results
         results = results.concat(results2);
 
