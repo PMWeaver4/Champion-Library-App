@@ -36,7 +36,7 @@ router.post("/bookSubmit/:isbn", async (req, res) => {
       title: data.items[0].volumeInfo.title,
       author: data.items[0].volumeInfo.authors,
       description: data.items[0].volumeInfo.description,
-      user: req.user.email,
+      user: req.user._id,
       img: img,
       genre: data.items[0].volumeInfo.categories,
     });
