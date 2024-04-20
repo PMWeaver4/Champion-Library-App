@@ -1,0 +1,75 @@
+// combines css for all the popups across the library, borrowed, loaned pages
+.my-popups-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  .my-popups-body {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .view-all-headers {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      gap: 1rem;
+      padding-top: 2rem;
+      .add-item-btn {
+        position: relative;
+        display: flex;
+        width: fit-content;
+        padding: 0;
+
+        i {
+          font-size: 2rem;
+          &:hover {
+            color: #003366;
+          }
+        }
+      }
+      .library-popup-msg {
+        margin-top: 1rem;
+        width: 50%;
+        padding: 4px 8px;
+        color: white;
+        background-color: #003366;
+        border-radius: 0.25rem;
+        text-align: center;
+        filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.547));
+      }
+      button {
+        i {
+          position: absolute;
+          top: 0.5rem;
+          left: 0.5rem;
+          display: flex;
+          font-size: 1.5rem;
+          padding: 8px;
+          color: #003366;
+  
+        }
+      }
+      h1 {
+        display: none;
+      }
+    }
+    .view-all-grid {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      justify-items: center;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 2rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+}

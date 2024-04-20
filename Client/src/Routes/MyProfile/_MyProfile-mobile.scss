@@ -1,85 +1,86 @@
 // TODO need to figure out how to align content to the left and to the right
 
 .my-profile-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .my-profile-body {
+    max-height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
     width: 100%;
     height: 100%;
-    position: relative;
-    .my-profile-body {
-      max-height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      height: 90%;
+    overflow-y: scroll;
+    input {
+      font-size: 1rem;
+      border: 1px solid #003366;
+    }
+  }
+
+  .settings-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    width: 80%;
+    color: #fff;
+    background-color: #003366; /* Blue background color */
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Drop shadow */
+  }
+
+  .second-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #003366;
+    font-weight: bold;
+  }
+
+  form {
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    #firstName,
+    #lastName,
+    #email,
+    #password,
+    .settings-password,
+    .settings-email {
+      height: 2.5rem;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+      border: 1px solid #003366;
     }
 
-    .settings-title {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #fff;
-      padding: 10px 20px; /* Add padding */
-      background-color: #4a90e2; /* Blue background color */
-      border-radius: 20px; /* Rounded corners */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Drop shadow */
+    label {
+      display: block;
+      margin-bottom: 10px;
+      text-align: left;
+      font-size: 16px;
+      color: #003366;
     }
 
-    .second-title {
-      font-size: 20px;
-      margin-bottom: 20px;
-      color: #333;
+    .settings-btn {
       font-weight: bold;
-    }
-
-    form {
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 20px;
-      
-      label {
-        display: block;
-        margin-bottom: 10px;
-        text-align: left;
-        font-size: 16px;
-        color: #555;
-      }
-      
-      input {
-        width: calc(100% - 20px);
-        padding: 10px;
-        margin-bottom: 20px;
-        box-sizing: border-box;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        font-size: 16px;
-        color: #333;
-      }
-
-      .settings-btn {
-        padding: 12px 24px;
-        border-radius: 20px;
-        background-color: #86c1b9;
-        color: #fff;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: #64a79d;
-        }
-      }
-    }
-
-    .settings-del-btn,
-    .settings-logout-btn {
-      padding: 12px 24px;
-      border-radius: 20px;
-      background-color: #ff9f93;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      background-color: #003366;
       color: #fff;
       border: none;
       font-size: 16px;
@@ -87,11 +88,31 @@
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: #ff7e73;
-      }
-
-      &.settings-logout-btn {
-        margin-top: 10px;
+        background-color: greenyellow;
+        color: #003366;
       }
     }
   }
+
+  .settings-del-btn,
+  .settings-logout-btn {
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    background-color: maroon;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 80%;
+
+    &:hover {
+      background-color: red;
+    }
+
+    &.settings-logout-btn {
+      margin-top: 10px;
+    }
+  }
+}

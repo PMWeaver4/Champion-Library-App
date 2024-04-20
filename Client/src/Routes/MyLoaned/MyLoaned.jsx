@@ -2,64 +2,64 @@ import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@shadcn/components/ui/carousel";
 import { useState } from "react";
 import { NavLink, Navigate } from "react-router-dom";
-import MyItems from "../../Components/PopupsForLibrary/LibraryPopups/MyItems";
-import MyGames from "../../Components/PopupsForLibrary/LibraryPopups/MyGames";
-import MyBooks from "../../Components/PopupsForLibrary/LibraryPopups/MyBooks";
+import MyLoanedBooks from "../../Components/PopupsForLibrary/LoanedPopups/LoanedBooks";
+import MyLoanedGames from "../../Components/PopupsForLibrary/LoanedPopups/LoanedGames";
+import MyLoanedItems from "../../Components/PopupsForLibrary/LoanedPopups/LoanedItems";
 
-const MyLibraryPopupsEnum = {
+const MyLoanedPopupsEnum = {
   None: 0,
   AllBooks: 1,
   AllGames: 2,
   AllOther: 3,
 };
 
-export default function MyLibrary() {
-  const [libraryPopupState, setLibraryPopupState] = useState(MyLibraryPopupsEnum.None);
+export default function MyLoaned() {
+  const [loanedPopupState, setLoanedPopupState] = useState(MyLoanedPopupsEnum.None);
 
-  function openLibraryPopup(newState) {
-    setLibraryPopupState(newState);
+  function openLoanedPopup(newState) {
+    setLoanedPopupState(newState);
   }
 
   function getCurrentOpennedPopup() {
-    switch (libraryPopupState) {
-      case MyLibraryPopupsEnum.AllBooks:
-        return <MyBooks onClose={closeLibraryPopup} />;
-      case MyLibraryPopupsEnum.AllGames:
-        return <MyGames onClose={closeLibraryPopup} />;
-      case MyLibraryPopupsEnum.AllOther:
-        return <MyItems onClose={closeLibraryPopup} />;
+    switch (loanedPopupState) {
+      case MyLoanedPopupsEnum.AllBooks:
+        return <MyLoanedBooks onClose={closeLoanedPopup} />;
+      case MyLoanedPopupsEnum.AllGames:
+        return <MyLoanedGames onClose={closeLoanedPopup} />;
+      case MyLoanedPopupsEnum.AllOther:
+        return <MyLoanedItems onClose={closeLoanedPopup} />;
       default:
         return null;
     }
   }
 
-  function closeLibraryPopup() {
-    setLibraryPopupState(MyLibraryPopupsEnum.None);
+  function closeLoanedPopup() {
+    setLoanedPopupState(MyLoanedPopupsEnum.None);
   }
 
   return (
-    <main className="library-page">
-      <PageTemplate pageTitle="Library">
-        {libraryPopupState == MyLibraryPopupsEnum.None && (
-          <div className="library-body">
-            <div className="library-msg">Your Personal Library</div>
+    <main className="loaned-page">
+      <PageTemplate pageTitle="Loaned">
+        {loanedPopupState == MyLoanedPopupsEnum.None && (
+          <div className="loaned-body">
+            <div className="library-msg">Loaned To Users</div>
             <nav className="library-nav">
               <ul>
-                <li className="selected">
-                  <NavLink> Library</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/my-library/borrowed">Borrowed</NavLink>
+                <li className="not-selected">
+                  <NavLink to="/my-library">Library</NavLink>
                 </li>
                 <li className="not-selected">
+                  <NavLink to="/my-library/borrowed">Borrowed</NavLink>
+                </li>
+                <li className="selected">
                   <NavLink to="/my-library/loaned">Loaned</NavLink>
                 </li>
               </ul>
             </nav>
             <div className="books-container">
               <div className="view-container">
-                <h3>Books</h3>
-                <button className="view-btn view-books-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllBooks)}>
+                <h3>Loaned Books</h3>
+                <button className="view-btn view-books-btn" onClick={() => openLoanedPopup(MyLoanedPopupsEnum.AllBooks)}>
                   View all
                 </button>
               </div>
@@ -73,8 +73,8 @@ export default function MyLibrary() {
             </div>
             <div className="board-games-container">
               <div className="view-container">
-                <h3>Games</h3>
-                <button className="view-btn view-boardgames-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllGames)}>
+                <h3>Loaned Games</h3>
+                <button className="view-btn view-boardgames-btn" onClick={() => openLoanedPopup(MyLoanedPopupsEnum.AllGames)}>
                   View all
                 </button>
               </div>
@@ -88,8 +88,8 @@ export default function MyLibrary() {
             </div>
             <div className="others-container">
               <div className="view-container">
-                <h3>Items</h3>
-                <button className="view-btn view-others-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllOther)}>
+                <h3>Loaned Items</h3>
+                <button className="view-btn view-others-btn" onClick={() => openLoanedPopup(MyLoanedPopupsEnum.AllOther)}>
                   View all
                 </button>
               </div>
@@ -103,10 +103,8 @@ export default function MyLibrary() {
             </div>
           </div>
         )}
-        {libraryPopupState !== MyLibraryPopupsEnum.None && getCurrentOpennedPopup()}
+        {loanedPopupState !== MyLoanedPopupsEnum.None && getCurrentOpennedPopup()}
       </PageTemplate>
     </main>
   );
 }
-
-// ! change ther navlink for view all to button tag and add onClick={() => openWidgetPopup(widgetPopupsEnum.PendingUsers)}

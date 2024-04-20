@@ -1,162 +1,100 @@
-.my-library-page {
+.library-page, .borrowed-page, .loaned-page {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh; 
-
-}
-
-.tabs {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 2px -1px gray;
-
-  .active {
-    border-bottom: 6px solid #003366;
-    // width: 20% space-evenly;
-  }
-
-  div {
-    margin: 0 10px;
-    cursor: pointer;
-    color: #005577;
-    font-size: 1rem;
-    &:hover {
-      color: #008844;
-    }
-  }
-}
-
-.carousel-container {
-  width: 100%;
-  padding: 0 10px;
-}
-
-.carousel {
-  white-space: nowrap;
-}
-
-.carousel-item {
-  display: inline-block;
-  margin-right: 10px;
-  max-width: calc(100% - 20px);
-}
-
-.Library-display-container {
-  display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
   height: 100%;
-  gap: 2px;
-
-  .MyLibrary-shelf-headers,
-  .borrowed-shelf-headers,
-  .lent-shelf-headers {
+  position: relative;
+  .library-body, .borrowed-body, .loaned-body {
+    max-height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    font-weight: bold;
-    font-family: "Inter", sans-serif;
-    font-size: 1rem;
-    h3 {
-      font-size: 1.20em;
-      color: #003366;
-    }
+    height: 100%;
+    background-color: white;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    box-shadow: inset 0px 1px 1px rgb(0, 0, 0);
+    overflow: hidden;
 
-    .view-lent-items-button,
-    .view-lent-games-btn,
-    .view-lent-books-btn,
-    .view-borrowed-items-btn,
-    .view-borrowed-games-btn,
-    .view-borrowed-books-btn,
-    .view-my-items-btn,
-    .view-my-games-btn,
-    .view-my-books-btn {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      background-color: transparent;
-      border: none;
-      border-radius: 5px;
+    .library-msg {
+      margin-top: -2rem;
+      width: 80%;
       color: white;
       background-color: #003366;
-      cursor: pointer;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center;
-      font-size: 1rem;
-      font-weight: 400;
-      line-height: 1;
-      padding: 0.25em 1em;
-      text-decoration: none;
+      border-radius: .25rem;
       text-align: center;
-      font-family: "Montserrat", sans-serif;
-      font-weight: 700;
-      -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
-      transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+      filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.547));
+    }
+    .library-nav {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      width: 100%;
+      border-bottom: 1px solid rgb(207, 207, 207);
+      margin-top: -2rem;
+      ul {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
 
-      &
-      .view-lent-items-button:hover,
-      .view-lent-games-btn:hover,
-      .view-lent-books-btn:hover,
-      .view-borrowed-items-btn:hover,
-      .view-borrowed-games-btn:hover,
-      .view-borrowed-books-btn:hover,
-      .view-my-items-btn:hover,
-      .view-my-games-btn:hover,
-      .view-my-books-btn:hover {
-        box-shadow: 0 0 40px 40px #003366 inset;
-        color: greenyellow;
+  
+        .selected {
+          border-bottom: 4px solid #003366;
+          border-bottom-width: 100%;
+          font-weight: bold;
+          color: #003366;
+        }
+        a {
+          &:hover{
+            color: green;
+          }
+        }
+      }
+    }
+    .view-container {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-around;
+      padding-top: 0.25rem;
+      padding-bottom: 0.75rem;
+      .view-btn {
+        background-color: #003366;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        font-size: 11pt;
+        line-height: 1;
+        text-decoration: none;
+        text-align: center;
+        font-family: "Inter", sans-serif;
+        font-weight: bold;
+        padding: 0.25em 0.5em;
+        &:hover {
+          color: greenyellow;
+        }
+      }
+    }
+    .books-container,
+    .board-games-container,
+    .others-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 100%;
+      max-height: fit-content;
+      padding-top: 1.75rem;
+      h3 {
+        font-weight: bold;
+        color: #003366;
+        font-family: "Inter", sans-serif;
       }
     }
   }
 }
-
-      // .view-lent-items-button, .view-lent-games-btn, .view-lent-books-btn, .view-borrowed-items-btn, .view-borrowed-games-btn, .view-borrowed-books-btn , .view-my-items-btn, .view-my-games-btn, .view-my-books-btn 
-      
-      // .NavLink {
-      //   -webkit-appearance: none;
-      //   -moz-appearance: none;
-      //   appearance: none;
-      //   background-color: transparent;
-      //   border: none;
-      //   border-radius: 5px;
-      //   color: white;
-      //   background-color: #003366;
-      //   cursor: pointer;
-      //   display: -webkit-box;
-      //   display: -webkit-flex;
-      //   display: -ms-flexbox;
-      //   display: flex;
-      //   -webkit-align-self: center;
-      //   -ms-flex-item-align: center;
-      //   align-self: center;
-      //   font-size: 1rem;
-      //   font-weight: 400;
-      //   line-height: 1;
-      //   padding: .25em 1em;
-      //   text-decoration: none;
-      //   text-align: center;
-      //   font-family: "Montserrat", sans-serif;
-      //   font-weight: 700;
-      //   -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
-      //   transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
-
-      //   &:hover {
-      //     box-shadow: 0 0 40px 40px #003366 inset;
-      //     color: greenyellow;
-      //   }
-
-        
-      //   }

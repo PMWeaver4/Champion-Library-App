@@ -32,7 +32,7 @@ export default function MyProfile() {
     <main className="my-profile-page">
       <PageTemplate pageTitle="My Profile">
         <div className="my-profile-body">
-          <h2 className="settings-title"> SETTINGS ⚙️ </h2>
+          <h2 className="settings-title"> Settings <i className="fa-solid fa-gear"></i> </h2>
           <h3 className="second-title"> Update user account information </h3>
           <form onSubmit={handleSubmit}>
             <label htmlFor="firstName">First Name:</label>

@@ -19,24 +19,28 @@
     height: 100%;
     position: relative;
     .view-all-headers {
+      .back-btn-home {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+      }
       a {
         i {
-          position: absolute;
-          top: 0.5rem;
-          left: 0.5rem;
           display: flex;
           font-size: 1.5rem;
           padding: 8px;
           color: #003366;
-          &:hover {
-            color: greenyellow;
-          }
         }
-
       }
       h1 {
         display: none;
       }
+    }
+    .search-bar-container {
+      padding-top: 3rem;
+      padding-bottom: 10px;
+      width: 80%;
+      border-radius: 4px;
     }
     .view-all-grid {
       display: grid;
