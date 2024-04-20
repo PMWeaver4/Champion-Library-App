@@ -10,7 +10,7 @@ router.post("/create/", async (req, res) => {
       title: req.body.title,
       author: req.body.author,
       description: req.body.description,
-      user: req.user.email,
+      user: req.user._id,
       isbn: req.body.isbn,
       genre: req.body.genre,
       img: req.body.img,
@@ -113,11 +113,11 @@ router.get("/filter/", async (req, res) => {
 //[PUT] Adding Update Endpoint
 router.put("/update/:_id", async (req, res) => {
   try {
-    if (itemToUpdate.user == req.user.email || req.user.isAdmin == true) {
+    if (itemToUpdate.user == req.user._id || req.user.isAdmin == true) {
       //find a book that matches the mongo id
       const bookToUpdate = await Book.findOne({ _id: req.params._id }).exec();
     }
-    if (bookToUpdate.user == req.user.email || req.user.isAdmin == true) {
+    if (bookToUpdate.user == req.user._id || req.user.isAdmin == true) {
       //a list of values to be updated
       const updatedValues = {
         title: req.body.title,
@@ -150,7 +150,7 @@ router.delete("/delete/:id", async (req, res) => {
     const book = await Book.findByIdAndDelete(req.params.id);
     //error if the book id does not match
     if (!Book) throw new Error("Book not found");
-    else if (bookToUpdate.user == req.user.email || req.user.isAdmin == true)
+    else if (bookToUpdate.user == req.user._id || req.user.isAdmin == true)
       res.status(200).json({
         Deleted: 1,
       });
