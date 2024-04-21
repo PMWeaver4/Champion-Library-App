@@ -139,7 +139,7 @@ export default function MyProfile() {
         {/* <h1 className="circle"> ⚙️ </h1> */}
             </div>
            {/* <img className="settingsICON" src="/images/settings1.jpeg" alt="settings icon" /> */}
-          <h2 className="second-title"> Update user account information </h2>
+          <h2 className="second-title"> Account Information </h2>
           {/* message to let user know update was successful */}
           {message && <p>{message}</p>}
           <form onSubmit={handleSubmit}>
