@@ -58,7 +58,7 @@ export default function AddGames({ onClosePopup }) {
             Add Game{" "}
           </button>
         </form>
-        <button className="popup-btn" onClick={onClosePopup}>
+        <button className="close-popup" onClick={onClosePopup}>
           {" "}
           Close{" "}
         </button>
