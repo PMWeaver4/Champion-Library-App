@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Book = require("../models/book");
 
-//Create a new book
+//Create a new book ✅
 router.post("/create/", async (req, res) => {
   console.log(req);
   try {
@@ -30,7 +30,7 @@ router.post("/create/", async (req, res) => {
   }
 });
 
-// Display all book endpoint
+// Display all book endpoint ✅
 router.get("/all", async (req, res) => {
   try {
     //the find has no filters, so every book within the database is displayed
@@ -51,7 +51,7 @@ router.get("/all", async (req, res) => {
     });
   }
 });
-// Display all available book endpoint (modified)
+// Display all available book endpoint (modified) ✅
 router.get("/allavailable", async (req, res) => {
   try {
     // Find books where 'checkedout' is false
@@ -64,7 +64,7 @@ router.get("/allavailable", async (req, res) => {
   }
 });
 
-//get specific book
+//get specific book ✅
 router.get("/book/:_id", async (req, res) => {
   try {
     //find a book where the mongo id matches what's in the paramter
@@ -111,16 +111,23 @@ router.get("/filter/", async (req, res) => {
   }
 });
 
-//[PUT] Adding Update Endpoint
+//[PUT] Adding Update Endpoint ✅
 router.put("/update/:_id", async (req, res) => {
   try {
-    if (itemToUpdate.user == req.user._id || req.user.isAdmin == true) {
-      //find a book that matches the mongo id
-      const bookToUpdate = await Book.findOne({ _id: req.params._id }).exec();
+    // Attempt to find the book by ID
+    const bookToUpdate = await Book.findById(req.params._id);
+    // Check if the book exists
+    if (!bookToUpdate) {
+      return res.status(404).json({ Error: "Book not found" });
     }
-    if (bookToUpdate.user == req.user._id || req.user.isAdmin == true) {
-      //a list of values to be updated
-      const updatedValues = {
+    // Check if the user is authorized to update the book
+    if (bookToUpdate.user.toString() !== req.user._id.toString() && !req.user.isAdmin) {
+      return res.status(403).json({ Error: "Unauthorized" });
+    }
+    // Update the book with new values and return the updated document
+    const updatedBook = await Book.findByIdAndUpdate(
+      req.params._id,
+      {
         title: req.body.title,
         author: req.body.author,
         description: req.body.description,
@@ -128,41 +135,42 @@ router.put("/update/:_id", async (req, res) => {
         condition: req.body.condition,
         rentedUser: req.body.rentedUser,
         checkedout: req.body.checkedOut,
-      };
-      //update values into the matched book
-      await bookToUpdate.updateOne(updatedValues).exec();
-
-      res.status(200).json({
-        Updated: updatedValues,
-        Results: updatedValues,
-      });
-    }
+      },
+      { new: true }
+    );
+    // Send the updated book details as response
+    res.status(200).json(updatedBook);
   } catch (err) {
-    res.status(500).json({
-      Error: err,
-    });
+    // Handle potential server errors
+    res.status(500).json({ Error: err.message });
   }
 });
 
 // [DELETE] - Remove a book.
 router.delete("/delete/:id", async (req, res) => {
   try {
-    //find a book by its mongo id and delete it
-    const book = await Book.findByIdAndDelete(req.params.id);
-    //error if the book id does not match
-    if (!Book) throw new Error("Book not found");
-    else if (bookToUpdate.user == req.user._id || req.user.isAdmin == true)
-      res.status(200).json({
-        Deleted: 1,
-      });
+    // Attempt to find the book by ID
+    const book = await Book.findById(req.params.id);
+    // Check if the book exists
+    if (!book) {
+      return res.status(404).json({ Error: "Book not found" });
+    }
+    // Check if the user is authorized to delete the book
+    if (book.user.toString() !== req.user._id.toString() && !req.user.isAdmin) {
+      return res.status(403).json({ Error: "Unauthorized" });
+    }
+    // Remove the book from the database using deleteOne instead of .remove()
+    await book.deleteOne();
+    // Confirm deletion
+    res.status(200).json({ Deleted: true });
   } catch (err) {
-    res.status(500).json({
-      Error: err,
-    });
+    // Handle potential server errors
+    res.status(500).json({ Error: err.message });
   }
 });
 
-// search the books by genre title author
+
+// search the books by genre title author ✅
 router.get("/searchThrough", async (req, res) => {
   const searchString = req.query.q;
   try {
