@@ -15,6 +15,7 @@ import AllGames from "./Routes/ViewAllItems/AllGames";
 import AllOthers from "./Routes/ViewAllItems/AllOthers";
 import MyLoaned from "./Routes/MyLoaned/MyLoaned";
 import MyBorrowed from "./Routes/MyBorrowed/MyBorrowed";
+import BookProfileCardPage from "./Routes/BookProfileCardPage/BookProfileCardPage";
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,11 @@ const router = createBrowserRouter([
     // dashboard
     path: "/home",
     element: <Home />,
+  },
+  {
+    // BookProfileCardPage
+    path: "/book-profile/:bookId",
+    element: <BookProfileCardPage />,
   },
   {
     // inbox

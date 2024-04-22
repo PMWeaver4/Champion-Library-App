@@ -33,6 +33,7 @@ export default function IsbnEntry({ onClosePopup }) {
       <div className="popup">
         <div className="popup-inner">
           <h2 className="title"> Add New Book 📚</h2>
+          <img className="isbn-img" src="/images/isbn.png"></img>
           <form className="popup-form" onSubmit={handleNewBookSubmit}>
             <label className="form-label" htmlFor="newBookIsbn">
               {" "}

@@ -23,12 +23,12 @@ const ItemSchema = new mongoose.Schema({
   user: {
     type: mongoose.ObjectId,
     required: true,
-    ref: User
-},
-rentedUser: {
+    ref: User,
+  },
+  rentedUser: {
     type: mongoose.ObjectId,
-    ref: User
-},
+    ref: User,
+  },
   checkedout: {
     type: Boolean,
     default: false,
