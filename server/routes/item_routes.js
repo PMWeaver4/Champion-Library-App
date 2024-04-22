@@ -5,7 +5,15 @@ const Item = require("../models/item");
 router.post("/create/", async (req, res) => {
   //insert information into Item schema to create an item
   try {
-    const newItem = new Item(req.body);
+    const { description, itemName, itemType } = req.body;
+    const itemData = {
+      description,
+      itemName,
+      itemType,
+      user: req.user._id,
+    };
+
+    const newItem = new Item(itemData);
     await newItem.save();
     res.status(201).send(newItem);
   } catch (error) {
