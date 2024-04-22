@@ -85,7 +85,7 @@ export default function ManualEntry({ onClosePopup }) {
               Description:{" "}
             </label>
 
-            <input
+            <textarea
               className="input-description"
               type="text"
               placeholder="Enter book description"
