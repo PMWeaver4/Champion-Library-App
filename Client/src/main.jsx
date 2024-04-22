@@ -29,6 +29,11 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    // BookProfileCardPage
+    path: "/book-profile/:bookId",
+    element: <BookProfileCardPage />,
+  },
+  {
     // inbox
     path: "/inbox",
     element: <Inbox />,
