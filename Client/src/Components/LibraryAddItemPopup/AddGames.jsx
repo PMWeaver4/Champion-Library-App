@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import config from "../../config.json"; // my fetch url to backend
 import { getToken } from "../../localStorage";
 
@@ -26,7 +26,7 @@ export default function AddGames({ onClosePopup }) {
     })
       .then((response) => {
         if (response.status !== 201) {
-          throw new Error("Something went wrong while adding a book");
+          throw new Error("Something went wrong while adding a game");
         }
         return response;
       })
@@ -55,7 +55,7 @@ export default function AddGames({ onClosePopup }) {
             </label>
             <input
               type="text"
-              placeholder="Enter your new Game Title"
+              placeholder="Enter Game Name"
               id="itemName"
               value={itemName} // Changed from newGameTitle to itemName
               onChange={(e) => setItemName(e.target.value)}
@@ -64,7 +64,7 @@ export default function AddGames({ onClosePopup }) {
             <label className="form-label" htmlFor="description">
               Description:
             </label>
-            <input
+            <textarea
               className="input-description"
               type="text"
               placeholder="Enter Game Description"
