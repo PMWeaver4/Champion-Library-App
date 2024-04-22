@@ -70,10 +70,13 @@ router.get("/allavailable", async (req, res) => {
 router.get("/item/:_id", async (req, res) => {
   try {
     //find an item where the mongo id matches what's in the paramter
-    let results = await Item.find({ _id: req.params._id });
-    res.status(200).json({
-      Results: results,
-    });
+    let results = await Item.findOne({ _id: req.params._id });
+
+    if (!results) {
+      return res.status(404).json({ Error: "Item not found" });
+    }
+
+    res.status(200).json(results);
   } catch (err) {
     console.log(err);
 

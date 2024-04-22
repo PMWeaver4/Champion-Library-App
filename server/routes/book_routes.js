@@ -68,10 +68,13 @@ router.get("/allavailable", async (req, res) => {
 router.get("/book/:_id", async (req, res) => {
   try {
     //find a book where the mongo id matches what's in the paramter
-    let results = await Book.find({ _id: req.params._id });
-    res.status(200).json({
-      Results: results,
-    });
+    let results = await Book.findOne({ _id: req.params._id });
+
+    if (!results) {
+      return res.status(404).json({ Error: "Book not found" });
+    }
+
+    res.status(200).json(results);
   } catch (err) {
     console.log(err);
 
@@ -168,7 +171,6 @@ router.delete("/delete/:id", async (req, res) => {
     res.status(500).json({ Error: err.message });
   }
 });
-
 
 // search the books by genre title author ✅
 router.get("/searchThrough", async (req, res) => {
