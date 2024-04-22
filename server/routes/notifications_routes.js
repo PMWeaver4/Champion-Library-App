@@ -1,4 +1,5 @@
 const router = require("express").Router();
+//records date/time 
 const moment = require('moment');
 const Notifications = require("../models/notifications");
 const User = require("../models/user");
@@ -7,9 +8,10 @@ const Item = require("../models/item");
 //? Assigning a variable from .env
 const PASS = process.env.PASS;
 
+//enable mail functionality
 const nodemailer = require("nodemailer");
-
 const transporter = nodemailer.createTransport({
+  //using mailtrap as the smtp
   host: "live.smtp.mailtrap.io",
   port: 587,
   auth: {
@@ -28,9 +30,7 @@ async function mail(toEmail, emailSubject, emailText) {
 }
 
 // Create Notifications
-
 router.post("/create/", async(req,res) => {
-    
     try{
         //create new notifications from schema
         let notifications = new Notifications({
@@ -41,29 +41,36 @@ router.post("/create/", async(req,res) => {
             message: req.body.message,
             item: req.body.item,
             book: req.body.book,
-
         });
         //save the new notification
         const newNotifications = await notifications.save();
 
         //send an email to the owner that a request has been made
         let theRequest = "";
+        //get the email
         let Email = await User.find({_id: newNotifications.owner},{"email":1,"_id":0});
+        //convert from array to string
         let toEmail = Email[0].email;
+        //if the notification is to request a certain book, grab it's title
         if (newNotifications.book!=null){
-        let RequestedBook = await Book.find({_id: newNotifications.book},{"title":1,"_id":0});
-        theRequest = RequestedBook[0].title;
+          let RequestedBook = await Book.find({_id: newNotifications.book},{"title":1,"_id":0});
+          theRequest = RequestedBook[0].title;
         }
+        //if the notification is to request a certain item, grab it's name
         if (newNotifications.item!=null){
-        let RequestedItem = await Item.find({_id: newNotifications.item},{"description":1,"_id":0});
-        theRequest = RequestedItem[0].description;
+        let RequestedItem = await Item.find({_id: newNotifications.item},{"itemName":1,"_id":0});
+        theRequest = RequestedItem[0].itemName;
         }
+        //store who is requesting
         let Requester = await User.find({_id: newNotifications.requestingUser});
-        let requester = Requester[0].firstName + Requester[0].lastName;
+        //let's display their name
+        let requester = Requester[0].firstName + " " + Requester[0].lastName;
+        //by design, a newly created notification is a "New Request"
         let emailSubject = `New Request`;
+        //customized email text
         let emailText = `${requester} is requesting ${theRequest} from ${toEmail}. ${newNotifications.message}`
 
-        
+        //utilize mail function to send an email
         mail(toEmail, emailSubject, emailText);
 
         //notify.....about the new notification
@@ -145,6 +152,7 @@ router.put("/update/:_id", async (req, res) => {
     try {
         //finds notification by ID
         const notificationsUpdate = await Notifications.findOne({_id: req.params._id}).exec()
+        //store the notification as "old" before the update for comparison
         const oldNotification = notificationsUpdate;
         //receives and stores values to update the notification
         const updatedValues = {
@@ -156,90 +164,136 @@ router.put("/update/:_id", async (req, res) => {
             book: req.body.book,
         }  
         //inserts values into updated notification
-        console.log(`0: `)
        await notificationsUpdate.updateOne(updatedValues).exec();
+        //retrieves the updated notification to compare to old
        const updatedNotifications = await Notifications.findOne({_id: req.params._id}).exec()
-       console.log(`0.5: ${oldNotification.status}`, updatedNotifications)
 
        //sends an email if the status changes from pending
-       if(oldNotification.status == "pending" && (updatedNotifications.status =="accepted" || updatedNotifications.status =="declined")){
-               //send an email to the borrower that a change has been made
-               console.log(`1: ${updatedNotifications.status}`);
+       if(oldNotification.status == "pending"  && (updatedNotifications.status =="accepted" || updatedNotifications.status =="declined")){
+               //?send an email to the borrower that a change has been made
+               //declare the string that will hold the request
                let theRequest = "";
+               //retrieve the email from user making the request
                let Email = await User.find({_id: updatedNotifications.requestingUser},{"email":1,"_id":0});
-               
+               //convert the email from array to string
                let toEmail = Email[0].email;
-               console.log(`1.25: ${toEmail}`);
+               //if it's a book, get the title
                if (updatedNotifications.book!=null){
                let RequestedBook = await Book.find({_id: updatedNotifications.book},{"title":1,"_id":0});
                theRequest = RequestedBook[0].title;
-               console.log("1.5",theRequest);
                }
+               //if it's an item, get the itemName
                if (updatedNotifications.item!=null){
                let RequestedItem = await Item.find({_id: updatedNotifications.item},{"itemName":1,"_id":0});
                theRequest = RequestedItem[0].itemName;
-               console.log("1.6", theRequest)
                }
+               //retrieve the book/item's owner
                let ownerObj = await User.find({_id: updatedNotifications.owner});
+               //convert the owner from an array to a string
                let owner = ownerObj[0].firstName + " " + ownerObj[0].lastName;
-               console.log("1.75", owner)
-               let emailSubject = `Updated Request`;
-               console.log(updatedNotifications.status, updatedNotifications.message);
-               let emailText = `${owner} has changed the status of your request for ${theRequest} to ${updatedNotifications.status}. ${updatedNotifications.message}`
                
-               console.log(`2: ${toEmail}, ${emailSubject}, ${emailText}`);
+               let emailSubject = `Updated Request`;
+               //descriptive text telling the requester that the owner has changed the status of the notification
+               let emailText = `${owner} has changed the status of your request for ${theRequest} to ${updatedNotifications.status}. ${updatedNotifications.message}`
                
                mail(toEmail, emailSubject, emailText);
 
+               //if the owner has accepted the request
                if (updatedNotifications.status == "accepted"){
+                //if it's a book update 
                 if (updatedNotifications.book!=null){
                   let RequestedBook = await Book.find({_id: updatedNotifications.book});
+                  //checkedout state to true, and record who it's loaned to
                   let updatedBookValues = {
                     checkedout: true,
                     rentedUser: updatedNotifications.requestingUser
                   }
-                  console.log(`3: ${updatedBookValues.checkedout}`, RequestedBook[0].checkedout, updatedBookValues.rentedUser)
-                  
                   await RequestedBook[0].updateOne(updatedBookValues).exec();
                   // Object.keys(updatedBookValues[0].checkedout) = RequestedBook[0].checkedout;
                   //John wants us to test the above code out
                   }
+                  //if it's an item update
                   if (updatedNotifications.item!=null){
                   let RequestedItem = await Item.find({_id: updatedNotifications.item});
+                  //checkedout state to true, and record who it's loaned to
                   let updatedItemValues = {
                     checkedout: true,
                     rentedUser: updatedNotifications.requestingUser
                   }
-                  console.log(`3.5: ${updatedItemValues}`)
                   await RequestedItem[0].updateOne(updatedItemValues).exec();
                   }
-                  console.log("3.6")
-                  //set date to current
+                  
+                  //set approval date to current
                   let approveDate = moment().format();
-                  let returnDate = moment().add(14, 'days').calendar();
-                  console.log("3.75", approveDate, returnDate)
+                  //update the notification's approval date
                   const dateValues = {
                       borrowrequest: approveDate,
-                      returnrequest: returnDate
                   }
-                 await updatedNotifications.updateOne(dateValues).exec();
-                 console.log(`4: ${updatedNotifications.borrowrequest}`)
-                 //set return to current + 2 weeks
-            
+                 await updatedNotifications.updateOne(dateValues).exec();            
                }
+               //still need to do decline option
+
               //shows the new values
                res.status(200).json({
                  Updated: updatedValues,
                  Results: updatedValues,
                 });
               }
-              
     } catch (err) {
         res.status(500).json({
             Error: err,
         });
     }
 });
+
+//return
+router.put("/return/:_id")
+{
+  try {
+    console.log("this is working");
+    const returnUpdate = await Notifications.findById({_id: req.params._id});
+    
+    //if requester selects return, returnrequest populates with date
+    if(returnUpdate.requestingUser = req.user._id){
+      let returnDate = moment().format();
+
+      const updatedNotification = await Notifications.findByIdAndUpdate(
+        req.params._id,
+        {
+        returnrequest: returnDate,
+        status: "pending",
+        message: req.body.message,
+      },
+      { new: true }
+    )
+      //email notifies owner
+    }
+    
+    //if owner accepts return,
+    if(returnUpdate.owner = req.user._id){
+    //msg updates
+    const updatedNotification = await Notifications.findByIdAndUpdate(
+      req.params._id,
+      {
+      message: req.body.message,
+    },
+    { new: true }
+  )
+    //email notifies requester
+    
+    //notification deletes
+    //await Notifications.findbyIDAndDelete(req.params._id)
+
+  }
+    res.status(200).json({
+      Updated: updatedValues
+    })
+  } catch(err) {
+    res.status(500).json({
+      Error: err,
+  });
+  }
+}
 
 //gets notification by id and deletes
 router.delete("/delete/:id", async (req, res) => {
