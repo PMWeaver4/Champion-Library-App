@@ -1,4 +1,39 @@
 // UserTile
+.User-tile {
+  width: calc(22% - 28px); // Adjust the width of each tile to occupy 20% of the container width and consider the margin
+  margin: 7px; // Add some margin between tiles
+  padding: 14px; // Add padding to create space between tiles
+  // display: grid;
+  background-color: #003366; // Dark blue background color
+  color: white; // White text color
+  border-radius: 8px; // Rounded corners
+  display: inline-block; // Make the tiles inline-block elements to arrange them horizontally
+  flex-direction:column;
+  align-items: center;
+  cursor: pointer;
+}
+
+
+  .User-tile-img {
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 80%; // Take up full width
+     // Maintain aspect ratio
+    object-fit:cover;
+    justify-content: center;
+    border-top-left-radius: 8px; // Rounded top-left corner
+    border-top-right-radius: 8px; // Rounded top-right corner
+  }
+
+  .User-name {
+    padding: 0.5rem; // Padding for the name
+    text-align: center; // Center-align the text
+    text-shadow: #050d14;
+   
+    
+  }
+
+
 // UserProfileCard
 .user-profile-card-background {
   background-color: rgba(0, 0, 0, 0.515);
@@ -93,3 +128,4 @@
     }
   }
 }
+
