@@ -95,11 +95,11 @@ router.post("/create/", async (req, res) => {
 });
 
 // Display all notifications endpoint for that user
-router.get("/allYourNotifications", async (req, res) => {
+router.get("/allYourNotifications/:_id", async (req, res) => {
   try {
     //filters for all notifications by and for the specific user calling this function. Displays keys of notification schema.
     let results = await Notifications.find({
-      $or: [{ requestingUser: req.user._id }, { owner: req.user._id }],
+      $or: [{ requestingUser: req.params._id }, { owner: req.params._id }],
     })
       .populate({ path: "requestingUser", select: "email" })
       .populate({ path: "owner", select: "email" })
