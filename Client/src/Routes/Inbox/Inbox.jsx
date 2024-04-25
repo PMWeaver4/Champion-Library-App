@@ -48,16 +48,6 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                   </button>
                 </div>
                 {tabs.find((tab) => tab.id === activeTab)?.content}
-                <NotificationTile />
-                <NotificationTile />
-                <NotificationTile />
-                <NotificationTile />
-                <NotificationTile />
-                <NotificationTile />
-                <NotificationTile />
-                <NotificationTile />
-                <NotificationTile />
-                <NotificationTile />
               </div>
             </div>
           </div>

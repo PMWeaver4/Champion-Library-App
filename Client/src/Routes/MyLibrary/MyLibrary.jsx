@@ -8,6 +8,7 @@ import MyBooks from "../../Components/PopupsForLibrary/LibraryPopups/MyBooks";
 import config from "../../config.json";
 import { getToken, getUserId } from "../../localStorage";
 import BookTile from "../../Components/ItemTIles/BookTile";
+import GameTile from "../../Components/ItemTIles/GameTile";
 const MyLibraryPopupsEnum = {
   None: 0,
   AllBooks: 1,
@@ -63,8 +64,31 @@ export default function MyLibrary() {
     fetchBooks();
   }, []);
 
-  //? -------------- All Users Games---------------
+  //? -------------- All users games & items---------------
+  const [items, setItems] = useState([]);
+  const [gameItems, setGameItems] = useState([]);
+  const [otherItems, setOtherItems] = useState([]);
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const response = await fetch(config.backend_url + `library/items/${getUserId()}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        });
+        if (!response.status === 200) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setGames(data.Results);
+      } catch (error) {
+        console.error("Failed to fetch games:", error);
+      }
+    };
 
+    fetchGames();
+  }, []);
   //? -------------- All Users Items---------------
 
   return (
@@ -95,11 +119,11 @@ export default function MyLibrary() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                {books.map((book, index) => (
-                  <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile book={book}/>
-                  </CarouselItem>
-                ))}
+                  {books.map((book, index) => (
+                    <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <BookTile book={book} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -114,7 +138,11 @@ export default function MyLibrary() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {games.map((game, index) => (
+                    <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <GameTile game={game} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
