@@ -43,10 +43,16 @@ export function setLastName(lastName) {
   return localStorage.setItem("lastName", lastName);
 }
 
+// for userid
+export function getUserId(){
+  return localStorage.getItem("_id");
+}
+
+export function setUserId(_id){
+  return localStorage.setItem("_id", _id);
+}
+
 // function to clear data in storage
 export function clearStorage() {
-  localStorage.removeItem("email");
-  localStorage.removeItem("token");
-  localStorage.removeItem("firstName");
-  localStorage.removeItem("lastName");
+  localStorage.clear();
 }

@@ -16,6 +16,7 @@ import AllOthers from "./Routes/ViewAllItems/AllOthers";
 import MyLoaned from "./Routes/MyLoaned/MyLoaned";
 import MyBorrowed from "./Routes/MyBorrowed/MyBorrowed";
 import BookProfileCardPage from "./Routes/BookProfileCardPage/BookProfileCardPage";
+import UsersViewLibraryPage from "./Components/UsersLibraryPage/UsersViewLibraryPage";
 
 
 const router = createBrowserRouter([
@@ -83,9 +84,14 @@ const router = createBrowserRouter([
     element: <MyLoaned/>,
   },
   {
+    path: "/UsersViewLibrary/:userId",
+    element: <UsersViewLibraryPage/>,
+  },
+  {
     path: "*",
     element: <Navigate to="/" replace />,
-  },
+  }
+  
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

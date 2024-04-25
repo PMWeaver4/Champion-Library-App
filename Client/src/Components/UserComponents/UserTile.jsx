@@ -32,7 +32,7 @@ export default function UserTile({ user, onClick }) {
 
     </div>
     {showProfileCard && (
-        <UserProfileCard user={user} onClose={handleCloseProfileCard} />
+        <UserProfileCard user={user} />
     )}
 </>
   );
