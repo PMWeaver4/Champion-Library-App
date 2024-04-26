@@ -38,7 +38,7 @@ router.post("/create/", async (req, res) => {
       owner: req.body.owner,
       borrowrequest: req.body.borrowrequest,
       returnrequest: req.body.returnrequest,
-      message: req.body.message,
+      message: "Has requested to borrow: ",
       item: req.body.item,
       book: req.body.book,
     });
@@ -101,10 +101,10 @@ router.get("/allYourNotifications/:_id", async (req, res) => {
     let results = await Notifications.find({
       $or: [{ requestingUser: req.params._id }, { owner: req.params._id }],
     })
-      .populate({ path: "requestingUser", select: "email" })
-      .populate({ path: "owner", select: "email" })
+      .populate({ path: "requestingUser", select: "email firstName lastName" })
+      .populate({ path: "owner", select: "email firstName lastName" })
       .populate({ path: "book", select: "title" })
-      .populate({ path: "item", select: "description" })
+      .populate({ path: "item", select: "itemName description" })
       .populate(["borrowrequest", "returnrequest", "status", "message"])
       .select({
         text: 1,
@@ -282,7 +282,7 @@ router.put("/return/:_id", async (req, res) => {
           {
             returnrequest: returnDate,
             status: "pending",
-            message: req.body.message,
+            message: "Would like to return:",
           },
           { new: true }
         );
