@@ -18,6 +18,13 @@ const NotificationsSchema = new mongoose.Schema(
       ref: User,
     },
 
+    notifcationType: {
+      type: String,
+      required: true,
+      enum: ["borrow", "return"],
+      default: "borrow",
+    },
+
     // A user is requesting to borrow book/item
     borrowrequest: {
       type: Date,

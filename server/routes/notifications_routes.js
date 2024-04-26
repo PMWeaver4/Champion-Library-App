@@ -77,7 +77,7 @@ router.post("/create/", async (req, res) => {
     //by design, a newly created notification is a "New Request"
     let emailSubject = `New Request`;
     //customized email text
-    let emailText = `${requester} is requesting ${theRequest} from ${toEmail}. ${newNotifications.message}`;
+    let emailText = `${requester} ${newNotifications.message} ${theRequest} from you. `;
 
     //utilize mail function to send an email
     mail(toEmail, emailSubject, emailText);
@@ -105,7 +105,13 @@ router.get("/allYourNotifications/:_id", async (req, res) => {
       .populate({ path: "owner", select: "email firstName lastName" })
       .populate({ path: "book", select: "title" })
       .populate({ path: "item", select: "itemName description" })
-      .populate(["borrowrequest", "returnrequest", "status", "message"])
+      .populate([
+        "borrowrequest",
+        "returnrequest",
+        "status",
+        "message",
+        "notificationType",
+      ])
       .select({
         text: 1,
         createdAt: 1,
@@ -133,7 +139,13 @@ router.get("/all", async (req, res) => {
         .populate({ path: "owner", select: "email" })
         .populate({ path: "book", select: "title" })
         .populate({ path: "item", select: "description" })
-        .populate(["borrowrequest", "returnrequest", "status", "message"])
+        .populate([
+          "borrowrequest",
+          "returnrequest",
+          "status",
+          "message",
+          "notificationType",
+        ])
         .select({
           text: 1,
           createdAt: 1,
@@ -170,6 +182,7 @@ router.put("/update/:_id", async (req, res) => {
       message: req.body.message,
       item: req.body.item,
       book: req.body.book,
+      notifcationType: req.body.notificationType,
     };
     //inserts values into updated notification
     await notificationsUpdate.updateOne(updatedValues).exec();
@@ -187,6 +200,21 @@ router.put("/update/:_id", async (req, res) => {
       //?send an email to the borrower that a change has been made
       //declare the string that will hold the request
       let theRequest = "";
+      if (updatedNotifications.book != null) {
+        let RequestedBook = await Book.find(
+          { _id: updatedNotifications.book },
+          { title: 1, _id: 0 }
+        );
+        theRequest = RequestedBook[0].title;
+      }
+      //if it's an item, get the itemName
+      if (updatedNotifications.item != null) {
+        let RequestedItem = await Item.find(
+          { _id: updatedNotifications.item },
+          { itemName: 1, _id: 0 }
+        );
+        theRequest = RequestedItem[0].itemName;
+      }
       //retrieve the email from user making the request
       let Email = await User.find(
         { _id: updatedNotifications.requestingUser },
@@ -283,12 +311,14 @@ router.put("/return/:_id", async (req, res) => {
             returnrequest: returnDate,
             status: "pending",
             message: "Would like to return:",
+            notificationType: "return",
           },
           { new: true }
         );
         //email notifies owner
         let Owner = await User.findOne(updatedNotification.owner);
         let toEmail = Owner[0].email;
+        //if it's a book, get the book title
         if (updatedNotification.book != null) {
           let RequestedBook = await Book.find(
             { _id: updatedNotification.book },

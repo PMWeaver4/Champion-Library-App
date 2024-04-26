@@ -1,13 +1,19 @@
-export default function NotificationTile() {
+export default function NotificationTile({ firstName, lastName, text, createdAt, bookTitle, itemName }) {
+  // Format date
+  const date = new Date(createdAt).toLocaleDateString();
+  const time = new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
   return (
     <div className="component_notification-tile">
       <div className="notification-content">
         <div className="notification-header">
-        <h1 className="notification-username">Genessi B.</h1>
-        <h2>04/05/24 5:00pm</h2>
+          <h1 className="notification-username">{firstName} {lastName}</h1>
+          <h2>{date} {time}</h2>
         </div>
         <div className="notification-body">
-        <p>Has requested to borrow 'Lord of The Rings'.</p>
+          {bookTitle && <p>{text} {bookTitle} </p>}
+          {itemName && <p>{text} {itemName}</p>}
+          
         </div>
       </div>
     </div>
