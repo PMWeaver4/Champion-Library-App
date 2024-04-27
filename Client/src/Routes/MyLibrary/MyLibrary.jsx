@@ -8,6 +8,8 @@ import MyBooks from "../../Components/PopupsForLibrary/LibraryPopups/MyBooks";
 import config from "../../config.json";
 import { getToken, getUserId } from "../../localStorage";
 import BookTile from "../../Components/ItemTIles/BookTile";
+import GameTile from "../../Components/ItemTIles/GameTile";
+import OtherTile from "../../Components/ItemTIles/OtherTile";
 const MyLibraryPopupsEnum = {
   None: 0,
   AllBooks: 1,
@@ -63,7 +65,31 @@ export default function MyLibrary() {
     fetchBooks();
   }, []);
 
-  //? -------------- All Users Games---------------
+  //? -------------- All users games & items---------------
+  const [items, setItems] = useState([]);
+  const [gameItems, setGameItems] = useState([]);
+  const [otherItems, setOtherItems] = useState([]);
+
+  async function getAllUsersItems() {
+    const response = await fetch(config.backend_url + `library/items/${getUserId()}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const itemData = await response.json(); // the response is directly an array of items
+    if (response.status !== 200) {
+      console.error("Failed to fetch items");
+      return;
+    }
+    setItems(itemData);
+    setOtherItems(itemData.Results.filter((item) => item.itemType === "other"));
+    setGameItems(itemData.Results.filter((item) => item.itemType === "game"));
+  }
+
+  useEffect(() => {
+    getAllUsersItems();
+  }, []);
 
   //? -------------- All Users Items---------------
 
@@ -95,11 +121,11 @@ export default function MyLibrary() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                {books.map((book, index) => (
-                  <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                    <BookTile book={book}/>
-                  </CarouselItem>
-                ))}
+                  {books.map((book, index) => (
+                    <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <BookTile book={book} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -114,7 +140,11 @@ export default function MyLibrary() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {gameItems.map((game) => (
+                    <CarouselItem key={game._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <GameTile game={game} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -129,7 +159,11 @@ export default function MyLibrary() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {otherItems.map((other) => (
+                    <CarouselItem key={other._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <OtherTile other={other} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
