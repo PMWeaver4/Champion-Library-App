@@ -1,16 +1,17 @@
 // UserTile
 .User-tile {
-  width: calc(22% - 28px); // Adjust the width of each tile to occupy 20% of the container width and consider the margin
+  width: calc(25% - 15px); // Adjust the width of each tile to occupy 20% of the container width and consider the margin
   margin: 7px; // Add some margin between tiles
-  padding: 14px; // Add padding to create space between tiles
+  padding: 1px; // Add padding to create space between tiles
   // display: grid;
   background-color: #003366; // Dark blue background color
   color: white; // White text color
   border-radius: 8px; // Rounded corners
   display: inline-block; // Make the tiles inline-block elements to arrange them horizontally
-  flex-direction:column;
+  flex-direction:row;
   align-items: center;
   cursor: pointer;
+  height:fit-content;
 }
 
 
@@ -21,8 +22,8 @@
      // Maintain aspect ratio
     object-fit:cover;
     justify-content: center;
-    border-top-left-radius: 8px; // Rounded top-left corner
-    border-top-right-radius: 8px; // Rounded top-right corner
+    border-top-left-radius: 5px; // Rounded top-left corner
+    border-top-right-radius: 5px; // Rounded top-right corner
   }
 
   .User-name {
