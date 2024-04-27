@@ -38,7 +38,7 @@ router.post("/create/", async (req, res) => {
       owner: req.body.owner,
       borrowrequest: req.body.borrowrequest,
       returnrequest: req.body.returnrequest,
-      message: req.body.message,
+      message: "Has requested to borrow: ",
       item: req.body.item,
       book: req.body.book,
     });
@@ -95,16 +95,16 @@ router.post("/create/", async (req, res) => {
 });
 
 // Display all notifications endpoint for that user
-router.get("/allYourNotifications", async (req, res) => {
+router.get("/allYourNotifications/:_id", async (req, res) => {
   try {
     //filters for all notifications by and for the specific user calling this function. Displays keys of notification schema.
     let results = await Notifications.find({
-      $or: [{ requestingUser: req.user._id }, { owner: req.user._id }],
+      $or: [{ requestingUser: req.params._id }, { owner: req.params._id }],
     })
-      .populate({ path: "requestingUser", select: "email" })
-      .populate({ path: "owner", select: "email" })
+      .populate({ path: "requestingUser", select: "email firstName lastName" })
+      .populate({ path: "owner", select: "email firstName lastName" })
       .populate({ path: "book", select: "title" })
-      .populate({ path: "item", select: "description" })
+      .populate({ path: "item", select: "itemName description" })
       .populate(["borrowrequest", "returnrequest", "status", "message"])
       .select({
         text: 1,
@@ -195,21 +195,6 @@ router.put("/update/:_id", async (req, res) => {
       //convert the email from array to string
       let toEmail = Email[0].email;
       //if it's a book, get the title
-      if (updatedNotifications.book != null) {
-        let RequestedBook = await Book.find(
-          { _id: updatedNotifications.book },
-          { title: 1, _id: 0 }
-        );
-        theRequest = RequestedBook[0].title;
-      }
-      //if it's an item, get the itemName
-      if (updatedNotifications.item != null) {
-        let RequestedItem = await Item.find(
-          { _id: updatedNotifications.item },
-          { itemName: 1, _id: 0 }
-        );
-        theRequest = RequestedItem[0].itemName;
-      }
       //retrieve the book/item's owner
       let ownerObj = await User.find({ _id: updatedNotifications.owner });
       //convert the owner from an array to a string
@@ -234,8 +219,6 @@ router.put("/update/:_id", async (req, res) => {
             rentedUser: updatedNotifications.requestingUser,
           };
           await RequestedBook[0].updateOne(updatedBookValues).exec();
-          // Object.keys(updatedBookValues[0].checkedout) = RequestedBook[0].checkedout;
-          //John wants us to test the above code out
         }
         //if it's an item update
         if (updatedNotifications.item != null) {
@@ -258,7 +241,16 @@ router.put("/update/:_id", async (req, res) => {
         };
         await updatedNotifications.updateOne(dateValues).exec();
       }
-      //still need to do decline option
+      //if the owner has declined the request
+      if (updatedNotifications.status == "declined") {
+        const notifications = await Notifications.findByIdAndDelete(
+          req.params._id
+        );
+        res.status(200).json({
+          Deleted: 1,
+        });
+        return;
+      }
 
       //shows the new values
       res.status(200).json({
@@ -277,7 +269,6 @@ router.put("/update/:_id", async (req, res) => {
 router.put("/return/:_id", async (req, res) => {
   {
     try {
-      console.log("this is working");
       const returnUpdate = await Notifications.findById({
         _id: req.params._id,
       });
@@ -291,15 +282,37 @@ router.put("/return/:_id", async (req, res) => {
           {
             returnrequest: returnDate,
             status: "pending",
-            message: req.body.message,
+            message: "Would like to return:",
           },
           { new: true }
         );
         //email notifies owner
-        console.log(
-          "1",
-          `requester: ${returnUpdate.requestingUser}, owner ${returnUpdate.owner}, user: ${req.user._id}`
+        let Owner = await User.findOne(updatedNotification.owner);
+        let toEmail = Owner[0].email;
+        if (updatedNotification.book != null) {
+          let RequestedBook = await Book.find(
+            { _id: updatedNotification.book },
+            { title: 1, _id: 0 }
+          );
+          theRequest = RequestedBook[0].title;
+        }
+        //if it's an item, get the itemName
+        if (updatedNotification.item != null) {
+          let RequestedItem = await Item.find(
+            { _id: updatedNotification.item },
+            { itemName: 1, _id: 0 }
+          );
+          theRequest = RequestedItem[0].itemName;
+        }
+        let RequestingUser = await User.findOne(
+          updatedNotification.requestingUser
         );
+        let requestingUserName =
+          RequestingUser.firstName + " " + RequestingUser.lastName;
+        let emailSubject = `${requestingUserName} is returning ${theRequest}`;
+        let emailText = `On ${updatedNotification.returnDate}, ${requestingUserName} has stated that they have returned ${theRequest}. Log in to the South Meadows Library App to accept this return and make ${theRequest} available again for checkout`;
+
+        mail(toEmail, emailSubject, emailText);
       }
 
       //if owner accepts return,
@@ -313,6 +326,30 @@ router.put("/return/:_id", async (req, res) => {
           { new: true }
         );
         //email notifies requester
+        let Requester = await User.findOne(updatedNotification.requestingUser);
+        let toEmail = Requester[0].email;
+        if (updatedNotification.book != null) {
+          let RequestedBook = await Book.find(
+            { _id: updatedNotification.book },
+            { title: 1, _id: 0 }
+          );
+          theRequest = RequestedBook[0].title;
+        }
+        //if it's an item, get the itemName
+        if (updatedNotification.item != null) {
+          let RequestedItem = await Item.find(
+            { _id: updatedNotification.item },
+            { itemName: 1, _id: 0 }
+          );
+          theRequest = RequestedItem[0].itemName;
+        }
+        let Owner = await User.findOne(updatedNotification.owner);
+        let ownerName = Owner.firstName + " " + Owner.lastName;
+        let emailSubject = `${ownerName} has accepted your return of ${theRequest}`;
+        let emailText = `Thank you for using the South Meadows Library App`;
+
+        mail(toEmail, emailSubject, emailText);
+
         console.log(
           "2",
           `requester: ${returnUpdate.requestingUser}, owner ${returnUpdate.owner}, user: ${req.user._id}`
