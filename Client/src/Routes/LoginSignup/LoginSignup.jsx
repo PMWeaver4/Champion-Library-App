@@ -3,6 +3,7 @@ import { NavLink, useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
 import config from "../../config.json";
 import { isLoggedIn, setEmail, setFirstName, setLastName, setToken } from "../../localStorage";
+import ForgotPassword from "./passwordrecovery.jsx";
 
 //TODO, Sign up and login WORK WOOOHOOO.✅
 // TODO Browser displays a message notifying user needs to be approved✅
@@ -157,7 +158,7 @@ export default function LoginSignup() {
             </button>
           </form>
           {loginError && <p>{loginError}</p>}
-          <NavLink className="password-recovery">Forgot Password?</NavLink>
+          <button className="ForgotPassword" element={<ForgotPassword/>}>Forgot Password?</button>
         </div>
 
         <div id="signupForm" className="tab-content" style={{ display: activeTab === "signup" ? "block" : "none" }}>

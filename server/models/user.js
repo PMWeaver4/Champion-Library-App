@@ -28,6 +28,7 @@ const UserSchema = new mongoose.Schema({
 
         passwordreset: {
             type: String,
+            required: true,
         },
 
         isAdmin: {
