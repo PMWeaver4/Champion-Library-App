@@ -103,23 +103,23 @@ router.get("/all/", async (req, res) => {
 //Get user's email - we're using email as username
 //?actually, not anymore, probably no reason to get user by email now
 
-router.get("/email/:email", Validate, async (req, res) => {
-    try {
-        if (req.user.isAdmin == true){
-        //find by parameter
-        let results = await User.find({email: req.params.email});
-        res.status(200).json({
-            Results: results,
-        })
-    } 
-    }catch(err){
-        console.log(err);
+// router.get("/email/:email", Validate, async (req, res) => {
+//     try {
+//         if (req.user.isAdmin == true){
+//         //find by parameter
+//         let results = await User.find({email: req.params.email});
+//         res.status(200).json({
+//             Results: results,
+//         })
+//     } 
+//     }catch(err){
+//         console.log(err);
 
-        res.status(500).json({
-            Error: err,
-        });
-    }
-});
+//         res.status(500).json({
+//             Error: err,
+//         });
+//     }
+// });
 
 
 
