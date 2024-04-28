@@ -4,26 +4,28 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function UserTile({ user }) {
-  // maximum characters
-  // const MAX_CHAR = 12;
-  // const [showProfileCard, setShowProfileCard] = useState(false);
+  
   const navigate = useNavigate();
 
     const handleUserClick = () => {
-            navigate(`/UsersViewLibrary/${user._id}`, { state: { user } });
+            // Check if the user object and _id property are defined before navigating
+    if (user && user._id) {
+      navigate(`/UsersViewLibrary/${user._id}`, { state: { user } });
+    } else {
+      console.error("Invalid user object or missing _id property:", user);
+    }
     };
 
-  return (
-    <>
+  return user && user._id ? (
+    
     <div onClick={handleUserClick} className="User-tile">
-    <img className="User-tile-img" 
+    <img 
+    className="User-tile-img" 
     src="../../public/images/user avatar.png" 
     alt={`${user.firstName} ${user.lastName}'s avatar` } 
     />
     <h1 className="User-name">{`${user.firstName} ${user.lastName}`}</h1>
     </div>
-    {/* {user && <UsersViewLibraryPage user={user}/>} */}
-
-    </>
-  );
+    
+  ) : null;
 }
