@@ -18,7 +18,7 @@ const NotificationsSchema = new mongoose.Schema(
       ref: User,
     },
 
-    notifcationType: {
+    notificationType: {
       type: String,
       required: true,
       enum: ["borrow", "return"],

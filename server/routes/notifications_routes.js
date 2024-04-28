@@ -33,17 +33,20 @@ async function mail(toEmail, emailSubject, emailText) {
 router.post("/create/", async (req, res) => {
   try {
     //create new notifications from schema
+    console.log("1, get it started");
     let notifications = new Notifications({
       requestingUser: req.user._id,
       owner: req.body.owner,
       borrowrequest: req.body.borrowrequest,
       returnrequest: req.body.returnrequest,
       message: "Has requested to borrow: ",
+      notificationType: "borrow",
       item: req.body.item,
       book: req.body.book,
     });
     //save the new notification
     const newNotifications = await notifications.save();
+    console.log("2", newNotifications);
 
     //send an email to the owner that a request has been made
     let theRequest = "";
