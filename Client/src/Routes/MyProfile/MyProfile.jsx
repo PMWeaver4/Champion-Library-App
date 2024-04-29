@@ -135,7 +135,7 @@ export default function MyProfile() {
       <PageTemplate pageTitle="My Profile">   
         <div className={`my-profile-body ${showDeletePopup ? 'popup-clicked' : ''}`}>
           <div className="settings-title-container"> 
-        <h1 className="settings-title"> ACCOUNT SETTINGS  </h1>
+        <h1 className="settings-title" src="../../../public/images/settingsAvatar.jpeg"> ACCOUNT SETTINGS</h1>
         {/* <h1 className="circle"> ⚙️ </h1> */}
             </div>
            {/* <img className="settingsICON" src="/images/settings1.jpeg" alt="settings icon" /> */}
