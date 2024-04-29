@@ -10,13 +10,13 @@ import GameTile from "../../Components/ItemTIles/GameTile";
 import OtherTile from "../../Components/ItemTIles/OtherTile";
 import { useLocation } from "react-router-dom";
 import BookProfileCard from "../../Components/ItemProfileCard/BookProfileCard";
+import { NavLink,Navigate } from "react-router-dom";
 
 
 export default function UsersViewLibraryPage() {
   const [selectedBook, setSelectedBook] = useState(null); // will contain the array of books
   const [gameItems, setGameItems] = useState([]);
   const [items, setItems] = useState([]);
-
   const [otherItems, setOtherItems] = useState([]);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -67,17 +67,22 @@ export default function UsersViewLibraryPage() {
     getAllUsersItems();
   }, []);
 
-      return (
+
+return (
 <main className="users-viewAll-page">
   <PageTemplate pageTitle="User's Library">
     <div className="users-viewAll-body">
       <div className="home-banner">
       <h1 className="welcome-msg">Welcome to {user && `${user.firstName} ${user.lastName}'s Library 📚`}   </h1>
       </div>
+      {/* <NavLink to="/users" className="back-button">&#8592; Users </NavLink> */}
       {/* Render user's items */}
+      <div className="User-section">
       <div className="books-container">
               <div className="view-container">
-                {/* <h3>Books</h3> */}
+                <h3>BOOKS</h3>
+                <NavLink to="/users" className="back-button">&#8592; Back to Users </NavLink>
+
                 {/* <button className="view-btn view-books-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllBooks)}>
                   View all
                 </button> */}
@@ -93,11 +98,12 @@ export default function UsersViewLibraryPage() {
                 <CarouselPrevious />
                 <CarouselNext />
               </Carousel>
-             <div/>
+              </div>
+             
 
             <div className="board-games-container">
               <div className="view-container">
-                {/* <h3>Games</h3> */}
+                <h3>GAMES</h3>
                 {/* <button className="view-btn view-boardgames-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllGames)}>
                   View all
                 </button> */}
@@ -116,7 +122,7 @@ export default function UsersViewLibraryPage() {
             </div>
             <div className="others-container">
               <div className="view-container">
-                {/* <h3>Items</h3> */}
+                <h3>OTHER</h3>
                 {/* <button className="view-btn view-others-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllOther)}>
                   View all
                 </button> */}
@@ -132,13 +138,13 @@ export default function UsersViewLibraryPage() {
                 <CarouselPrevious />
                 <CarouselNext />
               </Carousel>
-              </div>
-              </div>
+          </div>
+      </div>
     </div>    
     {selectedBook && <BookProfileCard book={selectedBook} onClose={() => setSelectedBook(null)} />}
   </PageTemplate>
 </main>
-)}
+)};
     
 
 
