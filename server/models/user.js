@@ -1,51 +1,46 @@
-
 const mongoose = require("mongoose");
 
-
-const UserSchema = new mongoose.Schema({
-    
-        firstName: {
-            type: String,
-            required: true,
-            minlength: 1,
-        },
-        lastName: {
-            type: String,
-            required: true,
-            minlength: 1,
-        },
-        email: {
-            type: String,
-            required: true,
-            minlength: 1,
-            unique: true,
-        },
-        password: {
-            type: String,
-            required: true,
-            minlength: 1,
-        },
-
-        passwordreset: {
-            type: String,
-        },
-
-        isAdmin: {
-            type: Boolean,
-            default: false,
-        },
-
-        approved: {
-            type: Boolean,
-            default: false
-        }
-        
+const UserSchema = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+      minlength: 1,
     },
-    {
-    timestamps: true
-    }
+    lastName: {
+      type: String,
+      required: true,
+      minlength: 1,
+    },
+    email: {
+      type: String,
+      required: true,
+      minlength: 1,
+      // unique: true, "unique" appears to make it unupdateable - might need another way to prevent duplicate accounts
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 1,
+    },
 
+    passwordreset: {
+      type: String,
+    },
 
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+
+    approved: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
 
 module.exports = mongoose.model("user", UserSchema);
