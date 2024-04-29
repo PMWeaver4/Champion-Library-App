@@ -31,45 +31,73 @@
         text-align: center;
         filter: drop-shadow(1px 1px 2px grey);
         padding: 12px;
-        .welcome-msg,
-        .slogan {
+        .welcome-msg {
           color: white;
           font-family: "Inter", sans-serif;
           margin-top: 8px;
         }
-        .welcome-msg {
-          font-weight: bold;
-          text-wrap: balance;
-          width: 95%;
-        }
+        
       }
       .view-container {
-        display: none;
+       
         width: 100%;
         align-items: center;
         justify-content: space-around;
         padding-top: 0.25rem;
         padding-bottom: 0.75rem;
-        .view-btn {
-          background-color: #003366;
+        -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+        &::-webkit-scrollbar {
+          display: none; /* Hide scrollbar for WebKit browsers (Chrome, Safari, etc.) */
+        }
+        .back-button {
+          position: absolute;
+          top: 10px;
+          right: 20px;
+          background-color: white;
+          color: #003366;
           border: none;
           border-radius: 5px;
-          color: white;
-          cursor: pointer;
-          display: flex;
-          font-size: 11pt;
-          line-height: 1;
-          text-decoration: none;
-          text-align: center;
-          font-family: "Inter", sans-serif;
+          padding: 15px 25px;
+          font-size: 18px;
           font-weight: bold;
-          padding: 0.25em 0.5em;
+          cursor: pointer;
+          margin-right:0.1px;
+          margin-top:149px;
+          transition: background-color 0.3s ease, color 0.3s ease;
+    
           &:hover {
-            color: greenyellow;
+            color: rgb(33, 218, 33);
+          }
+          &:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.5);
           }
         }
+        
+        // /* Optional: Add padding and margin for spacing */
+        // padding: 10px;
+        // margin-bottom: 20px;
       }
-      .home-section {
+        // .view-btn {
+        //   background-color: #003366;
+        //   border: none;
+        //   border-radius: 5px;
+        //   color: white;
+        //   cursor: pointer;
+        //   display: flex;
+        //   font-size: 11pt;
+        //   line-height: 1;
+        //   text-decoration: none;
+        //   text-align: center;
+        //   font-family: "Inter", sans-serif;
+        //   font-weight: bold;
+        //   padding: 0.25em 0.5em;
+        //   &:hover {
+        //     color: greenyellow;
+        //   }
+        // }
+      
+      .User-section {
         width: 97%;
         height: 79%;
         margin-top: 8px;
@@ -90,10 +118,14 @@
             font-weight: bold;
             color: #003366;
             font-family: "Inter", sans-serif;
+            font-size: 14pt;
+
           }
         }
+          
+        }
       }
-    }
+    
    // carousel
   .min-w-0,
   .shrink-0,
