@@ -5,6 +5,11 @@ import { NavLink, Navigate } from "react-router-dom";
 import MyLoanedBooks from "../../Components/PopupsForLibrary/LoanedPopups/LoanedBooks";
 import MyLoanedGames from "../../Components/PopupsForLibrary/LoanedPopups/LoanedGames";
 import MyLoanedItems from "../../Components/PopupsForLibrary/LoanedPopups/LoanedItems";
+import config from "../../config.json";
+import { getToken, getUserId } from "../../localStorage";
+import BookTile from "../../Components/ItemTIles/BookTile";
+import GameTile from "../../Components/ItemTIles/GameTile";
+import OtherTile from "../../Components/ItemTIles/OtherTile";
 
 const MyLoanedPopupsEnum = {
   None: 0,
@@ -36,6 +41,79 @@ export default function MyLoaned() {
   function closeLoanedPopup() {
     setLoanedPopupState(MyLoanedPopupsEnum.None);
   }
+
+    //? -------------- All Users LOANED Books---------------
+    const [books, setBooks] = useState([]);
+    useEffect(() => {
+      const fetchLoanedBooks = async () => {
+        try {
+          const response = await fetch(config.backend_url + `library/loanedBooks/${getUserId()}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${getToken()}`,
+            },
+          });
+          if (!response.status === 200) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
+          setBooks(data.Results);
+        } catch (error) {
+          console.error("Failed to fetch loaned books:", error);
+        }
+      };
+  
+      fetchLoanedBooks();
+    }, []);
+  
+    //? -------------- All users LOANED items---------------
+
+    const [otherItems, setOtherItems] = useState([]);
+  
+    async function getAllUsersLoanedItems() {
+      const response = await fetch(config.backend_url + `library/loanedItems/${getUserId()}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      const itemData = await response.json(); // the response is directly an array of items
+      if (response.status !== 200) {
+        console.error("Failed to fetch items");
+        return;
+      }
+      setOtherItems(itemData);
+
+    }
+  
+    useEffect(() => {
+      getAllUsersLoanedItems();
+    }, []);
+  
+       //? -------------- All users LOANED games---------------
+
+       const [games, setGames] = useState([]);
+  
+       //change get request or create separate for items and games?
+       async function getAllUsersLoanedGames() {
+         const response = await fetch(config.backend_url + `library/loanedGames/${getUserId()}`, {
+           method: "GET",
+           headers: {
+             Authorization: `Bearer ${getToken()}`,
+           },
+         });
+         const gameData = await response.json(); // the response is directly an array of items
+         if (response.status !== 200) {
+           console.error("Failed to fetch items");
+           return;
+         }
+         setGames(gameData);
+   
+       }
+     
+       useEffect(() => {
+         getAllUsersLoanedGames();
+       }, []);
 
   return (
     <main className="loaned-page">
