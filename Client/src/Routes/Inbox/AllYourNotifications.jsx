@@ -1,13 +1,9 @@
-//allYourNotifications
-//import getuserid from local storage
-//use getuserid() as a function
-
 import { NavLink } from "react-router-dom";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import { useEffect, useState } from "react";
 import config from "../../config.json";
 import { getToken, getUserId } from "../../localStorage";
-import GameTile from "../../Components/ItemTIles/GameTile";
+import NotificationTile from "./NotificationTile";
 export default function AllYourNotifications() {
   // fetch notifications
   const [notifications, setNotifications] = useState([]);
@@ -33,18 +29,18 @@ export default function AllYourNotifications() {
   }, []);
 
   return (
-    <main className="all-games-page">
-      <PageTemplate pageTitle="GAMES">
-        <div className="all-games-body">
+    <main className="all-notifications-page">
+      <PageTemplate pageTitle="NOTIFICATIONS">
+        <div className="all-notifications-body">
           <div className="view-all-headers">
             <NavLink className="back-btn-home" to="/home">
               <i className="fa-solid fa-arrow-left"></i>
             </NavLink>
-            <h1>GAMES</h1>
+            <h1>NOTIFICATIONS</h1>
           </div>
           <div className="view-all-grid">
-            {gameItems.map((game) => (
-              <GameTile key={game._id} game={game} />
+            {notifications.map((notification) => (
+              <NotificationTile key={notification._id} notification={notification} />
             ))}
           </div>
         </div>

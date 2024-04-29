@@ -11,6 +11,8 @@ import config from "../../config.json";
 export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
   //fetch the notifications, get up to date!
   const [notifications, setNotifications] = useState([]);
+  const [borrowReq, setBorrowReq] = useState([]);
+  const [returnReq, setReturnReq] = useState([]);
   async function getNotifications() {
     const response = await fetch(config.backend_url + `notifications/allYourNotifications/${getUserId()}`, {
       method: "GET",
@@ -25,6 +27,8 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
       return;
     }
     setNotifications(notificationData.Results);
+    setBorrowReq(notificationData.Results.filter((notification) => notification.notificationType  ===  "borrow"));
+    setReturnReq(notificationData.Results.filter((notification) => notification.notificationType  ===  "return"));
     
   }
 
@@ -44,12 +48,15 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
   }
   // for tab system, starts on all tab
   const [activeTab, setActiveTab] = useState("allRequest");
+
   // Req = request
   const tabs = [
     { id: "allRequest", title: "All" },
     { id: "borrowReq", title: "Borrow Request"},
     { id: "returnReq", title: "Return Request"},
   ];
+
+  
 
   return (
     <main className="inbox-page">
@@ -81,8 +88,26 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                 bookTitle={notification.book?.title} 
                 itemName={notification.item?.itemName} />
                 )}
-                {activeTab === "borrowReq" && <div>Content for Borrow Request</div>}
-                {activeTab === "returnReq" && <div>Content for Return Request</div>}
+                {activeTab === "borrowReq" && borrowReq.map(notification => 
+                <NotificationTile key={notification._id}
+                email={notification.requestingUser.email || notification.owner.email}
+                firstName={notification.requestingUser.firstName}
+                lastName={notification.requestingUser.lastName}
+                text={notification.message}
+                createdAt={notification.createdAt}
+                bookTitle={notification.book?.title} 
+                itemName={notification.item?.itemName} />
+                )}
+                {activeTab === "returnReq" && returnReq.map(notification => 
+                <NotificationTile key={notification._id}
+                email={notification.requestingUser.email || notification.owner.email}
+                firstName={notification.requestingUser.firstName}
+                lastName={notification.requestingUser.lastName}
+                text={notification.message}
+                createdAt={notification.createdAt}
+                bookTitle={notification.book?.title} 
+                itemName={notification.item?.itemName} />
+                )}
                 {/* need to add a div later to create a border between tabs and notifications */}
                 
                </div>

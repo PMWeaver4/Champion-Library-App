@@ -45,7 +45,7 @@ export default function BookProfileCardPage() {
                 <i className="fa-solid fa-arrow-left"></i>
               </button>
               <div className="overlay-content">
-                <div className="book-placeholder">{/* Optionally add an image or placeholder graphic */}</div>
+                <div className="book-placeholder"><img src={book.img} /></div>
                 <div className="card-headers">
                   <h1 className="card-title">{book.title}</h1>
                   <h2 className="card-author">by {book.author}</h2>
