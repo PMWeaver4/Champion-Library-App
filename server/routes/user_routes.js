@@ -16,6 +16,7 @@ const PASS = process.env.PASS;
 //const bodyParser = require("body-parser");
 
 const nodemailer = require("nodemailer");
+const user = require("../models/user");
 
 const transporter = nodemailer.createTransport({
   host: "live.smtp.mailtrap.io",
@@ -103,26 +104,6 @@ router.get("/all/", async (req, res) => {
   }
 });
 
-//Get user's email - we're using email as username
-//?actually, not anymore, probably no reason to get user by email now
-
-router.get("/email/:email", Validate, async (req, res) => {
-  try {
-    if (req.user.isAdmin == true) {
-      //find by parameter
-      let results = await User.find({ email: req.params.email });
-      res.status(200).json({
-        Results: results,
-      });
-    }
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({
-      Error: err,
-    });
-  }
-});
 
 //login
 
@@ -157,27 +138,47 @@ router.post("/login/", async (req, res) => {
 });
 
 // Add password recovery
-router.post("/user/:passwordreset", (req, res) => {
-  console.log("inside recovery");
-  User.findOne({
-    where: {
-      resetPasswordToken: req.query.resetPasswordToken,
-      resetPasswordExpires: {
-        [Op.gt]: Date.now(),
-      },
-    },
-  }).then((user) => {
-    if (user == null) {
-      console.error("password reset link is invalid or has expired");
-      res.status(403).send("password reset link is invalid or has expired");
-    } else {
-      res.status(200).send({
-        username: user.username,
-        message: "password reset link okay",
-      });
+router.post("/forgotPassword", async (req, res) => {
+  const {email} = req.body;
+  try {
+    const user = await User.findOne({ email });
+     if(!user) {
+      return res.json({Status: "User does not exist."})
     }
-  });
-  });
+    const secret = JWT_SECRET + user.password;
+    const token = jwt.sign({email: user.email, id: user._id},secret,{expiresIn: "10min"});
+    const link = `http://localhost:3001/react/resetPassword/${user._id}/${token}`;
+  } catch (error) {}
+});
+
+
+router.get("/resetPassword/:_id/:token", async (req, res) => {
+  const {id, token} = req.params
+  const user = await User.findOne({ email });
+  if(!user) {
+   return res.json({Status: "User does not exist."})
+ }
+ const secret = JWT_SECRET + user.password;
+ try{
+  const verify =jwt.verify(token, secret);
+  const encryptedPassword= await bcrypt.hash(password,10);
+  await User.updateOne(
+    {
+    _id:id,
+    },
+    {
+      $set: {
+        password: encryptedPassword,
+      },
+    }
+  );
+  res.json({ status: "Password Updated"});
+ 
+  }catch (error) {
+    res.json({status: "Something went wrong"})
+  } 
+});
+ 
 
 
 
@@ -307,4 +308,4 @@ router.delete("/delete/:_id", Validate, async (req, res) => {
 
 module.exports = router;
 
-//Trang
+

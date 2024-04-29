@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddGames from "../../LibraryAddItemPopup/AddGames";
 import PageTemplate from "../../PageTemplate/PageTemplate";
-
+import GameTile from "../../ItemTIles/GameTile";
+import config from "../../../config.json";
+import { getToken, getUserId } from "../../../localStorage";
 export default function MyGames({ onClose, handleAddGameClick }) {
   const [showAddGamePopup, setShowAddGamePopup] = useState(false);
 
@@ -13,6 +15,29 @@ export default function MyGames({ onClose, handleAddGameClick }) {
   function handleCloseGamePopup() {
     setShowAddGamePopup(false);
   }
+
+  // fetch game items
+  const [gameItems, setGameItems] = useState([]);
+  const [items, setItems] = useState([]);
+  async function getAllUsersGames() {
+    const response = await fetch(config.backend_url + `library/items/${getUserId()}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const itemData = await response.json(); // the response is directly an array of items
+    if (response.status !== 200) {
+      console.error("Failed to fetch items");
+      return;
+    }
+    setItems(itemData);
+    setGameItems(itemData.Results.filter((item) => item.itemType === "game"));
+  }
+
+  useEffect(() => {
+    getAllUsersGames();
+  }, []);
 
   return (
     <div className="my-popups-page">
@@ -26,7 +51,11 @@ export default function MyGames({ onClose, handleAddGameClick }) {
             <i className="fa-solid fa-square-plus"></i>
           </button>
         </div>
-        <div className="view-all-grid"></div>
+        <div className="view-all-grid">
+          {gameItems.map((game) => (
+            <GameTile key={game._id} game={game} />
+          ))}
+        </div>
       </div>
       {showAddGamePopup && <AddGames onClosePopup={handleCloseGamePopup} />}
     </div>
