@@ -114,7 +114,7 @@ export default function MyLibrary() {
             </nav>
             <div className="books-container">
               <div className="view-container">
-                <h3>Books</h3>
+                <h3>BOOKS</h3>
                 <button className="view-btn view-books-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllBooks)}>
                   View all
                 </button>
@@ -133,7 +133,7 @@ export default function MyLibrary() {
             </div>
             <div className="board-games-container">
               <div className="view-container">
-                <h3>Games</h3>
+                <h3>GAMES</h3>
                 <button className="view-btn view-boardgames-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllGames)}>
                   View all
                 </button>
@@ -152,7 +152,7 @@ export default function MyLibrary() {
             </div>
             <div className="others-container">
               <div className="view-container">
-                <h3>Items</h3>
+                <h3>OTHER</h3>
                 <button className="view-btn view-others-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllOther)}>
                   View all
                 </button>

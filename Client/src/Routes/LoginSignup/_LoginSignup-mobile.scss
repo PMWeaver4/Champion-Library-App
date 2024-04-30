@@ -45,6 +45,25 @@
     }
   }
 
+  .Approval-message {
+    color: #ffffff; 
+  background-color: #4CAF50; 
+  font-size: 18px; 
+  padding: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  text-align: center; 
+  transition: background-color 0.3s ease; 
+}
+
+.Approval-message:hover {
+  background-color: #45a049; 
+  cursor: pointer; 
+}
+
+
+
+
+
   .indicator {
     position: absolute;
     bottom: -3px;

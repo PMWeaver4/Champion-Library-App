@@ -200,7 +200,7 @@ export default function MyProfile() {
           {/* delete account popup */}
           { showDeletePopup && (
             <div className="delete-account-popup">
-            <h1> We are sad to see you go. Are you sure you want to delete your account?" </h1>
+            <h1> We are sad to see you go. Are you sure you want to delete your account? </h1>
               <button className="yes-delete-btn" onClick={confirmDeleteAccount}> Yes </button>
               <button className="no-delete-btn" onClick={cancelDeleteAccount}> No </button>
             </div>
