@@ -64,32 +64,25 @@ router.post("/create/", async (req, res) => {
     console.log(adminEmails);
 
     // send email to the user signing up
-    await Email.sendWithTemplate({
+    Email.sendWithTemplate({
       recipient: newUser.email,
       email_type: EmailTypes.NewUserPending,
       template_variables: {
         username: newUser.firstName,
       },
     });
-    await Email.bulkSendWithTemplate({
-      recipients: [newUser.email],
-      //TODO recipients need to be swapped for adminEmails when official domain is approved
-      email_type: EmailTypes.PendingUserNotifToAdmin,
-      template_variables: {
-        admin: "Admin",
-        user_fullname: `${newUser.firstName} ${newUser.lastName}`,
-        user_email: newUser.email,
-        login_link: process.env.FRONTEND_URL,
-      },
-    });
-
-    // let usersToEmail = await User.find({isAdmin: true});
-    // let toEmail = usersToEmail.map(obj => obj.email);//not just 0th element!
-    // let emailSubject = `New User Request from ${newUser.firstName} ${newUser.lastName}`
-    // let emailText = `${newUser.firstName} ${newUser.lastName} is requesting to join South Meadows Library with ${newUser.email} as their username/email`
-    // console.log(toEmail, emailSubject, emailText);
-    // mail(toEmail, emailSubject, emailText);
-
+    if (adminEmails.length > 0) {
+      Email.bulkSendWithTemplate({
+        recipients: adminEmails,
+        email_type: EmailTypes.PendingUserNotifToAdmin,
+        template_variables: {
+          admin: "Admin",
+          user_fullname: `${newUser.firstName} ${newUser.lastName}`,
+          user_email: newUser.email,
+          login_link: process.env.FRONTEND_URL,
+        },
+      });
+    }
     res.status(200).json({
       // only contains necessary data
       Created: returnData,
@@ -231,7 +224,7 @@ router.put("/adminUpdate/:email", Validate, async (req, res) => {
       //get the info to update user
       const usersUpdatedInformation = req.body;
       //keep the old information to compare (important for if status was changed to approved)
-      const user = await User.findOne({ email: email });
+      let user = await User.findOne({ email: email });
       //match the user by email
       //if no user match
       if (user === null) {
@@ -239,13 +232,20 @@ router.put("/adminUpdate/:email", Validate, async (req, res) => {
         return;
       }
 
-      const isApproving = usersUpdatedInformation.approved == "accepted" && user.approved == "pending";
-      user.updateOne(usersUpdatedInformation);
-      console.log(user);
+      const isApproving = usersUpdatedInformation.approved != "Pending" && user.approved == "Pending";
+      user = await User.findOneAndUpdate({email}, usersUpdatedInformation, {new: true});
 
       //otherwise, update that user w/ new info
       if (isApproving) {
-// need to cont
+        Email.sendWithTemplate({
+          recipient: user.email,
+          email_type: EmailTypes.NewUserAccountStatus,
+          template_variables: {
+            username: user.firstName,
+            subject_status: user.approved,
+            account_status: user.approved.toUpperCase(),
+          },
+        });
       }
 
       res.status(200).json({

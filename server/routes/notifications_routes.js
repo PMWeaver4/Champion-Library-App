@@ -1,8 +1,8 @@
 /**
- * TODO signup: sends email that you created account and must wait admin approval before login
- * TODO signup: admin recieves email that user wants to join and that they should login to approve or deny the user
- * TODO signup: if admin approves user, user recieves email theyve been approved and can log in
- * TODO signup: if admin denies user, user recieved email theyve been declined and can not login (user is kept on "blacklist so they cant request to signup again with same email")
+ * TODO signup: sends email that you created account and must wait admin approval before login ☑️
+ * TODO signup: admin recieves email that user wants to join and that they should login to approve or deny the user ☑️
+ * TODO signup: if admin approves user, user recieves email theyve been approved and can log in ☑️
+ * TODO signup: if admin denies user, user recieved email theyve been declined and can not login (user is kept on "blacklist so they cant request to signup again with same email")☑️
  * TODO borrow request: when a user submits a borrow request for book or item recieving user should get an in app notif and a email notif saying a user wants to borrow their book/item
  * TODO borrow req: when a user accepts or declines a borrow request the requestingUser recieves an in app notif and email
  * TODO return request: when a user submits a return request for book or itemrecieving user should get an in app notif and a email notif saying a user wants to return their book/item
@@ -63,55 +63,65 @@ router.post("/testEmail", async (req, res) => {
 });
 
 // Create Notifications
+// 4/30/24 this now checks if an item or book has already been requested (hasPendingRequest) before allowing the creation of a notification or email
 router.post("/create/", async (req, res) => {
   try {
+    //item_details are the details of any requested item (book, game or misc)
+    let item_details = "";
+    let ownerId = "";
+    if (req.body.item != null) {
+      let RequestedItem = await Item.findOne({ _id: req.body.item }, { itemName: 1, _id: 0, user: 1, hasPendingRequest: 1 });
+      console.log(RequestedItem);
+      if (RequestedItem.hasPendingRequest) {
+        return res.status(423).json({ error: "Item has already been requested by another user." });
+      }
+      item_details = RequestedItem.itemName;
+      ownerId = RequestedItem.user;
+      await Item.findByIdAndUpdate(req.body.item, { hasPendingRequest: true });
+    } else if (req.body.book != null) {
+      let RequestedBook = await Book.findOne({ _id: req.body.book }, { title: 1, _id: 0, author: 1, user: 1, hasPendingRequest: 1 });
+      if (RequestedBook.hasPendingRequest) {
+        return res.status(423).json({ error: "Book has already been requested by another user." });
+      }
+      item_details = `${RequestedBook.title} by ${RequestedBook.author.length > 1 ? RequestedBook.author.join(", ") : RequestedBook.author}`;
+      ownerId = RequestedBook.user;
+      await Book.findByIdAndUpdate(req.body.book, { hasPendingRequest: true });
+    } else {
+      return res.status(400).json({ error: "Book or Item not provided." });
+    }
     //create new notifications from schema
     console.log("1, get it started");
-    let notifications = new Notifications({
+    const notification = new Notifications({
       requestingUser: req.user._id,
-      owner: req.body.owner,
-      borrowrequest: req.body.borrowrequest,
-      returnrequest: req.body.returnrequest,
+      owner: ownerId,
+      borrowrequest: Date.now(),
       message: "Has requested to borrow: ",
       notificationType: "borrow",
       item: req.body.item,
       book: req.body.book,
     });
     //save the new notification
-    const newNotifications = await notifications.save();
-    console.log("2", newNotifications);
-
-    //send an email to the owner that a request has been made
-    let theRequest = "";
+    await notification.save();
+    console.log("2", notification);
     //get the email
-    let Email = await User.find({ _id: newNotifications.owner }, { email: 1, _id: 0 });
+    let owner = await User.findOne({ _id: notification.owner }, { email: 1, _id: 0, firstName: 1 });
     //convert from array to string
-    let toEmail = Email[0].email;
-    //if the notification is to request a certain book, grab it's title
-    if (newNotifications.book != null) {
-      let RequestedBook = await Book.find({ _id: newNotifications.book }, { title: 1, _id: 0 });
-      theRequest = RequestedBook[0].title;
-    }
-    //if the notification is to request a certain item, grab it's name
-    if (newNotifications.item != null) {
-      let RequestedItem = await Item.find({ _id: newNotifications.item }, { itemName: 1, _id: 0 });
-      theRequest = RequestedItem[0].itemName;
-    }
+    let ownerEmail = owner.email;
     //store who is requesting
-    let Requester = await User.find({ _id: newNotifications.requestingUser });
-    //let's display their name
-    let requester = Requester[0].firstName + " " + Requester[0].lastName;
-    //by design, a newly created notification is a "New Request"
-    let emailSubject = `New Request`;
-    //customized email text
-    let emailText = `${requester} ${newNotifications.message} ${theRequest} from you. `;
-
-    //utilize mail function to send an email
-    mail(toEmail, emailSubject, emailText);
-
+    let requester = await User.findOne({ _id: notification.requestingUser });
+    Email.sendWithTemplate({
+      recipient: ownerEmail,
+      email_type: EmailTypes.BorrowRequest,
+      template_variables: {
+        sender_fullname: `${requester.firstName} ${requester.lastName}`,
+        user_fullname: owner.firstName,
+        sender_email: requester.email,
+        item_details: item_details,
+      },
+    });
     //notify.....about the new notification
     res.status(200).json({
-      Created: newNotifications,
+      Created: notification,
     });
   } catch (err) {
     console.log(err);

@@ -33,6 +33,11 @@ const ItemSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  // if this is true, user has submitted a request to borrow item. if the borrow request is accepted boolean = false and checkedout = true.
+  hasPendingRequest: {
+    type: Boolean,
+    default: false
+  },
   condition: {
     type: String,
   },
