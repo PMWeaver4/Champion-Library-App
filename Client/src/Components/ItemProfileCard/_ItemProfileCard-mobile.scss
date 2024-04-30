@@ -1,141 +1,244 @@
-.book-profile-card-background, .game-profile-card-background, .item-proifle-card-background {
-  background-color: rgba(0, 0, 0, 0.515);
-  inset: 0;
-  position: fixed;
+.BookProfileCardPage, .GameProfileCardPage, .ItemProfileCardPage  {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-
-
-  .book-profile-card,.game-profile-card, .item-profile-card {
+  background-color: rgb(234, 234, 234);
+  inset: 0;
+  .ItemProfileCard {
+    padding-bottom: 0.5rem;
+    border-radius: 1rem;
+    width: 85%;
+    height: fit-content;
+    max-height: 85%;
+    background-color: white;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.322));
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 19rem;
-    height: 40rem;
-    background-color: white;
-    position: absolute;
- 
-    border-radius: 1rem;
-    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.721));
-
-    .about-section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1rem;
-      flex-grow: 1;
-      color: #003366;
-      h3 {
-        margin-top: 2rem;
-        font-size: 1rem;
-        font-weight: bold;
-        font-family: "Inter", sans-serif;
-        text-decoration: 2px underline greenyellow;
-        text-align: center;
-      }
-      .about-content {
-        display: flex;
-        flex-direction: column;
-        width: 90%;
-        overflow-y: auto;
-        max-height: 80%;
-        h4 {
-          margin-top: 1rem;
-          font-size: 1rem;
-          font-weight: bold;
-          font-family: "Inter", sans-serif;
-        }
-
-        p {
-          display: flex;
-          margin-top: 0.5rem;
-          font-size: 12pt;
-          font-family: "Inter", sans-serif;
-          text-align: left;
-          width: 100%;
-          padding-bottom: 1rem;
-          border-bottom: 2px solid #003366f4;
-        }
-      }
-      .book-card-information, .game-card-information, .item-card-information {
-        margin-top: 1rem;
-        font-size: 1rem;
-        font-family: "Inter", sans-serif;
-        color: #003366;
-        em {
-          font-weight: bold;
-        }
-      }
-    }
-
-    .card-overlay {
+    .blue-card-overlay {
       border-top-left-radius: 1rem;
       border-top-right-radius: 1rem;
       background-color: #003366;
-      width: 100%;
-      height: 30%;
-      filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.721));
-      font-weight: bold;
-      font-family: "Inter", sans-serif;
-      color: white;
+      display: flex;
+      justify-content: space-evenly;
+      padding: 0 0.5rem;
       position: relative;
-
-      .overlay-content {
+      width: 100%;
+      height: fit-content;
+      .ItemCard-header {
         display: flex;
-        justify-content: space-evenly;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
         align-items: center;
-        height: 100%;
-        .book-placeholder, .game-placeholder, .item-placeholder {
-          width: 6rem;
-          height: 9rem;
-          background-color: lightblue;
-          position: relative;
-          bottom: -2rem;
-          box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+        gap: 1rem;
+        h1 {
+          font-size: 1rem;
+          color: white;
+          max-width: 8rem;
+          font-weight: bold;
         }
-        .card-headers {
-          text-align: center;
-          .card-title {
-            margin-top: 2rem;
-          }
-          .borrow-btn {
-            margin-top: 2rem;
-            background-color: greenyellow;
-            color: #003366;
-            font-size: 1rem;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            padding: 4px 12px;
-            border-radius: 5px;
-          }
+        .borrow-button {
+          width: fit-content;
+          height: fit-content;
+          font-size: 1rem;
+          padding: 0.25rem 1rem;
+          background-color: greenyellow;
+          color: #003366;
+          font-weight: bold;
+          border-radius: 0.25rem;
+        }
+      }
+      .ItemCard-back-btn {
+        color: white;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        i {
+          font-size: 1.5rem;
+        }
+        &:hover {
+          color: greenyellow;
         }
       }
 
-      .close-btn {
-        width: fit-content;
-        height: fit-content;
-        position: absolute;
-        top: 4px;
-        left: 4px;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-        i {
-          padding: 8px;
-          font-size: 1.5rem;
-          color: white;
-          &:hover {
-            color: greenyellow;
-          }
+      img {
+        width: 7rem;
+        aspect-ratio: 100/150;
+        object-fit: cover;
+        padding: 1rem;
+      }
+    }
+    .white-card-overlay {
+      padding: 0 1rem;
+      border-radius: 1rem;
+      overflow-y: scroll;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      details {
+        summary {
+          font-weight: bold;
+        }
+      }
+      h2 {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #003366;
+        padding-top: 8px;
+      }
+      h3 {
+        font-size: 1rem;
+        padding-bottom: 4px;
+        border-bottom: 2px solid #003366bb;
+      }
+      p {
+        padding-top: 4px;
+        em {
+          font-weight: bold;
+          color: #003366;
         }
       }
     }
   }
 }
 
+// .book-profile-card-background,
+// .game-profile-card-background,
+// .item-proifle-card-background {
+//   background-color: rgba(0, 0, 0, 0.515);
+//   inset: 0;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+// }
 
+//   .book-profile-card,.game-profile-card, .item-profile-card {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     width: 19rem;
+//     height: 40rem;
+//     background-color: white;
+//     position: absolute;
 
+//     border-radius: 1rem;
+//     filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.721));
 
+//     .about-section {
+//       display: flex;
+//       flex-direction: column;
+//       align-items: center;
+//       padding: 1rem;
+//       flex-grow: 1;
+//       color: #003366;
+//       h3 {
+//         margin-top: 2rem;
+//         font-size: 1rem;
+//         font-weight: bold;
+//         font-family: "Inter", sans-serif;
+//         text-decoration: 2px underline greenyellow;
+//         text-align: center;
+//       }
+//       .about-content {
+//         display: flex;
+//         flex-direction: column;
+//         width: 90%;
+//         overflow-y: auto;
+//         max-height: 80%;
+//         h4 {
+//           margin-top: 1rem;
+//           font-size: 1rem;
+//           font-weight: bold;
+//           font-family: "Inter", sans-serif;
+//         }
+
+//         p {
+//           display: flex;
+//           margin-top: 0.5rem;
+//           font-size: 12pt;
+//           font-family: "Inter", sans-serif;
+//           text-align: left;
+//           width: 100%;
+//           padding-bottom: 1rem;
+//           border-bottom: 2px solid #003366f4;
+//         }
+//       }
+//       .book-card-information, .game-card-information, .item-card-information {
+//         margin-top: 1rem;
+//         font-size: 1rem;
+//         font-family: "Inter", sans-serif;
+//         color: #003366;
+//         em {
+//           font-weight: bold;
+//         }
+//       }
+//     }
+
+//     .card-overlay {
+//       border-top-left-radius: 1rem;
+//       border-top-right-radius: 1rem;
+//       background-color: #003366;
+//       width: 100%;
+//       height: 30%;
+//       filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.721));
+//       font-weight: bold;
+//       font-family: "Inter", sans-serif;
+//       color: white;
+//       position: relative;
+
+//       .overlay-content {
+//         display: flex;
+//         justify-content: space-evenly;
+//         align-items: center;
+//         height: 100%;
+//         .book-placeholder, .game-placeholder, .item-placeholder {
+//           width: 6rem;
+//           height: 9rem;
+//           background-color: lightblue;
+//           position: relative;
+//           bottom: -2rem;
+//           box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+//         }
+//         .card-headers {
+//           text-align: center;
+//           .card-title {
+//             margin-top: 2rem;
+//           }
+//           .borrow-btn {
+//             margin-top: 2rem;
+//             background-color: greenyellow;
+//             color: #003366;
+//             font-size: 1rem;
+//             font-weight: bold;
+//             border: none;
+//             cursor: pointer;
+//             padding: 4px 12px;
+//             border-radius: 5px;
+//           }
+//         }
+//       }
+
+//       .close-btn {
+//         width: fit-content;
+//         height: fit-content;
+//         position: absolute;
+//         top: 4px;
+//         left: 4px;
+//         border: none;
+//         background-color: transparent;
+//         cursor: pointer;
+//         i {
+//           padding: 8px;
+//           font-size: 1.5rem;
+//           color: white;
+//           &:hover {
+//             color: greenyellow;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

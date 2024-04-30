@@ -20,7 +20,6 @@
       width: 100%;
       height: 100%;
       .inbox-tabs {
-        padding-top: 4px;
         display: flex;
         background-color: #003366;
         gap: 4px;
@@ -122,6 +121,29 @@
     color: white;
     .notification-username {
       color: greenyellow;
+    }
+    .notification-content {
+      .reply-div {
+        .reply-btn {
+          background-color: greenyellow;
+          color: #003366;
+        }
+      }
+    }
+  }
+  .notification-content {
+    .reply-div {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 0.5rem;
+      .reply-btn {
+        width: 4rem;
+        height: 1.5rem;
+        background-color: #003366;
+        color: white;
+        border-radius: .25rem;
+      }
     }
   }
   .notification-header {

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import config from "../../config.json";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@shadcn/components/ui/carousel";
-// import BookProfileCard from "../../Components/BookProfileCard/BookProfileCard";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import BookTile from "../../Components/ItemTIles/BookTile";
 import { NavLink, Navigate } from "react-router-dom";
@@ -9,6 +8,7 @@ import { getToken, isLoggedIn } from "../../localStorage";
 import GameTile from "../../Components/ItemTIles/GameTile";
 import OtherTile from "../../Components/ItemTIles/OtherTile";
 import BookProfileCard from "../../Components/ItemProfileCard/BookProfileCard";
+import GamesProfileCard from "../../Components/ItemProfileCard/GamesProfileCard";
 
 // SETTINGS CONSTANTS
 const MAX_NUM_ELEMENTS_IN_CAROUSEL = 10;
@@ -54,6 +54,11 @@ export default function Home() {
   function handleBookClick(bookId) {
     fetchTheBook(bookId);
   }
+
+  // ?-------------------------------------------Fetching selected game/item to display profile card -----------------------
+
+
+
   //?-----------------------------------------Fetching Books To Display-------------------------------------------------
 
 
