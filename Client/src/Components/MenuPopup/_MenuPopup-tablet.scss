@@ -1,24 +1,22 @@
 .menu-popup {
   overflow: hidden;
   background-color: #003366;
-  width: 25%;
-  top: 0;
-
+  width: 100%;
+  position: static;
   ul {
+    padding-top: 0;
     .nav-img {
       display: flex;
-      width: 10rem;
+      width: 80%;
       height: fit-content;
     }
     .menu-btns-container {
       width: 80%;
       a {
         i {
-            padding-left: .5rem;
+          padding-left: 0.5rem;
         }
       }
     }
   }
 }
-
-  

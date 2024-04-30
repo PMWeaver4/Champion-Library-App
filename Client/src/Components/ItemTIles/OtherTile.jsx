@@ -8,8 +8,8 @@ export default function OtherTile({other}) {
   };
   return (
     <div onClick={handleItemClick} className="item-tile">
-      { <img src={other.img} /> }
-      { <h1 className="item-title">{other.itemName}</h1> }
+      <img className="tile-img" src={other.img} />
+      { <h1 className="item-title">{other.itemName.length > MAX_CHAR ? other.itemName.substring(0, MAX_CHAR) + "..." : other.itemName}</h1> }
     </div>
   );
 }

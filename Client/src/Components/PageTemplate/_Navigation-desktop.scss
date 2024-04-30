@@ -1,4 +1,5 @@
 .page-template {
+
   background-color: #003366;
   flex-direction: row;
   justify-content: flex-end;
@@ -7,7 +8,7 @@
     display: flex;
     justify-content: center;
     width: 80%;
-    height: 90%;
+    height: 100%;
     box-shadow: none;
     margin-right: 2rem;
     
@@ -17,5 +18,6 @@
   }
   .navigation-side-bar {
     display: flex;
+    width: calc(20% - 32px);
   }
 }

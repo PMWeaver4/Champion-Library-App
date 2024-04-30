@@ -1,17 +1,18 @@
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { clearStorage } from "../../localStorage";
 
 export default function MenuPopup() {
 
-function onLogout(){
-clearStorage();
-return <Navigate to="/" replace/>
-}
+  const navigate = useNavigate();
+
+  function onLogout() {
+    clearStorage();
+    navigate("/");
+  }
 
   return (
     <nav className="menu-popup">
       <ul>
-        
         <li className="menu-btns-container home">
           <NavLink to="/home">
             <i className="fa-solid fa-house"></i>
@@ -38,12 +39,12 @@ return <Navigate to="/" replace/>
         </li>
         <li className="menu-btns-container admin">
           <NavLink to="/admin">
-          <i className="fa-solid fa-user-tie"></i>
+            <i className="fa-solid fa-user-tie"></i>
             <p>Admin</p>
           </NavLink>
         </li>
         <li className="menu-btns-container profile">
-          <NavLink to="/account">        
+          <NavLink to="/account">
             <i className="fa-solid fa-address-card"></i>
             <p>Account</p>
           </NavLink>
