@@ -14,6 +14,7 @@ const Validate = require("../middleware/validate");
 const PASS = process.env.PASS;
 
 const nodemailer = require("nodemailer");
+const { Email, EmailTypes } = require("../Email/Email");
 
 const transporter = nodemailer.createTransport({
   host: "live.smtp.mailtrap.io",
@@ -56,14 +57,32 @@ router.post("/create/", async (req, res) => {
       isAdmin: newUser.isAdmin,
       approved: newUser.approved,
     };
+    // isolates admin emails so we can send admin related emails to admins
+    const admins = await User.find({ isAdmin: true }, { email: true });
+    const adminEmails = admins.map((admin) => admin.email);
+    console.log(admins);
+    console.log(adminEmails);
 
-    let usersToEmail = await User.find({ isAdmin: true });
-    let toEmail = usersToEmail.map((obj) => obj.email); //not just 0th element!
-    let emailSubject = `New User Request from ${newUser.firstName} ${newUser.lastName}`;
-    let emailText = `${newUser.firstName} ${newUser.lastName} is requesting to join South Meadows Library with ${newUser.email} as their username/email`;
-    console.log(toEmail, emailSubject, emailText);
-    mail(toEmail, emailSubject, emailText);
-
+    // send email to the user signing up
+    Email.sendWithTemplate({
+      recipient: newUser.email,
+      email_type: EmailTypes.NewUserPending,
+      template_variables: {
+        username: newUser.firstName,
+      },
+    });
+    if (adminEmails.length > 0) {
+      Email.bulkSendWithTemplate({
+        recipients: adminEmails,
+        email_type: EmailTypes.PendingUserNotifToAdmin,
+        template_variables: {
+          admin: "Admin",
+          user_fullname: `${newUser.firstName} ${newUser.lastName}`,
+          user_email: newUser.email,
+          login_link: process.env.FRONTEND_URL,
+        },
+      });
+    }
     res.status(200).json({
       // only contains necessary data
       Created: returnData,
@@ -175,7 +194,7 @@ router.put("/update/", Validate, async (req, res) => {
     const updatedUser = await User.findOne({ email: email });
     //if no user match
     if (updatedUser === null) {
-      res.status(404).json({ error: "User not found Wahoooo whooa yah." });
+      res.status(404).json({ error: "User not found." });
       return;
     }
     //if no password match
@@ -210,35 +229,36 @@ router.put("/adminUpdate/:email", Validate, async (req, res) => {
       //get the info to update user
       const usersUpdatedInformation = req.body;
       //keep the old information to compare (important for if status was changed to approved)
-      const oldUser = await User.findOne({ email: email });
+      let user = await User.findOne({ email: email });
       //match the user by email
-      const updatedUser = await User.findOne({ email: email });
       //if no user match
-      if (updatedUser === null) {
-        res.status(404).json({ error: "User not found Wahoooo whooa yah." });
+      if (user === null) {
+        res.status(404).json({ error: "User not found." });
         return;
       }
 
-      //otherwise, update that user w/ new info
-      await User.updateOne({ _id: updatedUser._id }, usersUpdatedInformation);
+      const isApproving = usersUpdatedInformation.approved != "Pending" && user.approved == "Pending";
+      user = await User.findOneAndUpdate({email}, usersUpdatedInformation, {new: true});
 
-      if (
-        usersUpdatedInformation.approved == true &&
-        oldUser.approved == false
-      ) {
-        let userToEmail = await User.find({ email: email });
-        let toEmail = userToEmail[0].email;
-        let emailSubject = `Welcome to South Meadows Library`;
-        let emailText = `Congratulations! You have been approved to use the South Meadows Library.`;
-        mail(toEmail, emailSubject, emailText);
+      //otherwise, update that user w/ new info
+      if (isApproving) {
+        Email.sendWithTemplate({
+          recipient: user.email,
+          email_type: EmailTypes.NewUserAccountStatus,
+          template_variables: {
+            username: user.firstName,
+            subject_status: user.approved,
+            account_status: user.approved.toUpperCase(),
+          },
+        });
       }
 
       res.status(200).json({
         status: "User information updated successfully",
-        firstName: usersUpdatedInformation.firstName,
-        lastName: usersUpdatedInformation.lastName,
-        email: usersUpdatedInformation.email,
-        password: usersUpdatedInformation.password,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
       });
     }
   } catch (error) {

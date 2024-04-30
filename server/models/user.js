@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 1,
-      // unique: true, "unique" appears to make it unupdateable - might need another way to prevent duplicate accounts
+      unique: true,
     },
     password: {
       type: String,
@@ -34,8 +34,9 @@ const UserSchema = new mongoose.Schema(
     },
 
     approved: {
-      type: Boolean,
-      default: false,
+      type: String,
+      enum: ["Pending", "Accepted", "Declined"],
+      default: "Pending",
     },
   },
   {
