@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import config from "../../config.json";
 import { getToken } from "../../localStorage";
 import GameTile from "../../Components/ItemTIles/GameTile";
+
 export default function AllGames() {
   // fetch items
   const [gameItems, setGameItems] = useState([]);

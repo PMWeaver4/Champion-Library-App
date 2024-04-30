@@ -19,6 +19,7 @@
     border-top-right-radius: 1rem;
     box-shadow: inset 0px 1px 1px rgb(0, 0, 0);
     overflow: hidden;
+    overflow-y: scroll;
 
     .library-msg {
       margin-top: -2rem;

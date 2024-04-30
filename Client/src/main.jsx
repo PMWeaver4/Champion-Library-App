@@ -15,8 +15,10 @@ import AllGames from "./Routes/ViewAllItems/AllGames";
 import AllOthers from "./Routes/ViewAllItems/AllOthers";
 import MyLoaned from "./Routes/MyLoaned/MyLoaned";
 import MyBorrowed from "./Routes/MyBorrowed/MyBorrowed";
-import BookProfileCardPage from "./Routes/BookProfileCardPage/BookProfileCardPage";
+import BookProfileCardPage from "./Routes/ProfileCardPage/BookProfileCardPage";
 import UsersViewLibraryPage from "./Components/UsersLibraryPage/UsersViewLibraryPage";
+import GameProfileCardPage from "./Routes/ProfileCardPage/GameProfileCardPage";
+import ItemProfileCardPage from "./Routes/ProfileCardPage/ItemProfileCardPage";
 
 
 const router = createBrowserRouter([
@@ -34,6 +36,16 @@ const router = createBrowserRouter([
     // BookProfileCardPage
     path: "/book-profile/:bookId",
     element: <BookProfileCardPage />,
+  },
+  {
+    // GameProfileCardPage
+    path: "/game-profile/:gameId",
+    element: <GameProfileCardPage />,
+  },
+  {
+    // ItemProfileCardPage
+    path: "/item-profile/:itemId",
+    element: <ItemProfileCardPage />,
   },
   {
     // inbox
