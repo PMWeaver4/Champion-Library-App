@@ -14,13 +14,14 @@ const Validate = require("../middleware/validate");
 const PASS = process.env.PASS;
 
 const nodemailer = require("nodemailer");
+const { Email, EmailTypes } = require("../Email/Email");
 
 const transporter = nodemailer.createTransport({
   host: "live.smtp.mailtrap.io",
   port: 587,
   auth: {
     user: "api",
-    pass: PASS
+    pass: PASS,
   },
 });
 async function mail(toEmail, emailSubject, emailText) {
@@ -54,16 +55,40 @@ router.post("/create/", async (req, res) => {
       lastName: newUser.lastName,
       email: newUser.email,
       isAdmin: newUser.isAdmin,
-      approved: newUser.approved
+      approved: newUser.approved,
     };
+    // isolates admin emails so we can send admin related emails to admins
+    const admins = await User.find({ isAdmin: true }, { email: true });
+    const adminEmails = admins.map((admin) => admin.email);
+    console.log(admins);
+    console.log(adminEmails);
 
-    
-    let usersToEmail = await User.find({isAdmin: true});
-    let toEmail = usersToEmail.map(obj => obj.email);//not just 0th element!
-    let emailSubject = `New User Request from ${newUser.firstName} ${newUser.lastName}`
-    let emailText = `${newUser.firstName} ${newUser.lastName} is requesting to join South Meadows Library with ${newUser.email} as their username/email`
-    console.log(toEmail, emailSubject, emailText);
-    mail(toEmail, emailSubject, emailText);
+    // send email to the user signing up
+    await Email.sendWithTemplate({
+      recipient: newUser.email,
+      email_type: EmailTypes.NewUserPending,
+      template_variables: {
+        username: newUser.firstName,
+      },
+    });
+    await Email.bulkSendWithTemplate({
+      recipients: [newUser.email],
+      //TODO recipients need to be swapped for adminEmails when official domain is approved
+      email_type: EmailTypes.PendingUserNotifToAdmin,
+      template_variables: {
+        admin: "Admin",
+        user_fullname: `${newUser.firstName} ${newUser.lastName}`,
+        user_email: newUser.email,
+        login_link: process.env.FRONTEND_URL,
+      },
+    });
+
+    // let usersToEmail = await User.find({isAdmin: true});
+    // let toEmail = usersToEmail.map(obj => obj.email);//not just 0th element!
+    // let emailSubject = `New User Request from ${newUser.firstName} ${newUser.lastName}`
+    // let emailText = `${newUser.firstName} ${newUser.lastName} is requesting to join South Meadows Library with ${newUser.email} as their username/email`
+    // console.log(toEmail, emailSubject, emailText);
+    // mail(toEmail, emailSubject, emailText);
 
     res.status(200).json({
       // only contains necessary data
@@ -111,7 +136,7 @@ router.get("/all/", async (req, res) => {
 //         res.status(200).json({
 //             Results: results,
 //         })
-//     } 
+//     }
 //     }catch(err){
 //         console.log(err);
 
@@ -121,42 +146,36 @@ router.get("/all/", async (req, res) => {
 //     }
 // });
 
-
-
 //login
 
-router.post("/login/", async (req,res) => {
-    try {
-        //get email and password from the request
-        let { email, password } = req.body;
-        //find the use based on email
-        const user = await User.findOne({ email: email });
-        //if no match
-        if(!user) throw new Error("User not found");
-        //check the password
-        let passwordMatch = await bcrypt.compare(password, user.password);
-        //if no match
-        if(!passwordMatch) throw new Error("Invalid Details");
-        //assign a new web token for a day
-        const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET, {
-        expiresIn: "30 days",
-        });
+router.post("/login/", async (req, res) => {
+  try {
+    //get email and password from the request
+    let { email, password } = req.body;
+    //find the use based on email
+    const user = await User.findOne({ email: email });
+    //if no match
+    if (!user) throw new Error("User not found");
+    //check the password
+    let passwordMatch = await bcrypt.compare(password, user.password);
+    //if no match
+    if (!passwordMatch) throw new Error("Invalid Details");
+    //assign a new web token for a day
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "30 days",
+    });
 
-        res.status(200).json({
-            Msg: "User signed in!",
-            User: user,
-            Token: token
-        });
-
-      
-
-    } catch(err){
-        console.log(err);
-        res.status(500).json({
-            Error: err.message,
-        });
-    }
-
+    res.status(200).json({
+      Msg: "User signed in!",
+      User: user,
+      Token: token,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      Error: err.message,
+    });
+  }
 });
 
 // Add password recovery
@@ -180,7 +199,7 @@ router.put("/update/", Validate, async (req, res) => {
     const updatedUser = await User.findOne({ email: email });
     //if no user match
     if (updatedUser === null) {
-      res.status(404).json({ error: "User not found Wahoooo whooa yah." });
+      res.status(404).json({ error: "User not found." });
       return;
     }
     //if no password match
@@ -204,51 +223,43 @@ router.put("/update/", Validate, async (req, res) => {
 });
 //Update user's information
 //need to insert validate middleware declared above because of user_routes' position before validation in the index.js
-router.put("/adminUpdate/:email",Validate, async (req,res) => {
-    try {
-        if (req.user.isAdmin == true){
-  
-        //accessing validate allows us to get the current user's email
-        const email = req.params.email;
-        //get the info to update user
-        const usersUpdatedInformation = req.body;
-        //keep the old information to compare (important for if status was changed to approved)
-        const oldUser = await User.findOne({email: email});
-        //match the user by email
-        const updatedUser = await User.findOne({email: email});
-         //if no user match
-        if (updatedUser === null) {
-            res.status(404).json({error: "User not found Wahoooo whooa yah."});
-            return;
-        }
+router.put("/adminUpdate/:email", Validate, async (req, res) => {
+  try {
+    if (req.user.isAdmin == true) {
+      //accessing validate allows us to get the current user's email
+      const email = req.params.email;
+      //get the info to update user
+      const usersUpdatedInformation = req.body;
+      //keep the old information to compare (important for if status was changed to approved)
+      const user = await User.findOne({ email: email });
+      //match the user by email
+      //if no user match
+      if (user === null) {
+        res.status(404).json({ error: "User not found." });
+        return;
+      }
 
-       //otherwise, update that user w/ new info
-       await User.updateOne({_id: updatedUser._id}, usersUpdatedInformation);
-       
+      const isApproving = usersUpdatedInformation.approved == "accepted" && user.approved == "pending";
+      user.updateOne(usersUpdatedInformation);
+      console.log(user);
 
-       if(usersUpdatedInformation.approved == true && oldUser.approved == false) {
-        let userToEmail = await User.find({email: email});
-        let toEmail = userToEmail[0].email
-        let emailSubject = `Welcome to South Meadows Library`
-        let emailText = `Congratulations! You have been approved to use the South Meadows Library.`;
-        mail(toEmail, emailSubject, emailText);
-       }
-    
-        res.status(200).json({
-            status: "User information updated successfully",
-            firstName: usersUpdatedInformation.firstName,
-            lastName: usersUpdatedInformation.lastName,
-            email: usersUpdatedInformation.email,
-            password: usersUpdatedInformation.password,
-            
-        });
+      //otherwise, update that user w/ new info
+      if (isApproving) {
+// need to cont
+      }
+
+      res.status(200).json({
+        status: "User information updated successfully",
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+      });
     }
-    } catch (error) {
-        res.status(500).json({ error });
-    }
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 });
-
-
 
 router.delete("/delete/:_id", Validate, async (req, res) => {
   try {

@@ -11,7 +11,7 @@ const EmailTypes = {
   BorrowAccept: process.env.BORROW_ACCEPT_UUID,
   BorrowDecline: process.env.BORROW_DECLINE_UUID,
   ReturnAccept: process.env.RETURN_ACCEPT_UUID,
-  ReturnDecline: process.env.RETURN_DECLINE_UUID
+  ReturnDecline: process.env.RETURN_DECLINE_UUID,
 };
 
 // function that validates that the string is defined and not empty
@@ -38,9 +38,37 @@ class Email {
     if (typeof template_variables !== "object") {
       throw new Error("Invalid - template_variables is not an object.");
     }
+
     return Email.client.send({
       from: { name: process.env.SENDER_NAME, email: process.env.SENDER_EMAIL },
       to: [{ email: recipient }],
+      template_uuid: email_type,
+      template_variables: template_variables,
+    });
+  }
+
+  /**
+   * @param {{recipients: string[], email_type: string, template_variables: Object.<string, string>}} emailOptions
+   * @throws {Error}
+   */
+  static async bulkSendWithTemplate(emailOptions) {
+    const { recipients, email_type, template_variables } = emailOptions;
+    // if string is undefined or empty === true, throw an error (we dont want that string)
+    if (isUndefinedOrEmpty(recipients)) {
+      throw new Error("Invalid - recipient is either undefined, empty, or null.");
+    }
+    if (isUndefinedOrEmpty(email_type)) {
+      throw new Error("Invalid - email_type is either undefined, empty, or null.");
+    }
+    if (typeof template_variables !== "object") {
+      throw new Error("Invalid - template_variables is not an object.");
+    }
+
+    return Email.client.send({
+      from: { name: process.env.SENDER_NAME, email: process.env.SENDER_EMAIL },
+      to: recipients.map((recipient) => {
+        return {email: recipient};
+      }),
       template_uuid: email_type,
       template_variables: template_variables,
     });
