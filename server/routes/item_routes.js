@@ -25,11 +25,20 @@ router.post("/create/", async (req, res) => {
 router.get("/all", async (req, res) => {
   try {
     //displays all items
-    let results = await Item.find().populate(["description", "user", "rentedUser", "checkedout", "itemType", "condition"]).select({
-      text: 1,
-      createdAt: 1,
-      updatedAt: 1,
-    });
+    let results = await Item.find()
+      .populate([
+        "description",
+        "user",
+        "rentedUser",
+        "checkedout",
+        "itemType",
+        "condition",
+      ])
+      .select({
+        text: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      });
 
     res.status(200).json({
       Results: results,
@@ -47,7 +56,16 @@ router.get("/allavailable", async (req, res) => {
   try {
     //finds all items where they are not checked out, i.e. available
     let results = await Item.find({ checkedout: false })
-      .populate(["itemName", "img", "description", "user", "rentedUser", "checkedout", "itemType", "condition"])
+      .populate([
+        "itemName",
+        "img",
+        "description",
+        "user",
+        "rentedUser",
+        "checkedout",
+        "itemType",
+        "condition",
+      ])
       .select({
         text: 1,
         createdAt: 1,
@@ -70,7 +88,10 @@ router.get("/allavailable", async (req, res) => {
 router.get("/item/:_id", async (req, res) => {
   try {
     //find an item where the mongo id matches what's in the paramter
-    let results = await Item.findOne({ _id: req.params._id });
+    let results = await Item.findOne({ _id: req.params._id }).populate("user", [
+      "firstName",
+      "lastName",
+    ]);
 
     if (!results) {
       return res.status(404).json({ Error: "Item not found" });
@@ -95,7 +116,10 @@ router.put("/update/:_id", async (req, res) => {
       return res.status(404).json({ Error: "Item not found" });
     }
     // Check if the current user is the item owner or an admin
-    if (itemToUpdate.user.toString() !== req.user._id.toString() && !req.user.isAdmin) {
+    if (
+      itemToUpdate.user.toString() !== req.user._id.toString() &&
+      !req.user.isAdmin
+    ) {
       return res.status(403).json({ Error: "Unauthorized" });
     }
 

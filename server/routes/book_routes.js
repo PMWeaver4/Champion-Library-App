@@ -34,11 +34,21 @@ router.post("/create/", async (req, res) => {
 router.get("/all", async (req, res) => {
   try {
     //the find has no filters, so every book within the database is displayed
-    let results = await Book.find().populate(["title", "author", "description", "user", "genre", "rentedUser", "isbn"]).select({
-      text: 1,
-      createdAt: 1,
-      updatedAt: 1,
-    });
+    let results = await Book.find()
+      .populate([
+        "title",
+        "author",
+        "description",
+        "user",
+        "genre",
+        "rentedUser",
+        "isbn",
+      ])
+      .select({
+        text: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      });
 
     res.status(200).json({
       Created: results,
@@ -68,7 +78,10 @@ router.get("/allavailable", async (req, res) => {
 router.get("/book/:_id", async (req, res) => {
   try {
     //find a book where the mongo id matches what's in the paramter
-    let results = await Book.findOne({ _id: req.params._id });
+    let results = await Book.findOne({ _id: req.params._id }).populate("user", [
+      "firstName",
+      "lastName",
+    ]);
 
     if (!results) {
       return res.status(404).json({ Error: "Book not found" });
@@ -124,7 +137,10 @@ router.put("/update/:_id", async (req, res) => {
       return res.status(404).json({ Error: "Book not found" });
     }
     // Check if the user is authorized to update the book
-    if (bookToUpdate.user.toString() !== req.user._id.toString() && !req.user.isAdmin) {
+    if (
+      bookToUpdate.user.toString() !== req.user._id.toString() &&
+      !req.user.isAdmin
+    ) {
       return res.status(403).json({ Error: "Unauthorized" });
     }
     // Update the book with new values and return the updated document
