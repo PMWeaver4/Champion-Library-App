@@ -1,108 +1,140 @@
 .users-viewAll-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+
+  .users-viewAll-body {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
-    position: relative;
-    overflow: hidden;
+    box-shadow: none;
 
-    .users-viewAll-body {
-      max-height: 100%;
+    .home-banner {
+      margin-top: 0.5rem;
+      border-radius: 16px;
+      height: fit-content;
+      padding: 1.5rem;
+
+      .welcome-msg {
+        font-size: 1.25rem;
+        font-family: "Inter", sans-serif;
+        margin-top: 8px;
+      }
+
+      .welcome-msg {
+        font-weight: bold;
+        text-wrap: balance;
+        width: 95%;
+      }
+    }
+
+   
+    .view-container {
+      width: 85%;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.25rem;
+      padding-bottom: 0.75rem;
+      margin-left: 15%;
+      .back-button {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        background-color: white;
+        color: #003366;
+        border: none;
+        border-radius: 5px;
+        padding: 15px 25px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-right:50px;
+        margin-top:185px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+  
+        &:hover {
+          color: rgb(33, 218, 33);
+        }
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.5);
+        }
+      }
+     
+    
+    }
+  
+
+  .User-section {
+    width: 97%;
+    height: 79%;
+    margin-top: 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 1rem;
+    justify-content: space-evenly;
+
+    .books-container,
+    .board-games-container,
+    .others-container {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      justify-content: flex-start;
       width: 100%;
-      height: 90%;
-      padding-bottom: 4px;
-      border-radius: 1rem;
+      max-height: fit-content;
+      padding-top: 1.75rem;
+      h3 {
+        font-weight: bold;
+        color: #003366;
+        font-family: "Inter", sans-serif;
+        font-size: 14pt;
+      }
     }
-    .home-banner {
-        margin-top: 1rem;
-        height: fit-content;
-        width: 90%;
-        border-radius: 16px;
-        background-color: #003366;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        filter: drop-shadow(1px 1px 2px grey);
-        padding: 12px;
-        .welcome-msg,
-        .slogan {
-          color: white;
-          font-family: "Inter", sans-serif;
-          margin-top: 8px;
-        }
-        .welcome-msg {
-            color: white;
-            font-family: "Inter", sans-serif;
-            margin-top: 1rem; /* Adjusted from margin-top: 8px; */
-            height: 20%; /* Adjusted height for desktop */
-            width: 90%;
-            border-radius: 16px;
-            background-color: #003366;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            gap: 1em;
-            font-size: 1.5rem; /* Adjust font size as desired */
-            font-weight: bold; /* Set font weight to bold */
+    }
+  }
+}
 
-        }
-      }
-      .view-container {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-around;
-        padding-top: 0.25rem;
-        padding-bottom: 0.75rem;
-        .view-btn {
-          background-color: #003366;
-          border: none;
-          border-radius: 5px;
-          color: white;
-          cursor: pointer;
-          display: flex;
-          font-size: 11pt;
-          line-height: 1;
-          text-decoration: none;
-          text-align: center;
-          font-family: "Inter", sans-serif;
-          font-weight: bold;
-          padding: 0.25em 0.5em;
-          &:hover {
-            color: greenyellow;
-          }
-        }
-      }
-      .home-section {
-        width: 97%;
-        height: 79%;
-        margin-top: 8px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        border-radius: 1rem;
-        justify-content: space-evenly;
-        .books-container,
-        .board-games-container,
-        .others-container {
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          width: 100%;
-          max-height: fit-content;
-          padding-top: 1.75rem;
-          h3 {
-            font-weight: bold;
-            color: #003366;
-            font-family: "Inter", sans-serif;
-          }
-        }
-      }
-    }
+
+
+// carousel
+.min-w-0,
+.shrink-0,
+.grow-0 {
+  width: 100px;
+  padding-left: 2.5rem;
+}
+.books-container > div:nth-child(2) > button:nth-child(3),
+.board-games-container > div:nth-child(2) > button:nth-child(3),
+.others-container > div:nth-child(2) > button:nth-child(3),
+.books-container > div:nth-child(2) > button:nth-child(2),
+.board-games-container > div:nth-child(2) > button:nth-child(2),
+.others-container > div:nth-child(2) > button:nth-child(2) {
+  display: flex;
+  background-color: #003366;
+  color: white;
+  border: none;
+}
+
+.books-container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) {
+  width: 70px;
+}
+
+.books-container > div:nth-child(2) P {
+  width: 100%;
+}
+
+.books-container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) {
+  width: 60px;
+}
+
+.books-container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+  display: flex;
+  justify-content: center;
+}
+

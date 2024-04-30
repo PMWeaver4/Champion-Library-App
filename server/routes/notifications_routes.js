@@ -18,13 +18,13 @@ const User = require("../models/user");
 const Book = require("../models/book");
 const Item = require("../models/item");
 //? Assigning a variable from .env
+// const USER = process.env.USER;
 const PASS = process.env.PASS;
 
 //enable mail functionality
 const nodemailer = require("nodemailer");
 const { Email, EmailTypes } = require("../Email/Email");
 const transporter = nodemailer.createTransport({
-  //using mailtrap as the smtp
   host: "live.smtp.mailtrap.io",
   port: 587,
   auth: {

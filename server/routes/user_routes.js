@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 const Validate = require("../middleware/validate");
-
+// const USER = process.env.USER;
 const PASS = process.env.PASS;
 
 const nodemailer = require("nodemailer");
@@ -100,11 +100,13 @@ router.post("/create/", async (req, res) => {
 router.get("/all/", async (req, res) => {
   try {
     //show all users, display the populate info
-    let results = await User.find().populate(["firstName", "lastName", "email"]).select({
-      text: 1,
-      createdAt: 1,
-      updatedAt: 1,
-    });
+    let results = await User.find()
+      .populate(["firstName", "lastName", "email"])
+      .select({
+        text: 1,
+        createdAt: 1,
+        updatedAt: 1,
+      });
 
     res.status(200).json({
       Created: results,
@@ -198,7 +200,10 @@ router.put("/update/", Validate, async (req, res) => {
     //if no password match
     if (usersUpdatedInformation.password !== undefined) {
       const salt = bcrypt.genSaltSync();
-      usersUpdatedInformation.password = bcrypt.hashSync(usersUpdatedInformation.password, salt);
+      usersUpdatedInformation.password = bcrypt.hashSync(
+        usersUpdatedInformation.password,
+        salt
+      );
     }
     //otherwise, update that user w/ new info
     await User.updateOne({ _id: updatedUser._id }, usersUpdatedInformation);
