@@ -8,8 +8,8 @@ export default function GameTile({ game }) {
 
   return (
     <div onClick={handleGameClick} className="game-tile">
-      <img src={game.img} />
-      <h1 className="game-title">{game.itemName}</h1>
+      <img className="tile-img" src={game.img} />
+      <h1 className="game-title">{game.itemName.length > MAX_CHAR ? game.itemName.substring(0, MAX_CHAR) + "..." : game.itemName}</h1>
     </div>
   );
 }

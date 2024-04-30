@@ -1,7 +1,9 @@
 .menu-popup {
-  width: 20%;
   ul {
     gap: 2rem;
+    .nav-img {
+      width: 80%;
+    }
     .menu-btns-container {
       width: 60%;
       a {

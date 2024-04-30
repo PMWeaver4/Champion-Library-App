@@ -18,6 +18,10 @@ const navigate = useNavigate();
     navigate("/");
     }
 
+    function onHome(){
+      navigate("/home");
+    }
+
   return (
     <>
       <div className="page-template">
@@ -30,7 +34,7 @@ const navigate = useNavigate();
         <div className="navigation-side-bar">
           <nav className="menu-popup">
             <ul>
-              <img className="nav-img" src="/images/south_Meadows.png" />
+              <img onClick={onHome} className="nav-img" src="/images/south_Meadows.png" style={{cursor: "pointer"}} />
               <li className="menu-btns-container dashboard">
                 <NavLink to="/home" exact="true" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                   <i className="fa-solid fa-house"></i>
