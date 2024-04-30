@@ -134,8 +134,11 @@
     .reply-div {
       width: 100%;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       padding-top: 0.5rem;
+      .delete-notif-btn{
+        font-size: 1.25rem;
+      }
       .reply-btn {
         width: 4rem;
         height: 1.5rem;

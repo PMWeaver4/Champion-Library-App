@@ -132,7 +132,7 @@ export default function MyProfile() {
 
   return (
     <main className="my-profile-page">
-      <PageTemplate pageTitle="My Profile">   
+      <PageTemplate>   
         <div className={`my-profile-body ${showDeletePopup ? 'popup-clicked' : ''}`}>
           <div className="settings-title-container"> 
         <h1 className="settings-title"> ACCOUNT SETTINGS  </h1>

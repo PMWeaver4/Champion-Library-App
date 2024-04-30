@@ -27,6 +27,7 @@ export default function NotificationTile({ firstName, lastName, text, createdAt,
           )}
         </div>
         <div className="reply-div">
+          <button className="delete-notif-btn"><i class="fa-regular fa-trash-can"></i></button>
           <button className="reply-btn">Reply</button>
         </div>
       </div>

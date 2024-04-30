@@ -35,10 +35,7 @@ export default function BookProfileCard({ book }) {
           <em>Genre:</em> {book.genre}
         </p>
         <p>
-          <em>Publisher:</em> {book.publisher}
-        </p>
-        <p>
-          <em>Pages:</em> {book.pages}
+          <em>Publication Date:</em> {book.pubDate}
         </p>
         <p>
           <em>ISBN:</em> {book.isbn}
