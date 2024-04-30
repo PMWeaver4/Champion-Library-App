@@ -37,7 +37,7 @@ export default function LoginSignup() {
   const handleSignupInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setSignupInputs((values) => ({ ...values, [name]: value }));
+    setSignupInputs((prevState) => ({ ...prevState, [name]: value }));
 
     // resets password match error
     // if (name === "password" || name === "confirmPassword") {
@@ -125,7 +125,18 @@ export default function LoginSignup() {
             </div>
           </div>
         </div>
-
+        {/* approval message */}
+        <div>
+        {signupPending && 
+        <div className="Approval-message">
+        <p> 
+          Thank you for signing up! We've received your request and are currently reviewing it.
+        </p>
+          </div>
+          }
+          {signupError && <p>{signupError}</p>}
+          
+        </div>
         <div id="loginForm" className="tabContent" style={{ display: activeTab === "login" ? "block" : "none" }}>
           <form onSubmit={handleLoginSubmit}>
             <label htmlFor="email">Email</label>
@@ -208,10 +219,9 @@ export default function LoginSignup() {
               Sign Up
             </button>
           </form>
-          {signupPending && <p> Your account is pending approval by the admin.</p>}
-          {signupError && <p>{signupError}</p>}
         </div>
       </div>
     </main>
   );
 }
+

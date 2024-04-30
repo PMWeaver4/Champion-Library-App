@@ -75,17 +75,17 @@ return (
       <div className="home-banner">
       <h1 className="welcome-msg">Welcome to {user && `${user.firstName} ${user.lastName}'s Library 📚`}   </h1>
       </div>
+      <div>
+      <NavLink to="/users" className="back-button">
+                <i to="/users" className="fa-solid fa-arrow-left"></i>
+                   </NavLink>
+                   </div>
       {/* <NavLink to="/users" className="back-button">&#8592; Users </NavLink> */}
       {/* Render user's items */}
       <div className="User-section">
       <div className="books-container">
               <div className="view-container">
                 <h3>BOOKS</h3>
-                <NavLink to="/users" className="back-button">&#8592; Back to Users </NavLink>
-
-                {/* <button className="view-btn view-books-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllBooks)}>
-                  View all
-                </button> */}
               </div>
                <Carousel className="w-8/12 self-center">
                 <CarouselContent>

@@ -135,7 +135,7 @@ export default function MyProfile() {
       <PageTemplate pageTitle="My Profile">   
         <div className={`my-profile-body ${showDeletePopup ? 'popup-clicked' : ''}`}>
           <div className="settings-title-container"> 
-        <h1 className="settings-title"> ACCOUNT SETTINGS  </h1>
+        <h1 className="settings-title" src="../../../public/images/settingsAvatar.jpeg"> ACCOUNT SETTINGS</h1>
         {/* <h1 className="circle"> ⚙️ </h1> */}
             </div>
            {/* <img className="settingsICON" src="/images/settings1.jpeg" alt="settings icon" /> */}
@@ -200,7 +200,7 @@ export default function MyProfile() {
           {/* delete account popup */}
           { showDeletePopup && (
             <div className="delete-account-popup">
-            <h1> We are sad to see you go. Are you sure you want to delete your account?" </h1>
+            <h1> We are sad to see you go. Are you sure you want to delete your account? </h1>
               <button className="yes-delete-btn" onClick={confirmDeleteAccount}> Yes </button>
               <button className="no-delete-btn" onClick={cancelDeleteAccount}> No </button>
             </div>
