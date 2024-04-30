@@ -1,4 +1,4 @@
-.book-profile-card-background {
+.book-profile-card-background, .game-profile-card-background, .item-proifle-card-background {
   background-color: rgba(0, 0, 0, 0.515);
   inset: 0;
   position: fixed;
@@ -8,7 +8,7 @@
   align-items: center;
 
 
-  .book-profile-card {
+  .book-profile-card,.game-profile-card, .item-profile-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -59,7 +59,7 @@
           border-bottom: 2px solid #003366f4;
         }
       }
-      .book-card-information {
+      .book-card-information, .game-card-information, .item-card-information {
         margin-top: 1rem;
         font-size: 1rem;
         font-family: "Inter", sans-serif;
@@ -87,7 +87,7 @@
         justify-content: space-evenly;
         align-items: center;
         height: 100%;
-        .book-placeholder {
+        .book-placeholder, .game-placeholder, .item-placeholder {
           width: 6rem;
           height: 9rem;
           background-color: lightblue;
