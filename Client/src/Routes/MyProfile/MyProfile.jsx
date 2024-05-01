@@ -3,7 +3,8 @@ import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import config from "../../config.json";
 import { getToken, getFirstName, getLastName, getEmail, setEmail as saveEmail, setFirstName as saveFirstName, setLastName as saveLastName, clearStorage} from "../../localStorage";
-import { Navigate, useNavigate } from "react-router-dom";
+// import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Navigate, useNavigate, NavLink } from "react-router-dom";
 
 
 // TODO: config.backend_url + then your route/url for logic.✅ 
@@ -134,15 +135,16 @@ export default function MyProfile() {
     <main className="my-profile-page">
       <PageTemplate>   
         <div className={`my-profile-body ${showDeletePopup ? 'popup-clicked' : ''}`}>
-          <div className="settings-title-container"> 
-        <h1 className="settings-title" src="../../../public/images/settingsAvatar.jpeg"> ACCOUNT SETTINGS</h1>
-        {/* <h1 className="circle"> ⚙️ </h1> */}
-            </div>
-           {/* <img className="settingsICON" src="/images/settings1.jpeg" alt="settings icon" /> */}
-          <h2 className="second-title"> Account Information </h2>
+          {/* <div className="settings-title-container">  */}
+
+          <div className="title-image">
+          <p className="p-tag">User Settings </p><img  src="/images/settings.png" alt="settings Image"/> 
+          </div>
+          {/* <h1 className="settings-title"> ACCOUNT SETTINGS</h1> */}
+            <h2  className="second-title"> Account Information </h2>
           {/* message to let user know update was successful */}
           {message && <p>{message}</p>}
-          <form onSubmit={handleSubmit}>
+          <form className="Form" onSubmit={handleSubmit}>
             <label htmlFor="firstName">First Name:</label>
             <input
               className="settings-firstName"
@@ -197,6 +199,12 @@ export default function MyProfile() {
           <button className="settings-del-btn" onClick={handleDeleteAccount}>
             Delete Account
           </button>
+          {/* <div>
+        <NavLink to="/" className="Logout">
+         <i class="fa-solid fa-right-from-bracket"> Logout</i>
+        </NavLink> 
+          </div> */}
+          
           {/* delete account popup */}
           { showDeletePopup && (
             <div className="delete-account-popup">
