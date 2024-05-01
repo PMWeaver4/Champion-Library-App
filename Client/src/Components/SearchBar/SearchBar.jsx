@@ -7,6 +7,11 @@ export default function SearchBar() {
   const [books, setBooks] = useState([]); // State to hold the search results
   const [showResultsPopup, setShowResultsPopup] = useState(false); // State to control popup visibility
 
+  function closeResults() {
+    setShowResultsPopup(false);
+    setSearchTerm("");
+  }
+
   // Function to fetch books based on the search term
   const searchBooks = async (event) => {
     event.preventDefault();
@@ -36,6 +41,9 @@ export default function SearchBar() {
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
+      <button onClick={closeResults} className="reset">
+        Reset Search
+      </button>
       {/* Button to trigger the search */}
       {showResultsPopup && (
         <div className="search-results-popup">

@@ -38,7 +38,9 @@ export default function GameProfileCardPage() {
     </div>
   ) : (
     <div className="GameProfileCardPage">
+      <div className="card-container">
       <GamesProfileCard game={game} />
+      </div>
     </div>
   );
 }

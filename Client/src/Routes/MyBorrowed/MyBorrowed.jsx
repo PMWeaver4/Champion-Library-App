@@ -1,6 +1,6 @@
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@shadcn/components/ui/carousel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import MyBorrowedBooks from "../../Components/PopupsForLibrary/BorrowedPopups/BorrowedBooks";
 import MyBorrowedGames from "../../Components/PopupsForLibrary/BorrowedPopups/BorrowedGames";

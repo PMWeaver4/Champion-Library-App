@@ -1,4 +1,4 @@
-export default function NotificationTile({ firstName, lastName, text, createdAt, bookTitle, itemName }) {
+export default function NotificationTile({ onReply, onDelete, firstName, lastName, text, createdAt, bookTitle, itemName }) {
   // Format date
   const date = new Date(createdAt).toLocaleDateString();
   const time = new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -27,8 +27,10 @@ export default function NotificationTile({ firstName, lastName, text, createdAt,
           )}
         </div>
         <div className="reply-div">
-          <button className="delete-notif-btn"><i class="fa-regular fa-trash-can"></i></button>
-          <button className="reply-btn">Reply</button>
+          <button onClick={onDelete} className="delete-notif-btn">
+            <i className="fa-regular fa-trash-can"></i>
+          </button>
+          <button onClick={onReply} className="reply-btn">Reply</button>
         </div>
       </div>
     </div>
