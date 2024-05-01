@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import config from "../../config.json";
 import { getToken } from "../../localStorage";
 import GamesProfileCard from "../../Components/ItemProfileCard/GamesProfileCard";
+
 // when you click a tile on home page itll open this page and display the library card
 export default function GameProfileCardPage() {
   const { gameId } = useParams();
