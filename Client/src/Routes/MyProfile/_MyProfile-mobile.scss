@@ -9,6 +9,8 @@
   position: relative;
 
   .my-profile-body {
+    justify-content: center;
+    align-items: center;
     max-height: 100%;
     display: flex;
     flex-direction: column;

@@ -10,7 +10,7 @@
 
 // UserTile
 .User-tile {
-  width: 18rem;
+  width: 15rem;
   margin: 1rem ; // Add some margin between tiles
   padding: 1rem; // Add padding to create space between tiles
   // display: grid;
@@ -22,6 +22,9 @@
   align-items: center;
   cursor: pointer;
   height:fit-content;
+  &:hover {
+    transform: scale(1.10);
+  }
 }
 
 
