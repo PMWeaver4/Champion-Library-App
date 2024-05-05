@@ -51,7 +51,7 @@ export default function Users() {
     <main className="users-page">
       <PageTemplate pageTitle="Users">
         <div className="users-body">
-          <h1 className="title-123">South Meadow's Community 🏡</h1>
+          <h1 className="title-123">South Meadow's Community <i className="fa-solid fa-people-roof"></i></h1>
           {/* Check if users array is empty */}
           {isLoading ? (
             <p>Loading...</p>

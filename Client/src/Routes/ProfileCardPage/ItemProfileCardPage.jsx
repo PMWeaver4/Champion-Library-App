@@ -38,7 +38,9 @@ export default function ItemProfileCardPage() {
     </div>
   ) : (
     <div className="ItemProfileCardPage">
+      <div className="card-container">
       <OtherProfileCard item={item}/>
+      </div>
     </div>
   );
 }

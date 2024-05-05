@@ -1,106 +1,118 @@
-.library-page, .borrowed-page, .loaned-page {
+
+.library-page,
+.borrowed-page,
+.loaned-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .library-body,
+  .borrowed-body,
+  .loaned-body {
+    max-height: 100%;
     display: flex;
+    justify-content: flex-start;
     flex-direction: column;
-    justify-content: flex-end;
     align-items: center;
     width: 100%;
     height: 100%;
-    position: relative;
-    .library-body, .borrowed-body, .loaned-body {
-      max-height: 100%;
+    background-color: white;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    box-shadow: inset 0px 1px 1px rgb(0, 0, 0);
+    overflow-y: scroll;
+    padding-bottom: 1rem;
+
+    .library-msg {
+      margin-top: 1rem;
+      width: 40%;
+      color: white;
+      background-color: #003366;
+      border-radius: 0.25rem;
+      text-align: center;
+      filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.547));
+      padding: 0.25rem;
+      font-weight: bold;
+    }
+    .library-nav {
       display: flex;
-      justify-content: space-evenly;
-      flex-direction: column;
-      align-items: center;
+      justify-content: center;
+      flex-direction: row;
       width: 100%;
-      height: 100%;
-      background-color: white;
-      border-top-left-radius: 1rem;
-      border-top-right-radius: 1rem;
-      box-shadow: inset 0px 1px 1px rgb(0, 0, 0);
-      overflow: hidden;
-      overflow-y: scroll;
-  
-      .library-msg {
-        margin-top: 3rem;
-        width: 80%;
-        padding:15px;
-        color: white;
-        background-color: #003366;
-        border-radius: .25rem;
-        text-align: center;
-        font-size:25px;
-        filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.547));
-      }
-      .library-nav {
+      border-bottom: 1px solid rgb(207, 207, 207);
+      margin-top: 1rem;
+      ul {
         display: flex;
-        justify-content: center;
-        flex-direction: row;
+        justify-content: space-evenly;
         width: 100%;
-        border-bottom: 1px solid rgb(207, 207, 207);
-        margin-top: -5rem;
-        ul {
-            margin-top:100px;
-          display: flex;
-          justify-content: space-evenly;
-          width: 100%;
-  
-    
-          .selected {
-            border-bottom: 4px solid #003366;
-            border-bottom-width: 100%;
-            font-weight: bold;
-            color: #003366;
-          }
-          a {
-            font-size: 23px;
-            &:hover{
-              color: green;
-              
-            }
-          }
-        }
-      }
-      .view-container {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-around;
-        padding-top: 0.25rem;
-        padding-bottom: 0.75rem;
-        .view-btn {
-          background-color: #003366;
-          border: none;
-          border-radius: 5px;
-          color: white;
-          cursor: pointer;
-          display: flex;
-          font-size: 11pt;
-          line-height: 1;
-          text-decoration: none;
-          text-align: center;
-          font-family: "Inter", sans-serif;
-          font-weight: bold;
-          padding: 0.25em 0.5em;
-          &:hover {
-            color: greenyellow;
-          }
-        }
-      }
-      .books-container,
-      .board-games-container,
-      .others-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        width: 100%;
-        max-height: fit-content;
-        padding-top: 1.75rem;
-        h3 {
+
+        .selected {
+          border-bottom: 4px solid #003366;
+          border-bottom-width: 100%;
           font-weight: bold;
           color: #003366;
-          font-family: "Inter", sans-serif;
+        }
+        a {
+          &:hover {
+            color: green;
+          }
         }
       }
     }
+
+    .view-container {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 5rem;
+      padding-right: 5rem;
+      padding-top: 0.25rem;
+      padding-bottom: 0.75rem;
+      .view-btn {
+        background-color: #003366;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        font-size: 11pt;
+        line-height: 1;
+        text-decoration: none;
+        text-align: center;
+        font-family: "Inter", sans-serif;
+        font-weight: bold;
+        padding: 0.25em 0.5em;
+        &:hover {
+          color: greenyellow;
+        }
+      }
+    }
+    .books-container,
+    .board-games-container,
+    .others-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 100%;
+      max-height: fit-content;
+      padding-top: 0;
+      h3 {
+        font-weight: bold;
+        color: #003366;
+        font-family: "Inter", sans-serif;
+      }
+    }
   }
+}
+
+.books-container,
+.board-games-container,
+.others-container {
+  & > div:nth-child(2) {
+    min-height: 15rem;
+  }
+}

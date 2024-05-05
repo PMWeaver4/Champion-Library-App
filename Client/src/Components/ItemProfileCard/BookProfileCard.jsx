@@ -1,12 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function BookProfileCard({ book }) {
   // maximum characters
   const MAX_CHAR = 30;
+
+const navigate = useNavigate();
+
   return (
     <div className="ItemProfileCard">
       <div className="blue-card-overlay">
-        <NavLink to="/home" className="ItemCard-back-btn">
+        <NavLink onClick={()=> navigate(-1)} className="ItemCard-back-btn">
           <i className="fa-solid fa-arrow-left"></i>
         </NavLink>
         <img src={book.img} />

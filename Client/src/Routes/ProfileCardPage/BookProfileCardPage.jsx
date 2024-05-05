@@ -35,7 +35,9 @@ export default function BookProfileCardPage() {
     <div className="BookProfileCardPage">Book is loading</div>
   ) : (
     <div className="BookProfileCardPage">
+      <div className="card-container">
       <BookProfileCard book={book} />
+      </div>
     </div>
   );
 }

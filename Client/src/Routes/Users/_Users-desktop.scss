@@ -14,18 +14,17 @@
 .title-123 {
   color: white;
   font-family: "Inter", sans-serif;
-  margin-top: 1.3rem; /* Adjusted from margin-top: 8px; */
-  margin-bottom: 1.5rem;
-  height: 15%; /* Adjusted height for desktop */
-  width: 90%;
-  font-weight: 400;
+  margin-top: 0; /* Adjusted from margin-top: 8px; */
+  height: 20%; /* Adjusted height for desktop */
+  width: 95%;
   border-radius: 16px;
   background-color: #003366;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 2.5rem; /* Adjust font size as desired */
-  // font-weight: bold; /* Set font weight to bold */
+  gap: 1em;
+  font-size: 1.5rem; /* Adjust font size as desired */
+  font-weight: bold; /* Set font weight to bold */
 }
 }

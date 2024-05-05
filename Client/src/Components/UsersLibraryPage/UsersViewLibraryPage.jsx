@@ -73,7 +73,7 @@ return (
   <PageTemplate pageTitle="User's Library">
     <div className="users-viewAll-body">
       <div className="home-banner">
-      <h1 className="welcome-msg">Welcome to {user && `${user.firstName} ${user.lastName}'s Library 📚`}   </h1>
+      <h1 className="welcome-msg">{user && `${user.firstName} ${user.lastName}'s Library`} <i className="fa-solid fa-book-bookmark"></i>   </h1>
       </div>
       <div>
       <NavLink to="/users" className="back-button">

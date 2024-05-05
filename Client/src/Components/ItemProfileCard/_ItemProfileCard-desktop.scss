@@ -1,10 +1,22 @@
-.BookProfileCardPage, .GameProfileCardPage, .ItemProfileCardPage  {
-  .ItemProfileCard {
-    width: 20%;
-    max-height: 80%;
-    padding-bottom: .75rem;
-    .white-card-overlay {
-      padding: 1rem 1.25rem;
+.BookProfileCardPage,
+.GameProfileCardPage,
+.ItemProfileCardPage {
+  background-image: url("/images/pagetemp.png");
+  background-size: cover;
+  justify-content: flex-end;
+  .card-container {
+    width: 80%;
+    margin-right: 32px;
+    display: flex;
+    justify-content: center;
+    .ItemProfileCard {
+
+      width: 25%;
+      max-height: 45rem;
+      padding-bottom: 0.75rem;
+      .white-card-overlay {
+        padding: 1rem 1.25rem;
       }
     }
   }
+}
