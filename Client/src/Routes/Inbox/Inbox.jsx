@@ -6,18 +6,30 @@ import NotificationTile from "./NotificationTile";
 import EmailPopup from "./EmailPopup";
 import { getToken, getUserId } from "../../localStorage";
 import config from "../../config.json";
+import DeletePopup from "./DeletePopup";
+import ReplyPopup from "./ReplyPopup";
 // import NotificationTile from "./NotificationTile";
+
+// enum  for reply and delete button
+const InboxPopupEnum = {
+  None: -1,
+  Delete: 0,
+  Reply: 1,
+};
 
 export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
   //fetch the notifications, get up to date!
+  const [inboxPopup, setInboxPopup] = useState();
   const [notifications, setNotifications] = useState([]);
   const [borrowReq, setBorrowReq] = useState([]);
   const [returnReq, setReturnReq] = useState([]);
+  // for tab system, starts on all tab
+  const [activeTab, setActiveTab] = useState("allRequest");
   async function getNotifications() {
     const response = await fetch(config.backend_url + `notifications/allYourNotifications/${getUserId()}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${getToken()}`
+        Authorization: `Bearer ${getToken()}`,
       },
     });
     const notificationData = await response.json(); // the response is directly an array of items
@@ -27,9 +39,8 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
       return;
     }
     setNotifications(notificationData.Results);
-    setBorrowReq(notificationData.Results.filter((notification) => notification.notificationType  ===  "borrow"));
-    setReturnReq(notificationData.Results.filter((notification) => notification.notificationType  ===  "return"));
-    
+    setBorrowReq(notificationData.Results.filter((notification) => notification.notificationType === "borrow"));
+    setReturnReq(notificationData.Results.filter((notification) => notification.notificationType === "return"));
   }
 
   useEffect(() => {
@@ -46,17 +57,30 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
   }
-  // for tab system, starts on all tab
-  const [activeTab, setActiveTab] = useState("allRequest");
 
   // Req = request
   const tabs = [
     { id: "allRequest", title: "All" },
-    { id: "borrowReq", title: "Borrow Request"},
-    { id: "returnReq", title: "Return Request"},
+    { id: "borrowReq", title: "Borrow Request" },
+    { id: "returnReq", title: "Return Request" },
   ];
 
-  
+  // handle inbox popup
+
+  function getCurrentOpennedPopup() {
+    switch (inboxPopup) {
+      case InboxPopupEnum.Delete:
+        return <DeletePopup onNo={handleCloseInboxPopup} />;
+      case InboxPopupEnum.Reply:
+        return <ReplyPopup onNo={handleCloseInboxPopup} />;
+      default:
+        return null;
+    }
+  }
+
+  const handleCloseInboxPopup = () => {
+    setInboxPopup(InboxPopupEnum.None);
+  };
 
   return (
     <main className="inbox-page">
@@ -69,7 +93,6 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                   {tab.title}
                 </button>
               ))}
-              
             </div>
             <div className="inbox-tab-content">
               <div className="inbox-scrollbar">
@@ -78,43 +101,59 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                     <i className="fa-solid fa-envelope"></i>
                   </button>
                 </div>
-                {activeTab === "allRequest" && notifications.map(notification => 
-                <NotificationTile key={notification._id}
-                email={notification.requestingUser.email || notification.owner.email}
-                firstName={notification.requestingUser.firstName}
-                lastName={notification.requestingUser.lastName}
-                text={notification.message}
-                createdAt={notification.createdAt}
-                bookTitle={notification.book?.title} 
-                itemName={notification.item?.itemName} />
-                )}
-                {activeTab === "borrowReq" && borrowReq.map(notification => 
-                <NotificationTile key={notification._id}
-                email={notification.requestingUser.email || notification.owner.email}
-                firstName={notification.requestingUser.firstName}
-                lastName={notification.requestingUser.lastName}
-                text={notification.message}
-                createdAt={notification.createdAt}
-                bookTitle={notification.book?.title} 
-                itemName={notification.item?.itemName} />
-                )}
-                {activeTab === "returnReq" && returnReq.map(notification => 
-                <NotificationTile key={notification._id}
-                email={notification.requestingUser.email || notification.owner.email}
-                firstName={notification.requestingUser.firstName}
-                lastName={notification.requestingUser.lastName}
-                text={notification.message}
-                createdAt={notification.createdAt}
-                bookTitle={notification.book?.title} 
-                itemName={notification.item?.itemName} />
-                )}
+                {activeTab === "allRequest" &&
+                  notifications.map((notification) => (
+                    <NotificationTile
+                      onReply={() => setInboxPopup(InboxPopupEnum.Reply)}
+                      onDelete={() => setInboxPopup(InboxPopupEnum.Delete)}
+                      key={notification._id}
+                      email={notification.requestingUser.email || notification.owner.email}
+                      firstName={notification.requestingUser.firstName}
+                      lastName={notification.requestingUser.lastName}
+                      text={notification.message}
+                      createdAt={notification.createdAt}
+                      bookTitle={notification.book?.title}
+                      itemName={notification.item?.itemName}
+                    />
+                  ))}
+                {activeTab === "borrowReq" &&
+                  borrowReq.map((notification) => (
+                    <NotificationTile
+                      onReply={() => setInboxPopup(InboxPopupEnum.Reply)}
+                      onDelete={() => setInboxPopup(InboxPopupEnum.Delete)}
+                      key={notification._id}
+                      email={notification.requestingUser.email || notification.owner.email}
+                      firstName={notification.requestingUser.firstName}
+                      lastName={notification.requestingUser.lastName}
+                      text={notification.message}
+                      createdAt={notification.createdAt}
+                      bookTitle={notification.book?.title}
+                      itemName={notification.item?.itemName}
+                    />
+                  ))}
+                {activeTab === "returnReq" &&
+                  returnReq.map((notification) => (
+                    <NotificationTile
+                      onReply={() => setInboxPopup(InboxPopupEnum.Reply)}
+                      onDelete={() => setInboxPopup(InboxPopupEnum.Delete)}
+                      key={notification._id}
+                      email={notification.requestingUser.email || notification.owner.email}
+                      firstName={notification.requestingUser.firstName}
+                      lastName={notification.requestingUser.lastName}
+                      text={notification.message}
+                      createdAt={notification.createdAt}
+                      bookTitle={notification.book?.title}
+                      itemName={notification.item?.itemName}
+                    />
+                  ))}
+
                 {/* need to add a div later to create a border between tabs and notifications */}
-                
-               </div>
+              </div>
             </div>
           </div>
         </div>
       </PageTemplate>
+      {inboxPopup !== InboxPopupEnum.None && getCurrentOpennedPopup()}
       {isEmailPopupOpen && <EmailPopup onClose={toggleEmailPopup} />}
       {isMenuOpen && <MenuPopup />}
     </main>

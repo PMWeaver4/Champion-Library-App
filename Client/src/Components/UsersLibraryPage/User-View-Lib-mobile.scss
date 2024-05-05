@@ -17,6 +17,7 @@
       height: 90%;
       padding-bottom: 4px;
       border-radius: 1rem;
+      position: relative;
     }
     .home-banner {
         margin-top: 1rem;
@@ -52,23 +53,17 @@
       }
 
         .back-button {
-          // position: absolute;
+          position: absolute;
           display: flex;
-          width: 100%;
-          // top: 10px;
-          // right: 20px;
-          margin-top:20px;
-          margin-right:300px;
-          background-color: white;
+          width: fit-content;
+          top: 14rem;
+          left: 5rem;
           color: #003366;
           border: none;
-          border-radius: 5px;
           // padding: 15px 15px;
-          font-size: 18px;
+          font-size: 1.5rem;
           font-weight: bold;
           cursor: pointer;
-          // margin-right:0.1px;
-          // margin-top:149px;
           transition: background-color 0.3s ease, color 0.3s ease;
     
           &:hover {

@@ -96,17 +96,12 @@ router.post("/create/", async (req, res) => {
   }
 });
 
-// Display all users
+// Display all accepted users
+// TODO need one for not accepted to display in admin portal
 router.get("/all/", async (req, res) => {
   try {
     //show all users, display the populate info
-    let results = await User.find()
-      .populate(["firstName", "lastName", "email"])
-      .select({
-        text: 1,
-        createdAt: 1,
-        updatedAt: 1,
-      });
+    let results = await User.find({ approved: "Accepted" }, { firstName: 1, lastName: 1, email: 1 });
 
     res.status(200).json({
       Created: results,
@@ -151,6 +146,8 @@ router.post("/login/", async (req, res) => {
     const user = await User.findOne({ email: email });
     //if no match
     if (!user) throw new Error("User not found");
+    // if not approved
+    if (user.approved != "Accepted") throw new Error("User is not approved yet.");
     //check the password
     let passwordMatch = await bcrypt.compare(password, user.password);
     //if no match
@@ -200,10 +197,7 @@ router.put("/update/", Validate, async (req, res) => {
     //if no password match
     if (usersUpdatedInformation.password !== undefined) {
       const salt = bcrypt.genSaltSync();
-      usersUpdatedInformation.password = bcrypt.hashSync(
-        usersUpdatedInformation.password,
-        salt
-      );
+      usersUpdatedInformation.password = bcrypt.hashSync(usersUpdatedInformation.password, salt);
     }
     //otherwise, update that user w/ new info
     await User.updateOne({ _id: updatedUser._id }, usersUpdatedInformation);
@@ -238,7 +232,7 @@ router.put("/adminUpdate/:email", Validate, async (req, res) => {
       }
 
       const isApproving = usersUpdatedInformation.approved != "Pending" && user.approved == "Pending";
-      user = await User.findOneAndUpdate({email}, usersUpdatedInformation, {new: true});
+      user = await User.findOneAndUpdate({ email }, usersUpdatedInformation, { new: true });
 
       //otherwise, update that user w/ new info
       if (isApproving) {

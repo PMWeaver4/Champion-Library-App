@@ -10,24 +10,27 @@
 
 // UserTile
 .User-tile {
-  width: calc(17% - 17px); // Adjust the width of each tile to occupy 20% of the container width and consider the margin
-  margin: 7px; // Add some margin between tiles
-  padding: 1px; // Add padding to create space between tiles
+  width: 15rem;
+  margin: 1rem ; // Add some margin between tiles
+  padding: 1rem; // Add padding to create space between tiles
   // display: grid;
   background-color: #003366; // Dark blue background color
   color: white; // White text color
   border-radius: 8px; // Rounded corners
-  display: inline-block; // Make the tiles inline-block elements to arrange them horizontally
-  flex-direction:row;
+  display: flex; // Make the tiles inline-block elements to arrange them horizontally
+  flex-direction: column;
   align-items: center;
   cursor: pointer;
   height:fit-content;
+  &:hover {
+    transform: scale(1.10);
+  }
 }
 
 
   .User-tile-img {
-    margin-top: 10px;
-    margin-left: 10px;
+    margin-top: 0;
+    margin-left: 0;
     width: 80%; // Take up full width
      // Maintain aspect ratio
     object-fit:cover;
@@ -40,7 +43,7 @@
     padding: 0.5rem; // Padding for the name
     text-align: center; // Center-align the text
     text-shadow: #050d14;
-   
+   font-weight: bold;
     
   }
 

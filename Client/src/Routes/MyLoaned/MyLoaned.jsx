@@ -1,6 +1,6 @@
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@shadcn/components/ui/carousel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Navigate } from "react-router-dom";
 import MyLoanedBooks from "../../Components/PopupsForLibrary/LoanedPopups/LoanedBooks";
 import MyLoanedGames from "../../Components/PopupsForLibrary/LoanedPopups/LoanedGames";
@@ -143,7 +143,8 @@ export default function MyLoaned() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                  </CarouselItem>
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />

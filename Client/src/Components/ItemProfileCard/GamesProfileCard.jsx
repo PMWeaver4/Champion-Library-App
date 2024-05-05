@@ -1,12 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function GamesProfileCard({ game }) {
   // maximum characters
   const MAX_CHAR = 30;
+
+  const navigate = useNavigate();
+
+
   return (
     <div className="ItemProfileCard">
       <div className="blue-card-overlay">
-        <NavLink to="/home" className="ItemCard-back-btn">
+        <NavLink onClick={()=> navigate(-1)} className="ItemCard-back-btn">
           <i className="fa-solid fa-arrow-left"></i>
         </NavLink>
         <img src={game.img} />
