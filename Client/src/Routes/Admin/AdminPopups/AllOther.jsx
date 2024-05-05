@@ -1,3 +1,18 @@
+export default function AllOther({ onCloseWidget }) {
+  return (
+    <div className="admin-popup">
+      <div className="admin-popup-body">
+        <button onClick={onCloseWidget} className="exit-btn">
+          <i className="fa-solid fa-arrow-left"></i>
+        </button>
+        <h1>All Misc Items</h1>
+      </div>
+    </div>
+  );
+}
+
+//TODO i want to do a display grid of all the item, and just give a edit or delete button option that shows up for item owner or admin on profilecard
+
 // import { NavLink } from "react-router-dom";
 // import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 // import OtherTile from "../../Components/ItemTIles/OtherTile";
@@ -50,10 +65,3 @@
 //     </main>
 //   );
 // }
-export default function AllOther(){
-  return (
-      <div>
-          All Items
-      </div>
-  );
-}

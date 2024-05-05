@@ -25,22 +25,22 @@ export default function Admin() {
   function getCurrentOpennedPopup() {
     switch (widgetPopupState) {
       case widgetPopupsEnum.PendingUsers:
-        return <PendingUsers />;
+        return <PendingUsers  onCloseWidget={onCloseWidget}/>;
       case widgetPopupsEnum.CurrentUsers:
-        return <CurrentUsers />;
+        return <CurrentUsers onCloseWidget={onCloseWidget}/>;
       case widgetPopupsEnum.AllBooks:
-        return <AllBooks />;
+        return <AllBooks onCloseWidget={onCloseWidget}/>;
       case widgetPopupsEnum.AllGames:
-        return <AllGames />;
+        return <AllGames onCloseWidget={onCloseWidget}/>;
       case widgetPopupsEnum.AllOther:
-        return <AllOther />;
+        return <AllOther onCloseWidget={onCloseWidget}/>;
       default:
         return null;
     }
   }
 
-  function closeWidgetPopup() {
-    setIsWidgetPopupOpen(widgetPopupsEnum.None);
+  function onCloseWidget() {
+    setWidgetPopupState(widgetPopupsEnum.None);
   }
 
   return (
