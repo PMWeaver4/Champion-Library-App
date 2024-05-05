@@ -1,3 +1,18 @@
+export default function AllBooks({ onCloseWidget }) {
+  return (
+    <div className="admin-popup">
+      <div className="admin-popup-body">
+        <button onClick={onCloseWidget} className="exit-btn">
+          <i className="fa-solid fa-arrow-left"></i>
+        </button>
+        <h1>All Books</h1>
+      </div>
+    </div>
+  );
+}
+
+//TODO i want to do a display grid of all the books, and just give a edit or delete button option that shows up for book owner or admin on profilecard
+
 // import { NavLink } from "react-router-dom";
 // import BookTile from "../../Components/ItemTIles/BookTile";
 // import PageTemplate from "../../Components/PageTemplate/PageTemplate";
@@ -52,11 +67,3 @@
 //     </main>
 //   );
 // }
-
-export default function AllBooks(){
-  return (
-      <div>
-          AllBooks
-      </div>
-  );
-}
