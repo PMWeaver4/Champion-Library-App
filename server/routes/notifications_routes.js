@@ -70,20 +70,34 @@ router.post("/create/", async (req, res) => {
     let item_details = "";
     let ownerId = "";
     if (req.body.item != null) {
-      let RequestedItem = await Item.findOne({ _id: req.body.item }, { itemName: 1, _id: 0, user: 1, hasPendingRequest: 1 });
+      let RequestedItem = await Item.findOne(
+        { _id: req.body.item },
+        { itemName: 1, _id: 0, user: 1, hasPendingRequest: 1 }
+      );
       console.log(RequestedItem);
       if (RequestedItem.hasPendingRequest) {
-        return res.status(423).json({ error: "Item has already been requested by another user." });
+        return res
+          .status(423)
+          .json({ error: "Item has already been requested by another user." });
       }
       item_details = RequestedItem.itemName;
       ownerId = RequestedItem.user;
       await Item.findByIdAndUpdate(req.body.item, { hasPendingRequest: true });
     } else if (req.body.book != null) {
-      let RequestedBook = await Book.findOne({ _id: req.body.book }, { title: 1, _id: 0, author: 1, user: 1, hasPendingRequest: 1 });
+      let RequestedBook = await Book.findOne(
+        { _id: req.body.book },
+        { title: 1, _id: 0, author: 1, user: 1, hasPendingRequest: 1 }
+      );
       if (RequestedBook.hasPendingRequest) {
-        return res.status(423).json({ error: "Book has already been requested by another user." });
+        return res
+          .status(423)
+          .json({ error: "Book has already been requested by another user." });
       }
-      item_details = `${RequestedBook.title} by ${RequestedBook.author.length > 1 ? RequestedBook.author.join(", ") : RequestedBook.author}`;
+      item_details = `${RequestedBook.title} by ${
+        RequestedBook.author.length > 1
+          ? RequestedBook.author.join(", ")
+          : RequestedBook.author
+      }`;
       ownerId = RequestedBook.user;
       await Book.findByIdAndUpdate(req.body.book, { hasPendingRequest: true });
     } else {
@@ -104,7 +118,10 @@ router.post("/create/", async (req, res) => {
     await notification.save();
     console.log("2", notification);
     //get the email
-    let owner = await User.findOne({ _id: notification.owner }, { email: 1, _id: 0, firstName: 1 });
+    let owner = await User.findOne(
+      { _id: notification.owner },
+      { email: 1, _id: 0, firstName: 1 }
+    );
     //convert from array to string
     let ownerEmail = owner.email;
     //store who is requesting
@@ -142,7 +159,13 @@ router.get("/allYourNotifications/:_id", async (req, res) => {
       .populate({ path: "owner", select: "email firstName lastName" })
       .populate({ path: "book", select: "title" })
       .populate({ path: "item", select: "itemName description" })
-      .populate(["borrowrequest", "returnrequest", "status", "message", "notificationType"])
+      .populate([
+        "borrowrequest",
+        "returnrequest",
+        "status",
+        "message",
+        "notificationType",
+      ])
       .select({
         text: 1,
         createdAt: 1,
@@ -170,7 +193,13 @@ router.get("/all", async (req, res) => {
         .populate({ path: "owner", select: "email" })
         .populate({ path: "book", select: "title" })
         .populate({ path: "item", select: "description" })
-        .populate(["borrowrequest", "returnrequest", "status", "message", "notificationType"])
+        .populate([
+          "borrowrequest",
+          "returnrequest",
+          "status",
+          "message",
+          "notificationType",
+        ])
         .select({
           text: 1,
           createdAt: 1,
@@ -217,21 +246,34 @@ router.put("/update/:_id", async (req, res) => {
     }).exec();
 
     //sends an email if the status changes from pending
-    if (oldNotification.status == "pending" && (updatedNotifications.status == "accepted" || updatedNotifications.status == "declined")) {
+    if (
+      oldNotification.status == "pending" &&
+      (updatedNotifications.status == "accepted" ||
+        updatedNotifications.status == "declined")
+    ) {
       //?send an email to the borrower that a change has been made
       //declare the string that will hold the request
       let theRequest = "";
       if (updatedNotifications.book != null) {
-        let RequestedBook = await Book.find({ _id: updatedNotifications.book }, { title: 1, _id: 0 });
+        let RequestedBook = await Book.find(
+          { _id: updatedNotifications.book },
+          { title: 1, _id: 0 }
+        );
         theRequest = RequestedBook[0].title;
       }
       //if it's an item, get the itemName
       if (updatedNotifications.item != null) {
-        let RequestedItem = await Item.find({ _id: updatedNotifications.item }, { itemName: 1, _id: 0 });
+        let RequestedItem = await Item.find(
+          { _id: updatedNotifications.item },
+          { itemName: 1, _id: 0 }
+        );
         theRequest = RequestedItem[0].itemName;
       }
       //retrieve the email from user making the request
-      let Email = await User.find({ _id: updatedNotifications.requestingUser }, { email: 1, _id: 0 });
+      let Email = await User.find(
+        { _id: updatedNotifications.requestingUser },
+        { email: 1, _id: 0 }
+      );
       //convert the email from array to string
       let toEmail = Email[0].email;
       //if it's a book, get the title
@@ -283,7 +325,9 @@ router.put("/update/:_id", async (req, res) => {
       }
       //if the owner has declined the request
       if (updatedNotifications.status == "declined") {
-        const notifications = await Notifications.findByIdAndDelete(req.params._id);
+        const notifications = await Notifications.findByIdAndDelete(
+          req.params._id
+        );
         res.status(200).json({
           Deleted: 1,
         });
@@ -330,16 +374,25 @@ router.put("/return/:_id", async (req, res) => {
         let toEmail = Owner[0].email;
         //if it's a book, get the book title
         if (updatedNotification.book != null) {
-          let RequestedBook = await Book.find({ _id: updatedNotification.book }, { title: 1, _id: 0 });
+          let RequestedBook = await Book.find(
+            { _id: updatedNotification.book },
+            { title: 1, _id: 0 }
+          );
           theRequest = RequestedBook[0].title;
         }
         //if it's an item, get the itemName
         if (updatedNotification.item != null) {
-          let RequestedItem = await Item.find({ _id: updatedNotification.item }, { itemName: 1, _id: 0 });
+          let RequestedItem = await Item.find(
+            { _id: updatedNotification.item },
+            { itemName: 1, _id: 0 }
+          );
           theRequest = RequestedItem[0].itemName;
         }
-        let RequestingUser = await User.findOne(updatedNotification.requestingUser);
-        let requestingUserName = RequestingUser.firstName + " " + RequestingUser.lastName;
+        let RequestingUser = await User.findOne(
+          updatedNotification.requestingUser
+        );
+        let requestingUserName =
+          RequestingUser.firstName + " " + RequestingUser.lastName;
         let emailSubject = `${requestingUserName} is returning ${theRequest}`;
         let emailText = `On ${updatedNotification.returnDate}, ${requestingUserName} has stated that they have returned ${theRequest}. Log in to the South Meadows Library App to accept this return and make ${theRequest} available again for checkout`;
 
@@ -360,12 +413,18 @@ router.put("/return/:_id", async (req, res) => {
         let Requester = await User.findOne(updatedNotification.requestingUser);
         let toEmail = Requester[0].email;
         if (updatedNotification.book != null) {
-          let RequestedBook = await Book.find({ _id: updatedNotification.book }, { title: 1, _id: 0 });
+          let RequestedBook = await Book.find(
+            { _id: updatedNotification.book },
+            { title: 1, _id: 0 }
+          );
           theRequest = RequestedBook[0].title;
         }
         //if it's an item, get the itemName
         if (updatedNotification.item != null) {
-          let RequestedItem = await Item.find({ _id: updatedNotification.item }, { itemName: 1, _id: 0 });
+          let RequestedItem = await Item.find(
+            { _id: updatedNotification.item },
+            { itemName: 1, _id: 0 }
+          );
           theRequest = RequestedItem[0].itemName;
         }
         let Owner = await User.findOne(updatedNotification.owner);
@@ -375,9 +434,14 @@ router.put("/return/:_id", async (req, res) => {
 
         mail(toEmail, emailSubject, emailText);
 
-        console.log("2", `requester: ${returnUpdate.requestingUser}, owner ${returnUpdate.owner}, user: ${req.user._id}`);
+        console.log(
+          "2",
+          `requester: ${returnUpdate.requestingUser}, owner ${returnUpdate.owner}, user: ${req.user._id}`
+        );
         //notification deletes
-        const notifications = await Notifications.findByIdAndDelete(req.params._id);
+        const notifications = await Notifications.findByIdAndDelete(
+          req.params._id
+        );
         console.log("3", req.params._id);
         if (!notifications) throw new Error("Book/item notification not found");
 
