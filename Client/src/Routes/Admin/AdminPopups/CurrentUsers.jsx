@@ -1,3 +1,5 @@
+import CurrentUserTile from "../AdminComponentTiles/CurrentUserTile";
+
 export default function CurrentUsers({onCloseWidget}) {
   return (
     <div className="admin-popup">
@@ -7,6 +9,7 @@ export default function CurrentUsers({onCloseWidget}) {
         </button>
         <h1>Current Users</h1>
         <h2>All Approved Users</h2>
+        <CurrentUserTile/>
       </div>
     </div>
   );

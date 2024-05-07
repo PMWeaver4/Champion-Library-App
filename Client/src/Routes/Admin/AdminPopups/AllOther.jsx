@@ -1,3 +1,5 @@
+import AdminMiscTile from "../AdminComponentTiles/AdminMiscTile";
+
 export default function AllOther({ onCloseWidget }) {
   return (
     <div className="admin-popup">
@@ -6,6 +8,7 @@ export default function AllOther({ onCloseWidget }) {
           <i className="fa-solid fa-arrow-left"></i>
         </button>
         <h1>All Misc Items</h1>
+        <AdminMiscTile/>
       </div>
     </div>
   );

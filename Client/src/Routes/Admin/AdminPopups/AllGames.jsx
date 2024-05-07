@@ -1,3 +1,5 @@
+import AdminGameTile from "../AdminComponentTiles/AdminGameTile";
+
 export default function AllGamess({ onCloseWidget }) {
   return (
     <div className="admin-popup">
@@ -6,6 +8,7 @@ export default function AllGamess({ onCloseWidget }) {
           <i className="fa-solid fa-arrow-left"></i>
         </button>
         <h1>All Games</h1>
+        <AdminGameTile/>
       </div>
     </div>
 
