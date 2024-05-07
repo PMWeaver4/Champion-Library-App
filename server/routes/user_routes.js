@@ -97,8 +97,7 @@ router.post("/create/", async (req, res) => {
 });
 
 // Display all accepted users
-// TODO need one for not accepted to display in admin portal
-router.get("/all/", async (req, res) => {
+router.get("/allAccepted/", async (req, res) => {
   try {
     //show all users, display the populate info
     let results = await User.find({ approved: "Accepted" }, { firstName: 1, lastName: 1, email: 1 });
@@ -115,29 +114,26 @@ router.get("/all/", async (req, res) => {
   }
 });
 
-//Get user's email - we're using email as username
-//?actually, not anymore, probably no reason to get user by email now
+// Display all pending users
+router.get("/allPending/", async (req, res) => {
+  try {
+    //show all users, display the populate info
+    let results = await User.find({ approved: "Pending" }, { firstName: 1, lastName: 1, email: 1 });
 
-// router.get("/email/:email", Validate, async (req, res) => {
-//     try {
-//         if (req.user.isAdmin == true){
-//         //find by parameter
-//         let results = await User.find({email: req.params.email});
-//         res.status(200).json({
-//             Results: results,
-//         })
-//     }
-//     }catch(err){
-//         console.log(err);
+    res.status(200).json({
+      Created: results,
+    });
+  } catch (err) {
+    console.log(err);
 
-//         res.status(500).json({
-//             Error: err,
-//         });
-//     }
-// });
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
+
 
 //login
-
 router.post("/login/", async (req, res) => {
   try {
     //get email and password from the request
