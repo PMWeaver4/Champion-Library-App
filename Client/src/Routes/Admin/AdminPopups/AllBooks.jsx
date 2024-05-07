@@ -1,6 +1,35 @@
 import AdminBookTile from "../AdminComponentTiles/AdminBookTile";
+import { useEffect, useState } from "react";
+import config from "../../../config.json";
+import { getToken } from "../../../localStorage";
 
 export default function AllBooks({ onCloseWidget }) {
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    async function fetchBooks() {
+      try {
+        const response = await fetch(`${config.backend_url}book/all`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch books");
+        }
+        const data = await response.json();
+        setBooks(data.Created);
+      } catch (error) {
+        console.error("Error fetching books:", error);
+        // Handle error: display error message to the user, log the error, etc.
+      }
+    }
+    fetchBooks();
+  }, []);
+
+
+
   return (
     <div className="admin-popup">
       <button onClick={onCloseWidget} className="exit-btn">
@@ -8,7 +37,9 @@ export default function AllBooks({ onCloseWidget }) {
       </button>
       <h1>All Books</h1>
       <div className="admin-popup-body">
-        <AdminBookTile />
+        {books.map((book) => (
+          <AdminBookTile key={book._id} book={book} />
+        ))}
       </div>
     </div>
   );

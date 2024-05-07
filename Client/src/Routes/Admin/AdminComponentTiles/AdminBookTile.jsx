@@ -1,17 +1,21 @@
-export default function AdminBookTile() {
+export default function AdminBookTile({book}) {
+
+  // maximum characters
+  const MAX_CHAR = 12;
+
   return (
     <div className="admin-item-container">
       <div className="admin-item-tile">
         <div className="admin-content">
           <div className="admin-img">
-            <img src="/images/books.png" />
+            <img src={book.img} />
           </div>
 
           <div className="admin-header">
             <p className="admin-title">
-              <em>Divergent</em>
+              <em>{book.title.length > MAX_CHAR ? book.title.substring(0, MAX_CHAR) + "..." : book.title}</em>
             </p>
-            <p className="admin-author">Suzanne Collins</p>
+            <p className="admin-author">{book.author}</p>
           </div>
         </div>
 
