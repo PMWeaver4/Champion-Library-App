@@ -1,15 +1,16 @@
-export default function AdminGameTile() {
+export default function AdminGameTile({game}) {
+  const MAX_CHAR = 12;
   return (
     <div className="admin-item-container">
       <div className="admin-item-tile">
         <div className="admin-content">
           <div className="admin-img">
-            <img src="/images/books.png" />
+            <img src={game.img} />
           </div>
 
           <div className="admin-header">
             <p className="admin-title">
-              <em>Item Name</em>
+              <em>{game.itemName.length > MAX_CHAR ? game.itemName.substring(0, MAX_CHAR) + "..." : game.itemName}</em>
             </p>
           </div>
         </div>
