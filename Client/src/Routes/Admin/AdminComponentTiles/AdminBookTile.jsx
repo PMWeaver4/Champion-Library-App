@@ -1,6 +1,4 @@
-export default function AdminBookTile({book}) {
-
-  // maximum characters
+export default function AdminBookTile({ book, onDeleteRequest }) {
   const MAX_CHAR = 12;
 
   return (
@@ -8,9 +6,8 @@ export default function AdminBookTile({book}) {
       <div className="admin-item-tile">
         <div className="admin-content">
           <div className="admin-img">
-            <img src={book.img} />
+            <img src={book.img} alt={book.title} />
           </div>
-
           <div className="admin-header">
             <p className="admin-title">
               <em>{book.title.length > MAX_CHAR ? book.title.substring(0, MAX_CHAR) + "..." : book.title}</em>
@@ -18,12 +15,12 @@ export default function AdminBookTile({book}) {
             <p className="admin-author">{book.author}</p>
           </div>
         </div>
-
         <div className="admin-action-buttons">
           <button className="admin-edit-item">Edit</button>
-          <button className="admin-delete-item">Delete</button>
+          <button className="admin-delete-item" onClick={onDeleteRequest}>Delete</button>
         </div>
       </div>
     </div>
   );
 }
+
