@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import PendingUserTile from "../AdminComponentTiles/PendingUserTile";
 import config from "../../../config.json";
 import { getToken } from "../../../localStorage";
-import CurrentUserTile from "../AdminComponentTiles/CurrentUserTile";
 
 export default function PendingUsers({ onCloseWidget }) {
   const [pendingUsers, setPendingUsers] = useState([]);
