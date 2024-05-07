@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PendingUserTile from "../AdminComponentTiles/PendingUserTile";
 import config from "../../../config.json";
 import { getToken } from "../../../localStorage";
+import CurrentUserTile from "../AdminComponentTiles/CurrentUserTile";
 
 export default function PendingUsers({ onCloseWidget }) {
   const [pendingUsers, setPendingUsers] = useState([]);
@@ -30,12 +31,12 @@ export default function PendingUsers({ onCloseWidget }) {
 
   return (
     <div className="admin-popup">
+      <button onClick={onCloseWidget} className="exit-btn">
+        <i className="fa-solid fa-arrow-left"></i>
+      </button>
+      <h1>Pending Users</h1>
+      <h2>New users await your response...</h2>
       <div className="admin-popup-body">
-        <button onClick={onCloseWidget} className="exit-btn">
-          <i className="fa-solid fa-arrow-left"></i>
-        </button>
-        <h1>Pending Users</h1>
-        <h2>New users await your response...</h2>
         {pendingUsers.map((user) => (
           <PendingUserTile key={user._id} user={user} />
         ))}

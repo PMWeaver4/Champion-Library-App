@@ -3,12 +3,12 @@ import AdminBookTile from "../AdminComponentTiles/AdminBookTile";
 export default function AllBooks({ onCloseWidget }) {
   return (
     <div className="admin-popup">
+      <button onClick={onCloseWidget} className="exit-btn">
+        <i className="fa-solid fa-arrow-left"></i>
+      </button>
+      <h1>All Books</h1>
       <div className="admin-popup-body">
-        <button onClick={onCloseWidget} className="exit-btn">
-          <i className="fa-solid fa-arrow-left"></i>
-        </button>
-        <h1>All Books</h1>
-        <AdminBookTile/>
+        <AdminBookTile />
       </div>
     </div>
   );

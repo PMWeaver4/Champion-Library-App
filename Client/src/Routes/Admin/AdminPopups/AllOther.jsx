@@ -3,12 +3,12 @@ import AdminMiscTile from "../AdminComponentTiles/AdminMiscTile";
 export default function AllOther({ onCloseWidget }) {
   return (
     <div className="admin-popup">
+      <button onClick={onCloseWidget} className="exit-btn">
+        <i className="fa-solid fa-arrow-left"></i>
+      </button>
+      <h1>All Misc Items</h1>
       <div className="admin-popup-body">
-        <button onClick={onCloseWidget} className="exit-btn">
-          <i className="fa-solid fa-arrow-left"></i>
-        </button>
-        <h1>All Misc Items</h1>
-        <AdminMiscTile/>
+        <AdminMiscTile />
       </div>
     </div>
   );

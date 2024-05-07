@@ -3,15 +3,14 @@ import AdminGameTile from "../AdminComponentTiles/AdminGameTile";
 export default function AllGamess({ onCloseWidget }) {
   return (
     <div className="admin-popup">
+      <button onClick={onCloseWidget} className="exit-btn">
+        <i className="fa-solid fa-arrow-left"></i>
+      </button>
+      <h1>All Games</h1>
       <div className="admin-popup-body">
-        <button onClick={onCloseWidget} className="exit-btn">
-          <i className="fa-solid fa-arrow-left"></i>
-        </button>
-        <h1>All Games</h1>
-        <AdminGameTile/>
+        <AdminGameTile />
       </div>
     </div>
-
   );
 }
 
