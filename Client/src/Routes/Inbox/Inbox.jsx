@@ -114,6 +114,7 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                       createdAt={notification.createdAt}
                       bookTitle={notification.book?.title}
                       itemName={notification.item?.itemName}
+                      message={notification.message}
                     />
                   ))}
                 {activeTab === "borrowReq" &&
