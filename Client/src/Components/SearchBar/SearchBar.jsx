@@ -1,6 +1,7 @@
 import { useState } from "react";
 import config from "../../config.json";
 import { getToken } from "../../localStorage";
+import BookTile from "../../Components/ItemTIles/BookTile";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState(""); // State to hold the user input
@@ -55,14 +56,7 @@ export default function SearchBar() {
                 index // Map through books and display them
               ) => (
                 <div className="search-result-book-tile" key={index}>
-                  <img src={book.img} />
-                  <h3>{book.title}</h3>
-                  <p>
-                    <strong>Author:</strong> {book.author}
-                  </p>
-                  <p>
-                    <strong>Genre: </strong> {book.genre}
-                  </p>
+                  <BookTile book={book} />
                 </div>
               )
             )

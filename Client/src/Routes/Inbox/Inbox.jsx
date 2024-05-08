@@ -8,7 +8,7 @@ import { getToken, getUserId } from "../../localStorage";
 import config from "../../config.json";
 import DeletePopup from "./DeletePopup";
 import ReplyPopup from "./ReplyPopup";
-// import NotificationTile from "./NotificationTile";
+
 
 // enum  for reply and delete button
 const InboxPopupEnum = {
