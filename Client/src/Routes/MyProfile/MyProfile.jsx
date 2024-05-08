@@ -135,11 +135,6 @@ export default function MyProfile() {
     <main className="my-profile-page">
       <PageTemplate>   
         <div className={`my-profile-body ${showDeletePopup ? 'popup-clicked' : ''}`}>
-          {/* <div className="settings-title-container">  */}
-
-          <div className="title-image">
-          <p className="p-tag">User Settings </p><img  src="/images/settings.png" alt="settings Image"/> 
-          </div>
           {/* <h1 className="settings-title"> ACCOUNT SETTINGS</h1> */}
             <h2  className="second-title"> Account Information </h2>
           {/* message to let user know update was successful */}

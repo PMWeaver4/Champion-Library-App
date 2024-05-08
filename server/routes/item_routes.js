@@ -33,6 +33,8 @@ router.get("/all", async (req, res) => {
         "checkedout",
         "itemType",
         "condition",
+        "img",
+        "itemName"
       ])
       .select({
         text: 1,
