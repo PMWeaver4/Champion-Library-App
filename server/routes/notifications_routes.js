@@ -20,6 +20,7 @@ const Request = require("../models/request");
 const User = require("../models/user");
 const Book = require("../models/book");
 const Item = require("../models/item");
+const book = require("../models/book");
 
 // create book request
 async function createBookRequest(req, res) {
@@ -74,7 +75,7 @@ async function createBookRequest(req, res) {
 }
 // ---------------------------------------------------------------
 
-// create item request
+// item request
 async function createItemRequest(req, res) {
   //item_details are the details of any requested item (book, game or misc)
   let existingRequest = await Request.findOne({ item: req.body.item });
@@ -96,7 +97,7 @@ async function createItemRequest(req, res) {
     // Book is listed to notify what book is being checked out/returned
     item: req.body.item,
   }).save();
-  // creates notification for item request
+  // notification for item request
   new Notifications({
     user: RequestedItem.user,
     visible: true,
@@ -109,7 +110,7 @@ async function createItemRequest(req, res) {
   let owner = await User.findOne({ _id: RequestedItem.user }, { email: 1, _id: 0, firstName: 1 });
   //store who is requesting
   let requester = await User.findOne({ _id: req.user._id });
-  // sends an email for the item request
+  // email for borrow reques
   Email.sendWithTemplate({
     recipient: owner.email,
     email_type: EmailTypes.BorrowRequest,
@@ -124,8 +125,7 @@ async function createItemRequest(req, res) {
   res.status(200).send();
 }
 
-// Create Notifications
-// 4/30/24 this now checks if an item or book has already been requested (hasPendingRequest) before allowing the creation of a notification or email
+// calls functions up ahead to create and send email, notifications, and borrow request for one book/item at a time
 router.post("/create/", async (req, res) => {
   try {
     if (req.body.item != null) {
@@ -136,7 +136,7 @@ router.post("/create/", async (req, res) => {
       return res.status(400).json({ error: "Book or Item not provided." });
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({
       Error: err,
     });
@@ -151,6 +151,20 @@ router.get("/allYourNotifications/:_id", async (req, res) => {
     let results = await Notifications.find({ user: req.user._id, visible: true })
       .populate({ path: "requestingUser", select: "email firstName lastName" })
       .populate({ path: "user", select: "email firstName lastName" })
+      .populate({
+        path: "request",
+        select: "_id",
+        populate: [
+          {
+            path: "item",
+            model: "Item",
+          },
+          {
+            path: "book",
+            model: "Book",
+          },
+        ],
+      })
       .populate(["message", "notificationType"])
       .select({
         text: 1,
@@ -169,33 +183,133 @@ router.get("/allYourNotifications/:_id", async (req, res) => {
     });
   }
 });
-// Display all notifications (for admin only)
-router.get("/all", async (req, res) => {
-  try {
-    //filters for all notifications
-    if (req.user.isAdmin == true) {
-      let results = await Notifications.find({})
-        .populate({ path: "requestingUser", select: "email" })
-        .populate({ path: "owner", select: "email" })
-        .populate({ path: "book", select: "title" })
-        .populate({ path: "item", select: "description" })
-        .populate(["borrowrequest", "returnrequest", "status", "message", "notificationType"])
-        .select({
-          text: 1,
-          createdAt: 1,
-          updatedAt: 1,
-        });
+// ---------------------------------------------------
 
-      res.status(200).json({
-        Results: results,
-      });
-    }
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({
-      Error: err,
+// function to update borrow status of book
+async function handleUpdateBorrowBook(req, res) {
+  const request = await Request.findOne({ book: req.body.book }, {}, { sort: { created_at: -1 } })
+    .populate({ path: "book" })
+    .populate({ path: "requestingUser" });
+  if (request === null) {
+    return res.status(404).json({ error: "Book request not found" });
+  }
+  if (req.body.newRequestStatus != "Accepted" && req.body.newRequestStatus != "Declined" && req.body.newRequestStatus != "Pending") {
+    return res.status(400).json({ error: "newRequestStatus needs to be Pending, Accepted, or Declined" });
+  }
+  if (req.body.newRequestStatus === "Accepted") {
+  } else if (req.body.newRequestStatus === "Declined") {
+    await Book.updateOne({ _id: request.book._id }, { hasPendingRequest: false });
+    // sending email after updating decline status, then deleting request
+    const item_details = `${request.book.title} by ${request.book.author}`;
+    Email.sendWithTemplate({
+      recipient: request.requestingUser.email,
+      email_type: EmailTypes.BorrowDecline,
+      template_variables: {
+        item_details: item_details,
+        user_fullname: request.requestingUser.firstName,
+      },
     });
+    new Notifications({
+      user: request.requestingUser._id,
+      visible: true,
+      message: `Your request to borrow ${item_details} has been DECLINED`,
+      notificationType: "System",
+    }).save();
+    await request.deleteOne();
+    res.status(200).send();
+  } else {
+    request.status = "Pending";
+    await request.save();
+    res.status(200).send();
+  }
+  console.log(request);
+}
+
+//function to update borrow status of item
+async function handleUpdateBorrowItem(req, res) {
+  const request = await Request.findOne({ item: req.body.item }, {}, { sort: { created_at: -1 } })
+    .populate({ path: "item" })
+    .populate({ path: "requestingUser" });
+
+  if (request === null) {
+    return res.status(404).json({ error: "Item request not found" });
+  }
+  if (req.body.newRequestStatus != "Accepted" && req.body.newRequestStatus != "Declined" && req.body.newRequestStatus != "Pending") {
+    return res.status(400).json({ error: "newRequestStatus needs to be Pending, Accepted, or Declined" });
+  }
+  if (req.body.newRequestStatus === "Accepted") {
+  } else if (req.body.newRequestStatus === "Declined") {
+    await Item.updateOne({ _id: request.item._id }, { hasPendingRequest: false });
+    // sending email after updating decline status, then deleting request
+    const item_details = request.item.itemName;
+    Email.sendWithTemplate({
+      recipient: request.requestingUser.email,
+      email_type: EmailTypes.BorrowDecline,
+      template_variables: {
+        item_details: item_details,
+        user_fullname: request.requestingUser.firstName,
+      },
+    });
+    new Notifications({
+      user: request.requestingUser._id,
+      visible: true,
+      message: `Your request to borrow ${item_details} has been DECLINED`,
+      notificationType: "System",
+    }).save();
+    await request.deleteOne();
+    res.status(200).send();
+  } else {
+    request.status = "Pending";
+    await request.save();
+    res.status(200).send();
+  }
+}
+
+// endpoint calls the updateBorrow handler functions for item and books
+router.put("/updateBorrow", async (req, res) => {
+  if (req.body.book != null) {
+    handleUpdateBorrowBook(req, res);
+  } else if (req.body.item != null) {
+    handleUpdateBorrowItem(req, res);
+  } else {
+    return res.status(400).json({ error: "Book or Item not provided." });
+  }
+});
+
+// function to update the return status of book
+async function handleUpdateReturnBook(req, res) {
+  const request = await Request.findOne({ book: req.body.book }, {}, { sort: { created_at: -1 } })
+    .populate({ path: "book" })
+    .populate({ path: "requestingUser" });
+  if (request === null) {
+    return res.status(404).json({ error: "Book request not found" });
+  }
+  if (req.body.newRequestStatus != "Accepted" && req.body.newRequestStatus != "Declined" && req.body.newRequestStatus != "Pending") {
+    return res.status(400).json({ error: "newRequestStatus needs to be Pending, Accepted, or Declined" });
+  }
+}
+
+// function to update the return status of item
+async function handleUpdateReturnItem(req, res) {
+  const request = await Request.findOne({ item: req.body.item }, {}, { sort: { created_at: -1 } })
+    .populate({ path: "item" })
+    .populate({ path: "requestingUser" });
+  if (request === null) {
+    return res.status(404).json({ error: "Item request not found" });
+  }
+  if (req.body.newRequestStatus != "Accepted" && req.body.newRequestStatus != "Declined" && req.body.newRequestStatus != "Pending") {
+    return res.status(400).json({ error: "newRequestStatus needs to be Pending, Accepted, or Declined" });
+  }
+}
+
+// endpoint calls the updateReturn handlers for book and items
+router.put("/updateReturn", async (req, res) => {
+  if (req.body.book != null) {
+    handleUpdateReturnBook(req, res);
+  } else if (req.body.item != null) {
+    handleUpdateReturnItem(req, res);
+  } else {
+    return res.status(400).json({ error: "Book or Item not provided." });
   }
 });
 
@@ -276,6 +390,13 @@ async function handleNotificationStatusChange(updatedNotifications) {
 //updates specific notification
 router.put("/update/:_id", async (req, res) => {
   try {
+    if (req.body.book != null) {
+      handleUpdateBook(req, res);
+    } else if (req.body.item != null) {
+      handleUpdateItem(req, res);
+    } else {
+      return res.status(400).json({ error: "Book or Item not provided." });
+    }
     //finds notification by ID
     const notificationsUpdate = await Notifications.findOne({
       _id: req.params._id,

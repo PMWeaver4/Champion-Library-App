@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function NotificationTile({ onReply, onDelete, firstName, lastName, createdAt, message }) {
+export default function NotificationTile({ onReply, onDelete, firstName, lastName, createdAt, message, requestingUser }) {
   // Format date
   const date = new Date(createdAt).toLocaleDateString();
   const time = new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -34,9 +34,7 @@ export default function NotificationTile({ onReply, onDelete, firstName, lastNam
     <div className="component_notification-tile">
       <div className="notification-content">
         <div className="notification-header">
-          <h1 className="notification-username">
-            {firstName} {lastName}
-          </h1>
+          <h1 className="notification-username">{requestingUser ? `${requestingUser.firstName} ${requestingUser.lastName}` : "South Meadow's Lending Library"}</h1>
           <h2>
             {date} {time}
           </h2>

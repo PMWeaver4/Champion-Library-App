@@ -13,7 +13,6 @@ const NotificationsSchema = mongoose.Schema(
     // User is making request
     requestingUser: {
       type: mongoose.ObjectId,
-      required: true,
       ref: User,
     },
 
