@@ -22,7 +22,7 @@ const Book = require("../models/book");
 const Item = require("../models/item");
 const book = require("../models/book");
 
-// create book request
+// create book request ✅
 async function createBookRequest(req, res) {
   //item_details are the details of any requested item (book, game or misc)
   let existingRequest = await Request.findOne({ book: req.body.book });
@@ -75,7 +75,7 @@ async function createBookRequest(req, res) {
 }
 // ---------------------------------------------------------------
 
-// item request
+// item request ✅
 async function createItemRequest(req, res) {
   //item_details are the details of any requested item (book, game or misc)
   let existingRequest = await Request.findOne({ item: req.body.item });
@@ -125,7 +125,7 @@ async function createItemRequest(req, res) {
   res.status(200).send();
 }
 
-// calls functions up ahead to create and send email, notifications, and borrow request for one book/item at a time
+// calls functions up ahead to create and send email, notifications, and borrow request for one book/item at a time ✅
 router.post("/create/", async (req, res) => {
   try {
     if (req.body.item != null) {
@@ -143,7 +143,7 @@ router.post("/create/", async (req, res) => {
   }
 });
 
-// Display all notifications endpoint for that user
+// Display all notifications endpoint for that user ✅
 router.get("/allYourNotifications/:_id", async (req, res) => {
   try {
     console.log(req.user._id);
@@ -185,7 +185,7 @@ router.get("/allYourNotifications/:_id", async (req, res) => {
 });
 // ---------------------------------------------------
 
-// function to update borrow status of book
+// function to update borrow status of book ✅
 async function handleUpdateBorrowBook(req, res) {
   const request = await Request.findOne({ book: req.body.book }, {}, { sort: { created_at: -1 } })
     .populate({ path: "book" })
@@ -225,7 +225,7 @@ async function handleUpdateBorrowBook(req, res) {
   console.log(request);
 }
 
-//function to update borrow status of item
+//function to update borrow status of item ✅
 async function handleUpdateBorrowItem(req, res) {
   const request = await Request.findOne({ item: req.body.item }, {}, { sort: { created_at: -1 } })
     .populate({ path: "item" })
