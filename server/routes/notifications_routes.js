@@ -21,26 +21,7 @@ const User = require("../models/user");
 const Book = require("../models/book");
 const Item = require("../models/item");
 
-// ? this is an EXAMPLE of how to send an email
-router.post("/testEmail", async (req, res) => {
-  try {
-    const result = await Email.sendWithTemplate({
-      recipient: "uprightchampions@proton.me",
-      email_type: EmailTypes.ReturnDecline,
-      template_variables: {
-        item_details: "Test_Item_details",
-        requestingUser_firstname: "Test_RequestingUser_firstname",
-        owner_fullname: "Test_Owner_fullname",
-        owner_email: "Test_Owner_email",
-      },
-    });
-    res.status(200).json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send();
-  }
-});
-
+// create book request
 async function createBookRequest(req, res) {
   //item_details are the details of any requested item (book, game or misc)
   let existingRequest = await Request.findOne({ book: req.body.book });
@@ -65,7 +46,7 @@ async function createBookRequest(req, res) {
     // Book is listed to notify what book is being checked out/returned
     book: req.body.book,
   }).save();
-
+  // creates the notification for the book request
   new Notifications({
     user: RequestedBook.user,
     visible: true,
@@ -78,6 +59,7 @@ async function createBookRequest(req, res) {
   let owner = await User.findOne({ _id: RequestedBook.user }, { email: 1, _id: 0, firstName: 1 });
   //store who is requesting
   let requester = await User.findOne({ _id: req.user._id });
+  // sends the email for the book request
   Email.sendWithTemplate({
     recipient: owner.email,
     email_type: EmailTypes.BorrowRequest,
@@ -88,10 +70,11 @@ async function createBookRequest(req, res) {
       item_details: item_details,
     },
   });
-
   res.status(200).send();
 }
+// ---------------------------------------------------------------
 
+// create item request
 async function createItemRequest(req, res) {
   //item_details are the details of any requested item (book, game or misc)
   let existingRequest = await Request.findOne({ item: req.body.item });
@@ -112,20 +95,21 @@ async function createItemRequest(req, res) {
     status: "Pending",
     // Book is listed to notify what book is being checked out/returned
     item: req.body.item,
-    request: request._id,
   }).save();
-
+  // creates notification for item request
   new Notifications({
     user: RequestedItem.user,
     visible: true,
     message: `Has requested to borrow: ${item_details}`,
     notificationType: "Borrow",
     requestingUser: req.user._id,
+    request: request._id,
   }).save();
 
   let owner = await User.findOne({ _id: RequestedItem.user }, { email: 1, _id: 0, firstName: 1 });
   //store who is requesting
   let requester = await User.findOne({ _id: req.user._id });
+  // sends an email for the item request
   Email.sendWithTemplate({
     recipient: owner.email,
     email_type: EmailTypes.BorrowRequest,
@@ -137,9 +121,7 @@ async function createItemRequest(req, res) {
     },
   });
 
-  res.status(200).json({
-    Created: notification,
-  });
+  res.status(200).send();
 }
 
 // Create Notifications
