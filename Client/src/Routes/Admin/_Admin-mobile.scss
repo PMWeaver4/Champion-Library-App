@@ -17,12 +17,12 @@
     border-radius: 1rem;
     padding-top: 1rem;
     .admin-content {
+      overflow-y: scroll;
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 90%;
       height: 100%;
-      overflow-y: scroll;
       gap: 1rem;
       filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.547));
       .widget {
@@ -56,81 +56,169 @@
 // Admin Popups
 .admin-popup {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   inset: 0;
   background-color: white;
   width: 100%;
   height: 100%;
   position: absolute;
+  padding: 1rem 0;
+  .exit-btn {
+    font-size: 1.25rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: #003366;
+  }
+  h1 {
+    font-size: 1.25rem;
+    color: #003366;
+    font-weight: bold;
+  }
+  h2 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
   .admin-popup-body {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
-    padding: 1rem 0;
+ 
     align-items: center;
     position: relative;
-    .exit-btn {
-        font-size: 1.25rem;
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
+    overflow-y: scroll;
+  }
+}
+
+// AdminComponentTiles
+.admin-users-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  margin-bottom: .5rem;
+  .admin-user-tile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    background-color: rgb(247, 247, 247);
+    border: 1px solid rgba(128, 128, 128, 0.249);
+    border-right: none;
+    border-left: none;
+    padding: 10px 20px;
+    .admin-username {
+      em {
+        font-size: 1rem;
+        font-weight: bold;
         color: #003366;
+      }
     }
-    h1 {
-      font-size: 1.25rem;
-      color: #003366;
-      font-weight: bold;
-    }
-    h2 {
+    .admin-email {
       font-size: 1rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
-    .pending-users-container {
+    .admin-action-buttons {
       display: flex;
-      flex-direction: column;
+      width: 100%;
+      height: fit-content;
+      justify-content: space-evenly;
+      .admin-accept,
+      .admin-decline,
+      .admin-edit,
+      .admin-delete {
+        font-size: 1rem;
+        width: 6rem;
+        height: 1.5rem;
+        background-color: #003366;
+        color: white;
+        font-weight: bold;
+        border-radius: 0.25rem;
+        &:hover {
+          background-color: greenyellow;
+          color: #003366;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+//
+.admin-item-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  margin-bottom: .5rem;
+  .admin-item-tile {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(247, 247, 247);
+    border: 1px solid rgba(128, 128, 128, 0.249);
+    border-right: none;
+    border-left: none;
+    padding: 10px 20px;
+    .admin-content {
+      display: flex;
       width: 100%;
       height: 100%;
-      .pending-user-tile {
+      .admin-img {
+        width: fit-content;
+        height: fit-content;
         display: flex;
-        flex-direction: column;
+        img {
+          width: 5rem;
+          height: 100%;
+          aspect-ratio: 100/150;
+          object-fit: cover;
+        }
+      }
+
+      .admin-header {
+        padding-left: 4px;
         width: 100%;
-        background-color: rgb(247, 247, 247);
-        border: 1px solid rgba(128, 128, 128, 0.249);
-        border-right: none;
-        border-left: none;
-        padding: 10px 20px;
-        .pending-username {
+        height: 100%;
+        .admin-title {
           em {
             font-size: 1rem;
             font-weight: bold;
             color: #003366;
           }
         }
-        .pending-email {
+        .admin-author {
           font-size: 1rem;
-          margin-bottom: .5rem;
+          margin-bottom: 0.5rem;
         }
-        .pending-action-buttons {
-          display: flex;
-          width: 100%;
-          height: fit-content;
-          justify-content: space-evenly;
-          .pending-accept,
-          .pending-decline {
-            font-size: 1rem;
-            width: 6rem;
-            height: 1.5rem;
-            background-color: #003366;
-            color: white;
-            font-weight: bold;
-            border-radius: 0.25rem;
-            &:hover {
-                background-color: greenyellow;
-                color: #003366;
-                font-weight: bold;
-            }
-          }
+      }
+    }
+
+    .admin-action-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      gap: 1rem;
+      .admin-edit-item,
+      .admin-delete-item {
+        font-size: 1rem;
+        width: 6rem;
+        height: 1.5rem;
+        background-color: #003366;
+        color: white;
+        font-weight: bold;
+        border-radius: 0.25rem;
+        &:hover {
+          background-color: greenyellow;
+          color: #003366;
+          font-weight: bold;
         }
       }
     }
