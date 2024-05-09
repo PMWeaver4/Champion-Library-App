@@ -34,7 +34,7 @@ export default function NotificationTile({ onReply, onDelete, firstName, lastNam
     <div className="component_notification-tile">
       <div className="notification-content">
         <div className="notification-header">
-          <h1 className="notification-username">{requestingUser ? `${requestingUser.firstName} ${requestingUser.lastName}` : "South Meadow's Lending Library"}</h1>
+          <h1 className="notification-username">From: {requestingUser ? `${requestingUser.firstName} ${requestingUser.lastName}` : "South Meadow's Lending Library"}</h1>
           <h2>
             {date} {time}
           </h2>
