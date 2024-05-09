@@ -152,7 +152,7 @@ export default function MyLibrary() {
             </div>
             <div className="others-container">
               <div className="view-container">
-                <h3></h3>
+                <h3> OTHER</h3>
                 <button className="view-btn view-others-btn" onClick={() => openLibraryPopup(MyLibraryPopupsEnum.AllOther)}>
                   View all
                 </button>
