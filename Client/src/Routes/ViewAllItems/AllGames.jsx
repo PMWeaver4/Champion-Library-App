@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import config from "../../config.json";
 import { getToken } from "../../localStorage";
 import GameTile from "../../Components/ItemTIles/GameTile";
+import GameSearchBar from "../../Components/SearchBar/GameSearchBar";
 
 export default function AllGames() {
   // fetch items
@@ -38,6 +39,9 @@ export default function AllGames() {
               <i className="fa-solid fa-arrow-left"></i>
             </NavLink>
             <h1>GAMES</h1>
+          </div>
+          <div className="search-bar-container">
+          <GameSearchBar />
           </div>
           <div className="view-all-grid">
             {gameItems.map((game) => (
