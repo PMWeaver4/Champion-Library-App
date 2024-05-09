@@ -43,6 +43,7 @@ router.get("/all", async (req, res) => {
         "genre",
         "rentedUser",
         "isbn",
+        "img"
       ])
       .select({
         text: 1,
