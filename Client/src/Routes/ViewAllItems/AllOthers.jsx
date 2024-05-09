@@ -4,6 +4,7 @@ import OtherTile from "../../Components/ItemTIles/OtherTile";
 import { useEffect, useState } from "react";
 import config from "../../config.json";
 import { getToken } from "../../localStorage";
+import ItemSearchBar from "../../Components/SearchBar/ItemSearchBar";
 
 export default function AllOthers({ pageTitle }) {
   // fetch items
@@ -39,6 +40,9 @@ export default function AllOthers({ pageTitle }) {
               <i className="fa-solid fa-arrow-left"></i>
             </NavLink>
             <h1>OTHER</h1>
+          </div>
+          <div className="search-bar-container">
+          <ItemSearchBar />
           </div>
           <div className="view-all-grid">
             {otherItems.map((other) => (

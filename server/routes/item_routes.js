@@ -34,7 +34,7 @@ router.get("/all", async (req, res) => {
         "itemType",
         "condition",
         "img",
-        "itemName"
+        "itemName",
       ])
       .select({
         text: 1,
@@ -165,6 +165,22 @@ router.delete("/delete/:itemId", async (req, res) => {
     res.status(200).json({ Deleted: true });
   } catch (err) {
     res.status(500).json({ Error: err.message });
+  }
+});
+
+// search the items by name description  ✅
+router.get("/searchThrough", async (req, res) => {
+  const searchString = req.query.q;
+  try {
+    // RegExp is regular expression
+    const regex = new RegExp(searchString, "i");
+    const items = await Item.find({
+      $or: [{ itemName: regex }, { description: regex }],
+    });
+    // Send the found books back to the client
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching books", error: error });
   }
 });
 
