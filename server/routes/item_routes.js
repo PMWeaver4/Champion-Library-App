@@ -169,18 +169,20 @@ router.delete("/delete/:itemId", async (req, res) => {
 });
 
 // search the items by name description  ✅
-router.get("/searchThrough", async (req, res) => {
+router.get("/:itemType/searchThrough", async (req, res) => {
   const searchString = req.query.q;
   try {
     // RegExp is regular expression
     const regex = new RegExp(searchString, "i");
     const items = await Item.find({
       $or: [{ itemName: regex }, { description: regex }],
+      itemType: req.params.itemType,
     });
-    // Send the found books back to the client
+
+    // Send the found items back to the client
     res.json(items);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching books", error: error });
+    res.status(500).json({ message: "Error fetching items", error: error });
   }
 });
 
