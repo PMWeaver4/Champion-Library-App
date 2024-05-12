@@ -142,3 +142,16 @@ const result = await Email.sendWithTemplate({
   },
 });
 ```
+
+## Password Reset
+
+```js
+const result = await Email.sendWithTemplate({
+  recipient: "uprightchampions@proton.me",
+  email_type: EmailTypes.PasswordReset,
+  template_variables: {
+    user_firstName: "Test_User_firstName",
+    resetPasswordLink: "Test_ResetPasswordLink",
+  },
+});
+```
