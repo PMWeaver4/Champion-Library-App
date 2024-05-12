@@ -20,7 +20,7 @@ const user = require("../models/user");
 // password recovery
 // validate that a user has that email and token function
 async function validateTokenEmail(email, token) {
-  const user = await User.findOne({ email: email, resetToken: token });
+  const user = await User.findOne({ email: email.toLowerCase(), resetToken: token });
   if (user === null) {
     return false;
   }
@@ -38,20 +38,20 @@ function generateResetToken() {
   return crypto.randomBytes(20).toString("hex");
 }
 
-const EXPIRATION_DELAY = 1000 * 60 * 30; // 30 minutes+
+const EXPIRATION_DELAY = 1000 * 60 * 30; // 30 minutes expiration time
 
 // create reset password token and send email
 router.post("/requestResetPassword", async (req, res) => {
   try {
     const { email } = req.body;
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (user === null) {
       return res.status(404).json({
         Error: "User not found",
       });
     }
     user.resetToken = generateResetToken();
-    user.resetTokenExp = Date.now()
+    user.resetTokenExp = Date.now() + EXPIRATION_DELAY;
   } catch (err) {
     console.error(err);
     res.status(500).json({
@@ -64,7 +64,7 @@ router.post("/requestResetPassword", async (req, res) => {
 router.put("/resetPassword", async (req, res) => {
   try {
     const { email, resetToken, password } = req.body;
-    const user = await User.findOne({ email: email, resetToken: token });
+    const user = await User.findOne({ email: email.toLowerCase(), resetToken: token });
     if (user === null) {
       return false;
     }
@@ -80,7 +80,7 @@ router.put("/resetPassword", async (req, res) => {
 router.get("/validateResetCredentials", async (req, res) => {
   try {
     const { email, resetToken } = req.body;
-    const isValid = await validateTokenEmail(email, resetToken);
+    const isValid = await validateTokenEmail(email.toLowerCase(), resetToken);
     if (!isValid) {
       return res.status(401).send();
     }
@@ -100,7 +100,7 @@ router.post("/create/", async (req, res) => {
     let user = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       //use bcrypt to encrypt password
       password: bcrypt.hashSync(req.body.password, 12),
     });
@@ -112,7 +112,7 @@ router.post("/create/", async (req, res) => {
     const returnData = {
       firstName: newUser.firstName,
       lastName: newUser.lastName,
-      email: newUser.email,
+      email: newUser.email.toLowerCase(),
       isAdmin: newUser.isAdmin,
       approved: newUser.approved,
     };
@@ -197,7 +197,7 @@ router.post("/login/", async (req, res) => {
     //get email and password from the request
     let { email, password } = req.body;
     //find the use based on email
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     //if no match
     if (!user) throw new Error("User not found");
     // if not approved
