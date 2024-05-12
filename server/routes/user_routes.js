@@ -141,7 +141,7 @@ router.post("/create/", async (req, res) => {
     const returnData = {
       firstName: newUser.firstName,
       lastName: newUser.lastName,
-      email: newUser.email,
+      email: newUser.email.toLowerCase(),
       isAdmin: newUser.isAdmin,
       approved: newUser.approved,
     };
