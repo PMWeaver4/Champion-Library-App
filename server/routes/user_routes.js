@@ -15,19 +15,19 @@ const User = require("../models/user");
 const Validate = require("../middleware/validate");
 
 const { Email, EmailTypes } = require("../Email/Email");
-const user = require("../models/user");
 
 // password recovery
 // validate that a user has that email and token function
 async function validateTokenEmail(email, token) {
-  const user = await User.findOne({ email: email, resetToken: token });
+  const user = await User.findOne({ email: email.toLowerCase(), resetToken: token });
   if (user === null) {
     return false;
   }
   if (user.resetToken === undefined || user.resetTokenExp === undefined) {
     return false;
   }
-  if (Date.now() >= user.resetTokenExp.getMilliseconds()) {
+  const date = new Date();
+  if (date >= user.resetTokenExp) {
     return false;
   }
   return true;
@@ -38,20 +38,34 @@ function generateResetToken() {
   return crypto.randomBytes(20).toString("hex");
 }
 
-const EXPIRATION_DELAY = 1000 * 60 * 30; // 30 minutes+
+const EXPIRATION_DELAY = 1000 * 60 * 30; // 30 minutes expiration time
 
 // create reset password token and send email
 router.post("/requestResetPassword", async (req, res) => {
   try {
     const { email } = req.body;
-    const user = await User.findOne({ email: email });
+    if (!email) {
+      return res.status(400).send();
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (user === null) {
       return res.status(404).json({
         Error: "User not found",
       });
     }
     user.resetToken = generateResetToken();
-    user.resetTokenExp = Date.now()
+    user.resetTokenExp = Date.now() + EXPIRATION_DELAY;
+    await user.save();
+    Email.sendWithTemplate({
+      recipient: user.email,
+      email_type: EmailTypes.PasswordReset,
+      template_variables: {
+        user_firstName: user.firstName,
+        resetPasswordLink: `${process.env.FRONTEND_URL}resetPassword?email=${user.email}&resetToken=${user.resetToken}`,
+      },
+    });
+    res.status(200).send();
   } catch (err) {
     console.error(err);
     res.status(500).json({
@@ -64,10 +78,22 @@ router.post("/requestResetPassword", async (req, res) => {
 router.put("/resetPassword", async (req, res) => {
   try {
     const { email, resetToken, password } = req.body;
-    const user = await User.findOne({ email: email, resetToken: token });
-    if (user === null) {
-      return false;
+    if (!email || !resetToken || password === undefined || password.length === 0) {
+      return res.status(400).send();
     }
+    const user = await User.findOne({ email: email.toLowerCase(), resetToken: resetToken });
+    if (user === null) {
+      return res.status(404).send();
+    }
+
+    if (!validateTokenEmail(email, resetToken)) {
+      return res.status(401).send();
+    }
+    user.password = bcrypt.hashSync(password, 12);
+    user.resetToken = undefined;
+    user.resetTokenExp = undefined;
+    await user.save();
+    res.status(200).send();
   } catch (err) {
     console.error(err);
     res.status(500).json({
@@ -80,7 +106,10 @@ router.put("/resetPassword", async (req, res) => {
 router.get("/validateResetCredentials", async (req, res) => {
   try {
     const { email, resetToken } = req.body;
-    const isValid = await validateTokenEmail(email, resetToken);
+    if (!email || !resetToken) {
+      return res.status(400).send();
+    }
+    const isValid = await validateTokenEmail(email.toLowerCase(), resetToken);
     if (!isValid) {
       return res.status(401).send();
     }
@@ -100,7 +129,7 @@ router.post("/create/", async (req, res) => {
     let user = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       //use bcrypt to encrypt password
       password: bcrypt.hashSync(req.body.password, 12),
     });
@@ -197,7 +226,7 @@ router.post("/login/", async (req, res) => {
     //get email and password from the request
     let { email, password } = req.body;
     //find the use based on email
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     //if no match
     if (!user) throw new Error("User not found");
     // if not approved
@@ -211,9 +240,17 @@ router.post("/login/", async (req, res) => {
       expiresIn: "30 days",
     });
 
+    const userReturnInfo = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      approved: user.approved,
+    };
+
     res.status(200).json({
       Msg: "User signed in!",
-      User: user,
+      User: userReturnInfo,
       Token: token,
     });
   } catch (err) {
@@ -233,7 +270,7 @@ router.put("/update/", Validate, async (req, res) => {
     //get the info to update user
     const usersUpdatedInformation = req.body;
     //match the user by email
-    const updatedUser = await User.findOne({ email: email });
+    const updatedUser = await User.findOne({ email: email.toLocaleLowerCase() });
     //if no user match
     if (updatedUser === null) {
       res.status(404).json({ error: "User not found." });
@@ -268,7 +305,7 @@ router.put("/adminUpdate/:email", Validate, async (req, res) => {
       //get the info to update user
       const usersUpdatedInformation = req.body;
       //keep the old information to compare (important for if status was changed to approved)
-      let user = await User.findOne({ email: email });
+      let user = await User.findOne({ email: email.toLocaleLowerCase() });
       //match the user by email
       //if no user match
       if (user === null) {
