@@ -12,6 +12,7 @@ const EmailTypes = {
   BorrowDecline: process.env.BORROW_DECLINE_UUID,
   ReturnAccept: process.env.RETURN_ACCEPT_UUID,
   ReturnDecline: process.env.RETURN_DECLINE_UUID,
+  PasswordReset: process.env.RESET_PASSWORD_UUID
 };
 
 // function that validates that the string is defined and not empty

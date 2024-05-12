@@ -6,33 +6,92 @@ const bcrypt = require("bcrypt");
 //Importing jsonwebtoken
 const jwt = require("jsonwebtoken");
 
+//
+const crypto = require("crypto");
+
 //Importing User Table
 const User = require("../models/user");
 
 const Validate = require("../middleware/validate");
-// const USER = process.env.USER;
-const PASS = process.env.PASS;
 
-const nodemailer = require("nodemailer");
 const { Email, EmailTypes } = require("../Email/Email");
+const user = require("../models/user");
 
-const transporter = nodemailer.createTransport({
-  host: "live.smtp.mailtrap.io",
-  port: 587,
-  auth: {
-    user: "api",
-    pass: PASS,
-  },
-});
-async function mail(toEmail, emailSubject, emailText) {
-  // send mail with defined transport object
-  const info = await transporter.sendMail({
-    from: "info@demomailtrap.com", // sender address
-    to: toEmail, // list of receivers
-    subject: emailSubject, // Subject line
-    text: emailText, // plain text body
-  });
+// password recovery
+// validate that a user has that email and token function
+async function validateTokenEmail(email, token) {
+  const user = await User.findOne({ email: email, resetToken: token });
+  if (user === null) {
+    return false;
+  }
+  if (user.resetToken === undefined || user.resetTokenExp === undefined) {
+    return false;
+  }
+  if (Date.now() >= user.resetTokenExp.getMilliseconds()) {
+    return false;
+  }
+  return true;
 }
+
+// generate/reset new token
+function generateResetToken() {
+  return crypto.randomBytes(20).toString("hex");
+}
+
+const EXPIRATION_DELAY = 1000 * 60 * 30; // 30 minutes+
+
+// create reset password token and send email
+router.post("/requestResetPassword", async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email: email });
+    if (user === null) {
+      return res.status(404).json({
+        Error: "User not found",
+      });
+    }
+    user.resetToken = generateResetToken();
+    user.resetTokenExp = Date.now()
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
+
+// update old password with new password
+router.put("/resetPassword", async (req, res) => {
+  try {
+    const { email, resetToken, password } = req.body;
+    const user = await User.findOne({ email: email, resetToken: token });
+    if (user === null) {
+      return false;
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
+
+// validate token and email association
+router.get("/validateResetCredentials", async (req, res) => {
+  try {
+    const { email, resetToken } = req.body;
+    const isValid = await validateTokenEmail(email, resetToken);
+    if (!isValid) {
+      return res.status(401).send();
+    }
+    return res.status(200).send();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
 
 //creating Username
 router.post("/create/", async (req, res) => {
@@ -132,7 +191,6 @@ router.get("/allPending/", async (req, res) => {
   }
 });
 
-
 //login
 router.post("/login/", async (req, res) => {
   try {
@@ -165,15 +223,6 @@ router.post("/login/", async (req, res) => {
     });
   }
 });
-
-// Add password recovery
-//router.put("/passwordreset/", async (req, res) => {
-//    try {
-//        let { passwordreset } = req.body;
-//        password: bcrypt.hashSync(req.body.password,12),
-
-//    }
-// });
 
 //Update user's information
 //need to insert validate middleware declared above because of user_routes' position before validation in the index.js
