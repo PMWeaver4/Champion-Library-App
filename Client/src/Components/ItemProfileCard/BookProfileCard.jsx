@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
+import EditDeleteBook from "../EditDeleteBookItem/EditDeleteBook";
+
 // import EditDeleteBook from "../EditDeleteBookItem/EditDeleteBook";
+
 
 import { getToken } from "../../localStorage";
 import config from "../../config.json";
@@ -83,7 +86,8 @@ function borrowBook() {
           <em>ISBN:</em> {book.isbn}
         </p>
       </div>
-      {/* <EditDeleteBook/> */}
+        <EditDeleteBook />
     </div>
+    
   );
 }
