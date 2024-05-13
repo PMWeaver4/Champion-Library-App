@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-// import EditDeleteBook from "../EditDeleteBookItem/EditDeleteBook";
+import EditDeleteBook from "../EditDeleteBookItem/EditDeleteBook";
 
 export default function BookProfileCard({ book }) {
   // maximum characters
@@ -45,7 +45,8 @@ const navigate = useNavigate();
           <em>ISBN:</em> {book.isbn}
         </p>
       </div>
-      {/* <EditDeleteBook/> */}
+        <EditDeleteBook />
     </div>
+    
   );
 }

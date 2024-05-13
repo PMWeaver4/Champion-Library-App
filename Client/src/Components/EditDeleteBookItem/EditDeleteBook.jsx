@@ -2,11 +2,9 @@ import React, { useState, useEffect} from "react";
 import config from "../../config.json";
 import { useParams } from "react-router-dom";
 // import PageTemplate from "../../Components/PageTemplate/PageTemplate";
-import { getToken, clearStorage, getTitle, getAuthor, getDescription, getGenre} from "../../localStorage";
+import { getToken, clearStorage} from "../../localStorage";
+// getTitle, getAuthor, getDescription, getGenre
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
-
-// import BookProfileCard from "../../Components/ItemProfileCard/BookProfileCard";
-
 
 export default  function EditDeleteBook () {
     const [book, setBook] = useState(null);
@@ -14,43 +12,17 @@ export default  function EditDeleteBook () {
     const [DeletePopup, setDeletePopup] = useState(false);
     const token = getToken();
     const [editPopupVisible, setEditPopupVisible] = useState(false);
-    const nav = useNavigate();
+    const [message, setMessage] = useState("");
     const [editBook, setEditBook] = useState({
-        Title: getTitle(),
-        Author: getAuthor(),
-        Description: getDescription(),
-        Genre: getGenre(),
+        title: "",
+        author: "",
+        description: "",
+        genre: "",
       });
+    const [user, setUser] = useState(null);
+    const nav = useNavigate();
 
-    useEffect(() => {
-        // Fetch user data 
-        const fetchUserData = async () => {
-          try {
-            // Retrieve token from local storage or wherever it's stored
-            const token = getToken(); 
-            const response = await fetch(`${config.backend_url}user`, {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
-            });
-
-            if (response.ok) {
-              const userData = await response.json();
-              setUser(userData);
-            } else {
-              console.error("Error fetching user data:", response.statusText);
-            }
-          } catch (error) {
-            console.error("Error fetching user data:", error);
-          }
-        };
-    
-        fetchUserData();
-      }, [token]);
-
-
-    useEffect(() => {
+  useEffect(() => {
     async function fetchBook() {
         try {
           const response = await fetch(`${config.backend_url}book/book/${bookId}`, {
@@ -65,14 +37,19 @@ export default  function EditDeleteBook () {
           }
           const data = await response.json();
           setBook(data);
+          // Populate edit book with fetched book data
+          setEditBook({
+            title: data.title,
+            author: data.author,
+            description: data.description,
+            genre: data.genre,
+          });
         } catch (error) {
           console.error("Failed to fetch book:", error.message);
         }
-      }
+      };
       fetchBook();
     }, [bookId, token]);
-
-
 
 const handleEditBook = () => {
     setEditPopupVisible(true);
@@ -81,6 +58,26 @@ const handleEditBook = () => {
 const cancelBookUpdate = () => {
     // Hide edit popup
     setEditPopupVisible(false);
+};
+
+// Function to save title to local storage
+const saveTitle = (title) => {
+  localStorage.setItem("title", title);
+};
+
+// Function to save author to local storage
+const saveAuthor = (author) => {
+  localStorage.setItem("author", author);
+};
+
+// Function to save description to local storage
+const saveDescription = (description) => {
+  localStorage.setItem("description", description);
+};
+
+// Function to save genre to local storage
+const saveGenre = (genre) => {
+  localStorage.setItem("genre", genre);
 };
 
 const handleBookUpdate =  async(event) => {
@@ -93,15 +90,16 @@ const handleBookUpdate =  async(event) => {
           "Content-type": "application/json",
           Authorization: `Bearer ${token}`
         },
-      });
+      }
+      );
       if (response.ok) {
         // Set success message
         setMessage("Book data updated successfully"); 
         // Update local storage with new book data
-        saveTitle(editBook.Title);
-        saveAuthor(editBook.Author);
-        saveDescription(editBook.Description);
-        saveGenre(editBook.Genre);
+        saveTitle(editBook.title);
+        saveAuthor(editBook.author);
+        saveDescription(editBook.description);
+        saveGenre(editBook.genre);
       } else {
         // Set error message
         setMessage("Unable to update book information"); 
@@ -110,6 +108,7 @@ const handleBookUpdate =  async(event) => {
       console.error("Error updating book data:", error);
     }
   };
+
     // function to handle book deletion
   const confirmBookDelete = async () => {
     try {
@@ -118,14 +117,16 @@ const handleBookUpdate =  async(event) => {
         headers: {
           Authorization: `Bearer ${token}`
         }
-      });
+      }
+      );
       if (response.ok) {
         setMessage("Book deleted successfully");
-        clearStorage(); // Clear local storage
-        
+        // Clear local storage
+        clearStorage(); 
         setTimeout(() => {
           setMessage("");
-          nav("/home" || "/my-library");
+          // Navigate back to the previous page (was having issues bc once user deletes a book they were being logged out and redirected to the login page)
+          nav("/home");
         }, 3000);
       } else {
         setMessage("Unable to delete book");
@@ -137,6 +138,7 @@ const handleBookUpdate =  async(event) => {
 
     //delete popup
       const handleDeleteBook = () => {
+        console.log("Handling delete book");
         // Show delete popup
         setDeletePopup(true);
     };
@@ -148,55 +150,65 @@ const handleBookUpdate =  async(event) => {
     return (
         <main>
           {book ? (
-            <div>
+            <div className="first-btn-container">
               {/* Edit and Delete buttons */}
-              <button onClick={handleEditBook}>Edit</button>
-              <button onClick={handleDeleteBook}>Delete</button>
+              
+              <button className="edit-button" onClick={handleEditBook}>Edit</button>
+              <button className="delete-button" onClick={handleDeleteBook}>Delete</button>
             </div>
           ) : (
             <p>Loading...</p>
           )}
+          {/* delete */}
           {DeletePopup && (
             <div className="delete-Book-popup">
               <h1> Are you sure you want to delete this book? </h1>
-              <button className="yes-delete-btn" onClick={handleDeleteBook}> Yes </button>
+              <button className="yes-delete-btn" onClick={confirmBookDelete}> Yes </button>
               <button className="no-delete-btn" onClick={cancelDeleteBook}> No </button>
             </div>
           )}
           {editPopupVisible && (
-            <div className="edit-book-popup">
+            <div className="edit-book-popup" style={{ display: editPopupVisible ? 'block' : 'none'}}>
               {/* Form to edit book details */}
               <h1>Edit Book Information</h1>
               <form className="Form" onSubmit={handleBookUpdate}>
-                <label htmlFor="title">Title:</label>
+                <label className="title-1" htmlFor="title">Title:</label>
                 <input
                   required={true}
                   type="text"
                   id="title"
                   name="title"
-                  value={editBook.Title}
-                  onChange={(e) => setEditBook({ ...editBook, Title: e.target.value })}
+                  value={editBook.title}
+                  onChange={(e) => setEditBook({ ...editBook, title: e.target.value })}
                 />
-                <label htmlFor="author">Author:</label>
+                <label className="author" htmlFor="author">Author:</label>
                 <input
                   required={true}
                   type="text"
                   id="author"
                   name="author"
-                  value={editBook.Author}
-                  onChange={(e) => setEditBook({ ...editBook, Author: e.target.value })}
+                  value={editBook.author}
+                  onChange={(e) => setEditBook({ ...editBook, author: e.target.value })}
                 />
-                <label htmlFor="description">Description:</label>
+                <label className="description" htmlFor="description">Description:</label>
                 <textarea
                   required={true}
                   id="description"
                   name="description"
-                  value={editBook.Description}
-                  onChange={(e) => setEditBook({ ...editBook, Description: e.target.value })}
+                  value={editBook.description}
+                  onChange={(e) => setEditBook({ ...editBook, description: e.target.value })}
+                />
+                <label className="genre" htmlFor="genre">Genre:</label>
+                <textarea
+                  required={true}
+                  id="genre"
+                  name="genre"
+                  value={editBook.genre}
+                  onChange={(e) => setEditBook({ ...editBook, genre: e.target.value })}
                 />
                 {/* Input fields for book details */}
-                <button type="submit">Save Changes</button>
-                <button onClick={cancelBookUpdate}> Cancel</button>
+                <button className="save-changes-btn" type="submit">Save Changes</button>
+                <button className="cancel-changes-btn" onClick={cancelBookUpdate}> Cancel</button>
               </form>
               {message && <p>{message}</p>}
             </div>
@@ -204,3 +216,4 @@ const handleBookUpdate =  async(event) => {
     </main>
       );
 }
+
