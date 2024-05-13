@@ -36,7 +36,7 @@ const ItemSchema = new mongoose.Schema({
   // if this is true, user has submitted a request to borrow item. if the borrow request is accepted boolean = false and checkedout = true.
   hasPendingRequest: {
     type: Boolean,
-    default: false
+    default: false,
   },
   condition: {
     type: String,
@@ -53,4 +53,4 @@ ItemSchema.pre("save", function (next) {
   next();
 });
 
-module.exports = mongoose.model("item", ItemSchema);
+module.exports = mongoose.model("Item", ItemSchema);

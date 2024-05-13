@@ -6,33 +6,121 @@ const bcrypt = require("bcrypt");
 //Importing jsonwebtoken
 const jwt = require("jsonwebtoken");
 
+//
+const crypto = require("crypto");
+
 //Importing User Table
 const User = require("../models/user");
 
 const Validate = require("../middleware/validate");
-// const USER = process.env.USER;
-const PASS = process.env.PASS;
 
-const nodemailer = require("nodemailer");
 const { Email, EmailTypes } = require("../Email/Email");
 
-const transporter = nodemailer.createTransport({
-  host: "live.smtp.mailtrap.io",
-  port: 587,
-  auth: {
-    user: "api",
-    pass: PASS,
-  },
-});
-async function mail(toEmail, emailSubject, emailText) {
-  // send mail with defined transport object
-  const info = await transporter.sendMail({
-    from: "info@demomailtrap.com", // sender address
-    to: toEmail, // list of receivers
-    subject: emailSubject, // Subject line
-    text: emailText, // plain text body
-  });
+// password recovery
+// validate that a user has that email and token function
+async function validateTokenEmail(email, token) {
+  const user = await User.findOne({ email: email.toLowerCase(), resetToken: token });
+  if (user === null) {
+    return false;
+  }
+  if (user.resetToken === undefined || user.resetTokenExp === undefined) {
+    return false;
+  }
+  const date = new Date();
+  if (date >= user.resetTokenExp) {
+    return false;
+  }
+  return true;
 }
+
+// generate/reset new token
+function generateResetToken() {
+  return crypto.randomBytes(20).toString("hex");
+}
+
+const EXPIRATION_DELAY = 1000 * 60 * 30; // 30 minutes expiration time
+
+// create reset password token and send email
+router.post("/requestResetPassword", async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).send();
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (user === null) {
+      return res.status(404).json({
+        Error: "User not found",
+      });
+    }
+    user.resetToken = generateResetToken();
+    user.resetTokenExp = Date.now() + EXPIRATION_DELAY;
+    await user.save();
+    Email.sendWithTemplate({
+      recipient: user.email,
+      email_type: EmailTypes.PasswordReset,
+      template_variables: {
+        user_firstName: user.firstName,
+        resetPasswordLink: `${process.env.FRONTEND_URL}resetPassword?email=${user.email}&resetToken=${user.resetToken}`,
+      },
+    });
+    res.status(200).send();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
+
+// update old password with new password
+router.put("/resetPassword", async (req, res) => {
+  try {
+    const { email, resetToken, password } = req.body;
+    if (!email || !resetToken || password === undefined || password.length === 0) {
+      return res.status(400).send();
+    }
+    const user = await User.findOne({ email: email.toLowerCase(), resetToken: resetToken });
+    if (user === null) {
+      return res.status(404).send();
+    }
+
+    if (!validateTokenEmail(email, resetToken)) {
+      return res.status(401).send();
+    }
+    user.password = bcrypt.hashSync(password, 12);
+    user.resetToken = undefined;
+    user.resetTokenExp = undefined;
+    await user.save();
+    res.status(200).send();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
+
+// validate token and email association
+router.get("/validateResetCredentials", async (req, res) => {
+  try {
+    const { email, resetToken } = req.body;
+    if (!email || !resetToken) {
+      return res.status(400).send();
+    }
+    const isValid = await validateTokenEmail(email.toLowerCase(), resetToken);
+    if (!isValid) {
+      return res.status(401).send();
+    }
+    return res.status(200).send();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
 
 //creating Username
 router.post("/create/", async (req, res) => {
@@ -41,7 +129,7 @@ router.post("/create/", async (req, res) => {
     let user = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       //use bcrypt to encrypt password
       password: bcrypt.hashSync(req.body.password, 12),
     });
@@ -53,7 +141,7 @@ router.post("/create/", async (req, res) => {
     const returnData = {
       firstName: newUser.firstName,
       lastName: newUser.lastName,
-      email: newUser.email,
+      email: newUser.email.toLowerCase(),
       isAdmin: newUser.isAdmin,
       approved: newUser.approved,
     };
@@ -97,8 +185,7 @@ router.post("/create/", async (req, res) => {
 });
 
 // Display all accepted users
-// TODO need one for not accepted to display in admin portal
-router.get("/all/", async (req, res) => {
+router.get("/allAccepted/", async (req, res) => {
   try {
     //show all users, display the populate info
     let results = await User.find({ approved: "Accepted" }, { firstName: 1, lastName: 1, email: 1 });
@@ -115,35 +202,31 @@ router.get("/all/", async (req, res) => {
   }
 });
 
-//Get user's email - we're using email as username
-//?actually, not anymore, probably no reason to get user by email now
+// Display all pending users
+router.get("/allPending/", async (req, res) => {
+  try {
+    //show all users, display the populate info
+    let results = await User.find({ approved: "Pending" }, { firstName: 1, lastName: 1, email: 1 });
 
-// router.get("/email/:email", Validate, async (req, res) => {
-//     try {
-//         if (req.user.isAdmin == true){
-//         //find by parameter
-//         let results = await User.find({email: req.params.email});
-//         res.status(200).json({
-//             Results: results,
-//         })
-//     }
-//     }catch(err){
-//         console.log(err);
+    res.status(200).json({
+      Created: results,
+    });
+  } catch (err) {
+    console.log(err);
 
-//         res.status(500).json({
-//             Error: err,
-//         });
-//     }
-// });
+    res.status(500).json({
+      Error: err,
+    });
+  }
+});
 
 //login
-
 router.post("/login/", async (req, res) => {
   try {
     //get email and password from the request
     let { email, password } = req.body;
     //find the use based on email
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     //if no match
     if (!user) throw new Error("User not found");
     // if not approved
@@ -157,9 +240,17 @@ router.post("/login/", async (req, res) => {
       expiresIn: "30 days",
     });
 
+    const userReturnInfo = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      approved: user.approved,
+    };
+
     res.status(200).json({
       Msg: "User signed in!",
-      User: user,
+      User: userReturnInfo,
       Token: token,
     });
   } catch (err) {
@@ -170,15 +261,6 @@ router.post("/login/", async (req, res) => {
   }
 });
 
-// Add password recovery
-//router.put("/passwordreset/", async (req, res) => {
-//    try {
-//        let { passwordreset } = req.body;
-//        password: bcrypt.hashSync(req.body.password,12),
-
-//    }
-// });
-
 //Update user's information
 //need to insert validate middleware declared above because of user_routes' position before validation in the index.js
 router.put("/update/", Validate, async (req, res) => {
@@ -188,7 +270,7 @@ router.put("/update/", Validate, async (req, res) => {
     //get the info to update user
     const usersUpdatedInformation = req.body;
     //match the user by email
-    const updatedUser = await User.findOne({ email: email });
+    const updatedUser = await User.findOne({ email: email.toLocaleLowerCase() });
     //if no user match
     if (updatedUser === null) {
       res.status(404).json({ error: "User not found." });
@@ -223,7 +305,7 @@ router.put("/adminUpdate/:email", Validate, async (req, res) => {
       //get the info to update user
       const usersUpdatedInformation = req.body;
       //keep the old information to compare (important for if status was changed to approved)
-      let user = await User.findOne({ email: email });
+      let user = await User.findOne({ email: email.toLocaleLowerCase() });
       //match the user by email
       //if no user match
       if (user === null) {

@@ -23,11 +23,6 @@ const UserSchema = new mongoose.Schema(
       required: true,
       minlength: 1,
     },
-
-    passwordreset: {
-      type: String,
-    },
-
     isAdmin: {
       type: Boolean,
       default: false,
@@ -38,10 +33,17 @@ const UserSchema = new mongoose.Schema(
       enum: ["Pending", "Accepted", "Declined"],
       default: "Pending",
     },
+    resetToken: {
+      type: String,
+    },
+    // reset token expiration
+    resetTokenExp: {
+      type: Date
+    }
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("user", UserSchema);
+module.exports = mongoose.model("User", UserSchema);

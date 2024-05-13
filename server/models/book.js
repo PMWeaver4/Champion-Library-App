@@ -30,8 +30,7 @@ const BookSchema = new mongoose.Schema(
     },
     // if this is true, user has submitted a request to borrow item. if the borrow request is accepted boolean = false and checkedout = true.
     hasPendingRequest: {
-      type: Boolean
-      ,
+      type: Boolean,
       default: false,
     },
     isbn: {
@@ -58,4 +57,4 @@ const BookSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("book", BookSchema);
+module.exports = mongoose.model("Book", BookSchema);

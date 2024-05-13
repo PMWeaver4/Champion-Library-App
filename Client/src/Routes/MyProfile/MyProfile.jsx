@@ -1,77 +1,54 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import MenuPopup from "../../Components/MenuPopup/MenuPopup";
 import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import config from "../../config.json";
-import { getToken, getFirstName, getLastName, getEmail, setEmail as saveEmail, setFirstName as saveFirstName, setLastName as saveLastName, clearStorage} from "../../localStorage";
+import {
+  getToken,
+  getFirstName,
+  getLastName,
+  getEmail,
+  setEmail as saveEmail,
+  setFirstName as saveFirstName,
+  setLastName as saveLastName,
+  clearStorage,
+  getUserId,
+} from "../../localStorage";
 // import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
 
-
-// TODO: config.backend_url + then your route/url for logic.✅ 
-// TODO: can update and user info in DB✅ 
-// TODO: displays message for updating successfully✅ 
-// TODO: can delete account ✅ 
-// TODO Popup asking are you sure you want to delete?✅ 
+// TODO: config.backend_url + then your route/url for logic.✅
+// TODO: can update and user info in DB✅
+// TODO: displays message for updating successfully✅
+// TODO: can delete account ✅
+// TODO Popup asking are you sure you want to delete?✅
 // TODO: display success or fail message
-// TODO redirect to login ✅ 
+// TODO redirect to login ✅
 // TODO finish styling
 
 export default function MyProfile() {
   // State variables for user data
-  const [user, setUser] = useState ({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: ""
-  });
   const [inputs, setInputs] = useState({
     lastName: getLastName(),
     firstName: getFirstName(),
     email: getEmail(),
+    password: "",
   });
   const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const [message, setMessage] = useState(""); 
-  // added get Token to be able to update user info and delete account. 
+  const [message, setMessage] = useState("");
+  // added get Token to be able to update user info and delete account.
   const token = getToken();
   const nav = useNavigate();
 
-
-  useEffect(() => {
-    // Fetch user data from the backend when the component mounts
-    const fetchUserData = async () => {
-      try {
-        // Retrieve token from local storage or wherever it's stored
-        const token = getToken(); 
-        const response = await fetch(`${config.backend_url}user`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        if (response.ok) {
-          const userData = await response.json();
-          setUser(userData);
-        } else {
-          console.error("Error fetching user data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchUserData();
-  }, [token]);
- 
   // Function to handle form submission
-  const handleSubmit =  async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    try {  
+    try {
       const response = await fetch(`${config.backend_url}user/update`, {
-        method: "PUT",       
-         body: JSON.stringify(inputs),
+        method: "PUT",
+        body: JSON.stringify(inputs),
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.ok) {
@@ -88,10 +65,9 @@ export default function MyProfile() {
     }
   };
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setInputs({...inputs, [name]: value});
+    setInputs({ ...inputs, [name]: value });
   };
 
   // shows popup
@@ -102,11 +78,11 @@ export default function MyProfile() {
   // function to handle account deletion
   const confirmDeleteAccount = async () => {
     try {
-      const response = await fetch(`${config.backend_url}user/delete/${user._id}`, {
+      const response = await fetch(`${config.backend_url}user/delete/${getUserId()}`, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (response.ok) {
         setMessage("User account deleted successfully");
@@ -126,22 +102,23 @@ export default function MyProfile() {
     setShowDeletePopup(false);
   };
 
-  // function to cancel account 
+  // function to cancel account
   const cancelDeleteAccount = () => {
     setShowDeletePopup(false);
-  }
+  };
 
   return (
     <main className="my-profile-page">
-      <PageTemplate>   
-        <div className={`my-profile-body ${showDeletePopup ? 'popup-clicked' : ''}`}>
+      <PageTemplate>
+        <div className={`my-profile-body ${showDeletePopup ? "popup-clicked" : ""}`}>
           {/* <div className="settings-title-container">  */}
 
           {/* <div className="title-image">
           <p className="p-tag">User Settings </p><img  src="/images/settings.png" alt="settings Image"/> 
           </div> */}
+
           {/* <h1 className="settings-title"> ACCOUNT SETTINGS</h1> */}
-            <h2  className="second-title"> Account Information </h2>
+          <h2 className="second-title"> Account Information </h2>
           {/* message to let user know update was successful */}
           {message && <p>{message}</p>}
           <form className="Form" onSubmit={handleSubmit}>
@@ -155,7 +132,6 @@ export default function MyProfile() {
               value={inputs.firstName}
               placeholder="FirstName"
               onChange={handleInputChange}
-           
             />
             <label htmlFor="lastName">Last Name:</label>
             <input
@@ -167,7 +143,6 @@ export default function MyProfile() {
               value={inputs.lastName}
               placeholder="Last Name"
               onChange={handleInputChange}
-            
             />
             <label htmlFor="email">Email:</label>
             <input
@@ -179,7 +154,6 @@ export default function MyProfile() {
               value={inputs.email}
               placeholder="email"
               onChange={handleInputChange}
-              
             />
             <label htmlFor="password">New Password:</label>
             <input
@@ -204,13 +178,19 @@ export default function MyProfile() {
          <i class="fa-solid fa-right-from-bracket"> Logout</i>
         </NavLink> 
           </div> */}
-          
+
           {/* delete account popup */}
-          { showDeletePopup && (
+          {showDeletePopup && (
             <div className="delete-account-popup">
-            <h1> We are sad to see you go. Are you sure you want to delete your account? </h1>
-              <button className="yes-delete-btn" onClick={confirmDeleteAccount}> Yes </button>
-              <button className="no-delete-btn" onClick={cancelDeleteAccount}> No </button>
+              <h1> We are sad to see you go. Are you sure you want to delete your account? </h1>
+              <button className="yes-delete-btn" onClick={confirmDeleteAccount}>
+                {" "}
+                Yes{" "}
+              </button>
+              <button className="no-delete-btn" onClick={cancelDeleteAccount}>
+                {" "}
+                No{" "}
+              </button>
             </div>
           )}
           {message && <p>{message}</p>}

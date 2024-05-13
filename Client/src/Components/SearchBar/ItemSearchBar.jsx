@@ -1,11 +1,11 @@
 import { useState } from "react";
 import config from "../../config.json";
 import { getToken } from "../../localStorage";
-import BookTile from "../../Components/ItemTIles/BookTile";
+import OtherTile from "../../Components/ItemTIles/OtherTile";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState(""); // State to hold the user input
-  const [books, setBooks] = useState([]); // State to hold the search results
+  const [other, setOther] = useState([]); // State to hold the search results
   const [showResultsPopup, setShowResultsPopup] = useState(false); // State to control popup visibility
 
   function closeResults() {
@@ -14,27 +14,27 @@ export default function SearchBar() {
   }
 
   // Function to fetch books based on the search term
-  const searchBooks = async (event) => {
+  const searchOthers = async (event) => {
     event.preventDefault();
     // Will make an API request to the search endpoint
-    const response = await fetch(config.backend_url + `book/searchThrough?q=${encodeURIComponent(searchTerm)}`, {
+    const response = await fetch(config.backend_url + `item/searchThrough?q=${encodeURIComponent(searchTerm)}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
     });
     const data = await response.json(); // Parse the JSON response
-    setBooks(data); // Set the books state to the received data
+    setOther(data); // Set the items state to the received data
     setShowResultsPopup(true); // Show the results popup
   };
 
   return (
     <div className="search-bar-component">
-      <form className="search-form" onSubmit={searchBooks}>
+      <form className="search-form" onSubmit={searchOthers}>
         <input
           id="searchbar-input"
           type="text"
-          placeholder="Search by genre, title, or author..."
+          placeholder="Search by name, or description of item"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)} // Update state on input change
         />
@@ -49,19 +49,19 @@ export default function SearchBar() {
       {showResultsPopup && (
         <div className="search-results-popup">
           {/* Conditional rendering of the popup */}
-          {books.length > 0 ? (
-            books.map(
+          {other.length > 0 ? (
+            other.map(
               (
-                book,
-                index // Map through books and display them
+                other,
+                index // Map through games and display them
               ) => (
                 <div className="search-result-book-tile" key={index}>
-                  <BookTile book={book} />
+                  <OtherTile other={other} />
                 </div>
               )
             )
           ) : (
-            <p>No books found matching your search criteria.</p>
+            <p>No items found matching your search criteria.</p>
           )}
         </div>
       )}

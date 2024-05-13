@@ -8,7 +8,7 @@ import { getToken, getUserId } from "../../localStorage";
 import config from "../../config.json";
 import DeletePopup from "./DeletePopup";
 import ReplyPopup from "./ReplyPopup";
-// import NotificationTile from "./NotificationTile";
+
 
 // enum  for reply and delete button
 const InboxPopupEnum = {
@@ -39,8 +39,8 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
       return;
     }
     setNotifications(notificationData.Results);
-    setBorrowReq(notificationData.Results.filter((notification) => notification.notificationType === "borrow"));
-    setReturnReq(notificationData.Results.filter((notification) => notification.notificationType === "return"));
+    setBorrowReq(notificationData.Results.filter((notification) => notification.notificationType === "Borrow"));
+    setReturnReq(notificationData.Results.filter((notification) => notification.notificationType === "Return"));
   }
 
   useEffect(() => {
@@ -107,13 +107,13 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                       onReply={() => setInboxPopup(InboxPopupEnum.Reply)}
                       onDelete={() => setInboxPopup(InboxPopupEnum.Delete)}
                       key={notification._id}
-                      email={notification.requestingUser.email || notification.owner.email}
-                      firstName={notification.requestingUser.firstName}
-                      lastName={notification.requestingUser.lastName}
+                      email={notification.requestingUser ? notification.requestingUser.email : notification.user.email}
+                      requestingUser={notification.requestingUser || ""}
                       text={notification.message}
                       createdAt={notification.createdAt}
                       bookTitle={notification.book?.title}
                       itemName={notification.item?.itemName}
+                      message={notification.message}
                     />
                   ))}
                 {activeTab === "borrowReq" &&
@@ -122,9 +122,8 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                       onReply={() => setInboxPopup(InboxPopupEnum.Reply)}
                       onDelete={() => setInboxPopup(InboxPopupEnum.Delete)}
                       key={notification._id}
-                      email={notification.requestingUser.email || notification.owner.email}
-                      firstName={notification.requestingUser.firstName}
-                      lastName={notification.requestingUser.lastName}
+                      email={notification.requestingUser ? notification.requestingUser.email : notification.user.email}
+                      requestingUser={notification.requestingUser || ""}
                       text={notification.message}
                       createdAt={notification.createdAt}
                       bookTitle={notification.book?.title}
@@ -137,9 +136,8 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                       onReply={() => setInboxPopup(InboxPopupEnum.Reply)}
                       onDelete={() => setInboxPopup(InboxPopupEnum.Delete)}
                       key={notification._id}
-                      email={notification.requestingUser.email || notification.owner.email}
-                      firstName={notification.requestingUser.firstName}
-                      lastName={notification.requestingUser.lastName}
+                      email={notification.requestingUser ? notification.requestingUser.email : notification.user.email}
+                      requestingUser={notification.requestingUser || ""}
                       text={notification.message}
                       createdAt={notification.createdAt}
                       bookTitle={notification.book?.title}

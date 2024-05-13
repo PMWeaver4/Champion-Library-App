@@ -33,6 +33,8 @@ router.get("/all", async (req, res) => {
         "checkedout",
         "itemType",
         "condition",
+        "img",
+        "itemName",
       ])
       .select({
         text: 1,
@@ -163,6 +165,24 @@ router.delete("/delete/:itemId", async (req, res) => {
     res.status(200).json({ Deleted: true });
   } catch (err) {
     res.status(500).json({ Error: err.message });
+  }
+});
+
+// search the items by name description  ✅
+router.get("/:itemType/searchThrough", async (req, res) => {
+  const searchString = req.query.q;
+  try {
+    // RegExp is regular expression
+    const regex = new RegExp(searchString, "i");
+    const items = await Item.find({
+      $or: [{ itemName: regex }, { description: regex }],
+      itemType: req.params.itemType,
+    });
+
+    // Send the found items back to the client
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching items", error: error });
   }
 });
 

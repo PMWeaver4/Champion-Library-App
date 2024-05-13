@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function NotificationTile({ onReply, onDelete, firstName, lastName, text, createdAt, bookTitle, itemName }) {
+export default function NotificationTile({ onReply, onDelete, firstName, lastName, createdAt, message, requestingUser }) {
   // Format date
   const date = new Date(createdAt).toLocaleDateString();
   const time = new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -16,8 +16,8 @@ export default function NotificationTile({ onReply, onDelete, firstName, lastNam
       const response = await fetch(`${config.backend_url}notifications/delete/${ObjectId}`, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -30,35 +30,23 @@ export default function NotificationTile({ onReply, onDelete, firstName, lastNam
     }
   }
 
-
   return (
     <div className="component_notification-tile">
       <div className="notification-content">
         <div className="notification-header">
-          <h1 className="notification-username">
-            {firstName} {lastName}
-          </h1>
+          <h1 className="notification-username">From: {requestingUser ? `${requestingUser.firstName} ${requestingUser.lastName}` : "South Meadow's Lending Library"}</h1>
           <h2>
             {date} {time}
           </h2>
         </div>
-        <div className="notification-body">
-          {bookTitle && (
-            <p>
-              {text} {bookTitle}{" "}
-            </p>
-          )}
-          {itemName && (
-            <p>
-              {text} {itemName}
-            </p>
-          )}
-        </div>
+        <div className="notification-body">{message}</div>
         <div className="reply-div">
           <button onClick={onDelete} className="delete-notif-btn">
             <i className="fa-regular fa-trash-can"></i>
           </button>
-          <button onClick={onReply} className="reply-btn">Reply</button>
+          <button onClick={onReply} className="reply-btn">
+            Reply
+          </button>
         </div>
       </div>
     </div>
