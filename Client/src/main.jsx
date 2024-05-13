@@ -19,6 +19,8 @@ import BookProfileCardPage from "./Routes/ProfileCardPage/BookProfileCardPage";
 import UsersViewLibraryPage from "./Components/UsersLibraryPage/UsersViewLibraryPage";
 import GameProfileCardPage from "./Routes/ProfileCardPage/GameProfileCardPage";
 import ItemProfileCardPage from "./Routes/ProfileCardPage/ItemProfileCardPage";
+import ForgotPassword from "./Routes/PasswordRecovery/ForgotPassword";
+import ResetPassword from "./Routes/PasswordRecovery/ResetPassword";
 
 
 const router = createBrowserRouter([
@@ -98,6 +100,14 @@ const router = createBrowserRouter([
   {
     path: "/UsersViewLibrary/:userId",
     element: <UsersViewLibraryPage/>,
+  },
+  {
+    path: "/forgotPassword",
+    element: <ForgotPassword/>,
+  },
+  {
+    path: "/resetPassword",
+    element: <ResetPassword/>,
   },
   {
     path: "*",

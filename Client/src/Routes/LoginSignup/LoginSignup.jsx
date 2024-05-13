@@ -169,7 +169,7 @@ export default function LoginSignup() {
             </button>
           </form>
           {loginError && <p>{loginError}</p>}
-          <NavLink className="password-recovery">Forgot Password?</NavLink>
+          <NavLink to="/forgotPassword" className="password-recovery">Forgot Password?</NavLink>
         </div>
 
         <div id="signupForm" className="tab-content" style={{ display: activeTab === "signup" ? "block" : "none" }}>
