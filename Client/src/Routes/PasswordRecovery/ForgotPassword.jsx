@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function ForgotPassword() {
   return (
     <main className="PasswordPage">
-      <div className="_banner"></div>
+      <div className="_banner"><p>South Meadow's Lending Library</p></div>
       <div className="_background">
         <div className="password-content">
           <img src="/images/mobile-password-forgot.png" />

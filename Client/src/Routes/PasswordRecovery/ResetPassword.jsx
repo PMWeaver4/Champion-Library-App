@@ -1,7 +1,9 @@
+import { NavLink } from "react-router-dom";
+
 export default function ResetPassword() {
   return (
     <main className="PasswordPage">
-      <div className="_banner"></div>
+      <div className="_banner"><p>South Meadow's Lending Library</p></div>
       <div className="_background">
         <div className="password-content">
           <img src="/images/web-security.png" />
@@ -9,17 +11,20 @@ export default function ResetPassword() {
           <h2>Enter and confirm your new password.</h2>
           <form>
             <div>
-              <i className="fa-solid fa-lock"></i>
+              <i className="fa-solid fa-key"></i>
               <input type="password" placeholder="Password"></input>
             </div>
             <div>
-              <i className="fa-solid fa-lock"></i>
+              <i className="fa-solid fa-key"></i>
               <input type="password" placeholder="Confirm Password"></input>
             </div>
             <button className="password-submit-btn">Enter</button>
           </form>
           {/* <p className="password-error">Error Message Here</p>
           <p className="password-success">Success Message Here</p> */}
+          <NavLink to="/">
+            <i className="fa-solid fa-chevron-left"></i> Back to Login
+          </NavLink>
         </div>
       </div>
     </main>
