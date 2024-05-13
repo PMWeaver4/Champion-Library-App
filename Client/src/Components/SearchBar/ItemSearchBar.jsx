@@ -13,17 +13,18 @@ export default function SearchBar() {
     setSearchTerm("");
   }
 
-  // Function to fetch books based on the search term
+  // Function to fetch items based on the search term
   const searchOthers = async (event) => {
     event.preventDefault();
     // Will make an API request to the search endpoint
-    const response = await fetch(config.backend_url + `item/searchThrough?q=${encodeURIComponent(searchTerm)}`, {
+    const response = await fetch(config.backend_url + `item/other/searchThrough?q=${encodeURIComponent(searchTerm)}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
     });
     const data = await response.json(); // Parse the JSON response
+    console.log(data);
     setOther(data); // Set the items state to the received data
     setShowResultsPopup(true); // Show the results popup
   };
