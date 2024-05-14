@@ -8,25 +8,24 @@ import config from "../../config.json";
 import { getToken } from "../../localStorage";
 import UsersViewLibraryPage from "../../Components/UsersLibraryPage/UsersViewLibraryPage";
 
-
 export default function Users() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [users, setUsers] = useState([]); 
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
         const token = getToken();
-        const response = await fetch(`${config.backend_url}user/all/`, {
+        const response = await fetch(`${config.backend_url}user/allAccepted/`, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
         if (!response.ok) {
           throw new Error("Failed to fetch users");
-        } 
+        }
         const data = await response.json();
         // Extract users from the 'Created' key
         const usersArray = data.Created || [];
@@ -51,24 +50,18 @@ export default function Users() {
     <main className="users-page">
       <PageTemplate pageTitle="Users">
         <div className="users-body">
-          <h1 className="title-123">South Meadow's Community <i className="fa-solid fa-people-roof"></i></h1>
+{/* removed banner */}
           {/* Check if users array is empty */}
           {isLoading ? (
             <p>Loading...</p>
           ) : users.length === 0 ? (
             <p>No users found</p>
           ) : (
-             /* Render user tiles */
-             users.map((user) => (
-              <UserTile 
-              key={user._id} 
-              user={user} 
-              onClick={handleUserClick}
-               />
-            ))
+            /* Render user tiles */
+            users.map((user) => <UserTile key={user._id} user={user} onClick={handleUserClick} />)
           )}
         </div>
-        {selectedUser && <UsersViewLibraryPage user={selectedUser}/>}
+        {selectedUser && <UsersViewLibraryPage user={selectedUser} />}
       </PageTemplate>
     </main>
   );
