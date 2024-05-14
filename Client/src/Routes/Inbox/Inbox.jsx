@@ -9,7 +9,6 @@ import config from "../../config.json";
 import DeletePopup from "./DeletePopup";
 import ReplyPopup from "./ReplyPopup";
 
-
 // enum  for reply and delete button
 const InboxPopupEnum = {
   None: -1,
@@ -26,6 +25,7 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
   // for tab system, starts on all tab
   const [activeTab, setActiveTab] = useState("allRequest");
   async function getNotifications() {
+    console.log("here", config.backend_url + `notifications/allYourNotifications/${getUserId()}`);
     const response = await fetch(config.backend_url + `notifications/allYourNotifications/${getUserId()}`, {
       method: "GET",
       headers: {

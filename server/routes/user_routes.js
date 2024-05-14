@@ -103,7 +103,7 @@ router.put("/resetPassword", async (req, res) => {
 });
 
 // validate token and email association
-router.get("/validateResetCredentials", async (req, res) => {
+router.post("/validateResetCredentials", async (req, res) => {
   try {
     const { email, resetToken } = req.body;
     if (!email || !resetToken) {
@@ -241,6 +241,7 @@ router.post("/login/", async (req, res) => {
     });
 
     const userReturnInfo = {
+      _id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
