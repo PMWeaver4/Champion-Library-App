@@ -15,17 +15,16 @@ export default function BookProfileCard({ book }) {
   const MAX_CHAR = 30;
 
 const navigate = useNavigate();
-   // State variables for each input
-   const [owner, setOwner] = useState("");
-
-function borrowBook() {
-  //do the create notification, config notifications/create, with a key of book: book._id or item: item._id
-  setOwner(book.user)
+   
+   function borrowBook() {
+     //do the create notification, config notifications/create, with a key of book: book._id or item: item._id
+     
   // Construct book data from state
+
   const requestData = {
-    book,
-    owner
+    book
   };
+  console.log("2", requestData)
   if(book.hasPendingRequest){
     alert ("this book already has a pending request");
     throw new Error ("This book already has a pending request")
@@ -39,8 +38,8 @@ function borrowBook() {
     },
     body: JSON.stringify(requestData),
   })
-  .then(response => response.json())
-
+  // .then(response => response.json())
+  
   .catch(error => {
     console.error('Error:', error);
     alert("Failed to create the notication.");

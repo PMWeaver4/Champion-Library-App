@@ -17,7 +17,7 @@ export default function SearchBar() {
   const searchGames = async (event) => {
     event.preventDefault();
     // Will make an API request to the search endpoint
-    const response = await fetch(config.backend_url + `item/searchThrough?q=${encodeURIComponent(searchTerm)}`, {
+    const response = await fetch(config.backend_url + `item/game/searchThrough?q=${encodeURIComponent(searchTerm)}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${getToken()}`,
