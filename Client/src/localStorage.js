@@ -60,6 +60,15 @@ export function setIsAdmin(isAdmin) {
   return localStorage.setItem("isAdmin", isAdmin);
 }
 
+// for admin
+export function getApproved() {
+  return localStorage.getItem("approved");
+}
+
+export function setApproved(approved) {
+  return localStorage.setItem("approved", approved);
+}
+
 // function to clear data in storage
 export function clearStorage() {
   localStorage.clear();
