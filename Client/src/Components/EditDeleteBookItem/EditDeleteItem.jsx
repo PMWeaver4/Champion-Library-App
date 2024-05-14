@@ -1,10 +1,8 @@
-import { useState, useEffect} from "react";
+import React, { useState, useEffect} from "react";
 import config from "../../config.json";
-// import PageTemplate from "../../Components/PageTemplate/PageTemplate";
-import { getToken, clearStorage, getTitle, getDescription} from "../../localStorage";
+import { getToken, clearStorage} from "../../localStorage";
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
-// import GamesProfileCard from "../../Components/ItemProfileCard/GamesProfileCard";
-// import OtherProfileCard from "../../Components/ItemProfileCard/OtherProfileCard";
+import { useParams } from "react-router-dom";
 
 export default  function EditDeleteItem ( ) {
     const [item, setItem] = useState(null);
@@ -14,45 +12,18 @@ export default  function EditDeleteItem ( ) {
     const [editPopupVisible, setEditPopupVisible] = useState(false);
     const nav = useNavigate();
     const [editItem, setEditItem] = useState({
-        Title: getTitle(),
-        Description: getDescription(),
+        title: "",
+        description: "",
       });
 
-
     useEffect(() => {
-        // Fetch user data from the backend when the component mounts
-        const fetchUserData = async () => {
+        async function fetchData() {
           try {
-            // Retrieve token from local storage or wherever it's stored
-            const token = getToken(); 
-            const response = await fetch(`${config.backend_url}user`, {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
-            });
-            if (response.ok) {
-              const userData = await response.json();
-              setUser(userData);
-            } else {
-              console.error("Error fetching user data:", response.statusText);
-            }
-          } catch (error) {
-            console.error("Error fetching user data:", error);
-          }
-        };
-    
-        fetchUserData();
-      }, [token]);
-
-    useEffect(() => {
-        async function fetchItem() {
-          try {
-            const response = await fetch(`${config.backend_url}item/item/${item._id}`, {
+            const response = await fetch(`${config.backend_url}item/item/${itemId}`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${getToken()}`,
+                Authorization: `Bearer ${token}`,
               },
             });
             if (response.status !== 200) {
@@ -60,13 +31,35 @@ export default  function EditDeleteItem ( ) {
             }
             const data = await response.json();
             setItem(data);
+            // If the itemType is "game", set gameItems
+            if (data.itemType === "game") {
+              setGameItems(data);
+          }
+            // populate edit game/item with fetched data
+            setEditItem({
+              title: data.title,
+              description: data.description,
+            });
             console.log(data)
           } catch (error) {
             console.error("Failed to fetch item:", error.message);
           }
         }
-        fetchItem();
-      }, [itemId]);
+        if(itemId) { // Adding a null check for itemId
+          fetchData();
+          
+      }
+      }, [itemId, token]);
+
+        // Function to save description to local storage
+      const saveDescription = (description) => {
+      localStorage.setItem("description", description);
+      };
+
+      // Function to save title to local storage
+      const saveTitle = (title) => {
+      localStorage.setItem("title", title);
+      };
 
       const handleItemUpdate =  async(event) => {
         event.preventDefault();
@@ -83,8 +76,8 @@ export default  function EditDeleteItem ( ) {
             // Set success message
             setMessage("Item data updated successfully"); 
             // Update local storage with new book data
-            saveTitle(editBook.Title);
-            saveDescription(editBook.Description);
+            saveTitle(editItem.title);
+            saveDescription(editItem.description);
           } else {
             // Set error message
             setMessage("Unable to update Item information"); 
@@ -102,7 +95,7 @@ export default  function EditDeleteItem ( ) {
         setEditPopupVisible(false);
     };
 
-        // function to handle item deletion
+      // function to handle item deletion
       const confirmDelete = async () => {
         try {
           const response = await fetch(`${config.backend_url}item/delete/${item._id}`, {
@@ -117,7 +110,7 @@ export default  function EditDeleteItem ( ) {
             
             setTimeout(() => {
               setMessage("");
-              nav("/home" || "/my-library");
+              nav("/home");
             }, 3000);
           } else {
             setMessage("Unable to delete Item");
@@ -152,13 +145,13 @@ export default  function EditDeleteItem ( ) {
             <div className="delete-Item-popup">
               <h1> Are you sure you want to delete this Item? </h1>
               <button className="yes-delete-btn" onClick={handleDeleteItem}> Yes </button>
-              <button className="no-delete-btn" onClick={cancelDeleteItem}> No </button>
+              <button className="no-delete-btn" onClick={confirmDelete}> No </button>
             </div>
           )}
           {editPopupVisible && (
             <div className="edit-Item-popup">
               {/* Form to edit book details */}
-              <h1>Edit Book Information</h1>
+              <h1>Edit Item Information</h1>
               <form className="Form" onSubmit={handleItemUpdate}>
                 <label htmlFor="title">Title:</label>
                 <input
@@ -166,16 +159,16 @@ export default  function EditDeleteItem ( ) {
                   type="text"
                   id="title"
                   name="title"
-                  value={editItem.Title}
-                  onChange={(e) => setEditItem({ ...editItem, Title: e.target.value })}
+                  value={editItem.title}
+                  onChange={(e) => setEditItem({ ...editItem, title: e.target.value })}
                 />
                 <label htmlFor="description">Description:</label>
                 <textarea
                   required={true}
                   id="description"
                   name="description"
-                  value={editItem.Description}
-                  onChange={(e) => setEditItem({ ...editItem, Description: e.target.value })}
+                  value={editItem.description}
+                  onChange={(e) => setEditItem({ ...editItem, description: e.target.value })}
                 />
                 {/* Input fields for book details */}
                 <button type="submit">Save Changes</button>

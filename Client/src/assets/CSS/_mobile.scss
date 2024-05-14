@@ -4,15 +4,17 @@
 @import "../../Routes/MyLibrary/MyLibrary-mobile";
 @import "../../Routes/Users/Users-mobile";
 @import "../../Routes/MyProfile/MyProfile-mobile";
+@import "../../Routes/PasswordRecovery/PasswordRecovery-mobile";
 @import "../../Components/MenuPopup/MenuPopup-mobile";
 @import "../../Components/PageTemplate/Navigation-mobile";
 @import "../../Routes/ViewAllItems/ViewAllItems-mobile";
-@import "../../Components/ItemTIles/ItemTiles-mobile.scss";
+@import "../../Components/ItemTIles/ItemTiles-mobile";
 @import "../../Components/ItemProfileCard/ItemProfileCard-mobile";
 @import "../../Components/UserComponents/_UserComponents-mobile";
 @import "../../Routes/Admin/Admin-mobile";
 @import "../../Components/SearchBar/SearchBar-mobile";
 @import "../../Components/PopupsForLibrary/PopupsForLibrary-mobile";
 @import "../../Components/LibraryAddItemPopup/AddItemPopup-mobile";
-@import "../../Components/UsersLibraryPage/User-View-Lib-mobile.scss";
-@import "../../Components/EditDeleteBookItem/EditDeleteMobile.scss";
+@import "../../Components/UsersLibraryPage/User-View-Lib-mobile";
+@import "../../Components/EditDeleteBookItem/EditDeleteMobile";
+

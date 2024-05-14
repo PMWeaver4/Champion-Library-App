@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getToken } from "../../localStorage";
 import config from "../../config.json";
+import EditDeleteGame from "../EditDeleteBookItem/EditDeleteGame";
 
 export default function GamesProfileCard({ game }) {
   // maximum characters
@@ -64,6 +65,7 @@ setItem(game)
           <em>Owned By:</em> {game.user.firstName + " " + game.user.lastName}
         </p>
       </div>
+      <EditDeleteGame/>
     </div>
   );
 }
