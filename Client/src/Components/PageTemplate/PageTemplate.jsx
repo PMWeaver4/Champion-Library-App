@@ -1,12 +1,18 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import MenuPopup from "../MenuPopup/MenuPopup";
 import { useState } from "react";
-import { clearStorage } from "../../localStorage";
+import { clearStorage, getIsAdmin } from "../../localStorage";
+
+
 
 export default function PageTemplate({ toggleMenu, pageTitle, children }) {
   const username = "Username";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+ const isAdmin = JSON.parse(getIsAdmin());
+ 
 
+ console.log(isAdmin)
+ 
 const navigate = useNavigate();
 
   function toggleMenu() {
@@ -59,12 +65,12 @@ const navigate = useNavigate();
                   <p>Users</p>
                 </NavLink>
               </li>
-              <li className="menu-btns-container admin">
+              {isAdmin && <li className="menu-btns-container admin">
                 <NavLink to="/admin" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                 <i className="fa-solid fa-user-tie"></i>
                   <p>Admin</p>
                 </NavLink>
-              </li>
+              </li>}
               <li className="menu-btns-container account">
                 <NavLink to="/account" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                   <i className="fa-solid fa-address-card"></i>

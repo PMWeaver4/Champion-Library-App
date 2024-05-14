@@ -44,12 +44,20 @@ export function setLastName(lastName) {
 }
 
 // for userid
-export function getUserId(){
+export function getUserId() {
   return localStorage.getItem("_id");
 }
 
-export function setUserId(_id){
+export function setUserId(_id) {
   return localStorage.setItem("_id", _id);
+}
+// for admin
+export function getIsAdmin() {
+  return localStorage.getItem("isAdmin");
+}
+
+export function setIsAdmin(isAdmin) {
+  return localStorage.setItem("isAdmin", isAdmin);
 }
 
 // function to clear data in storage

@@ -2,7 +2,7 @@
 import { NavLink, useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
 import config from "../../config.json";
-import { isLoggedIn, setEmail, setFirstName, setLastName, setToken, setUserId } from "../../localStorage";
+import { isLoggedIn, setEmail, setFirstName, setLastName, setToken, setUserId, setIsAdmin } from "../../localStorage";
 
 //TODO, Sign up and login WORK WOOOHOOO.✅
 // TODO Browser displays a message notifying user needs to be approved✅
@@ -95,6 +95,7 @@ export default function LoginSignup() {
         setFirstName(data.User.firstName);
         setLastName(data.User.lastName);
         setUserId(data.User._id);
+        setIsAdmin(data.User.isAdmin);
         navigate("/home");
         return;
       }
