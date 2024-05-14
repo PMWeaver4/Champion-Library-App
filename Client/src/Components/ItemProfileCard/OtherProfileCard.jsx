@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getToken } from "../../localStorage";
 import config from "../../config.json";
+import EditDeleteItem from "../EditDeleteBookItem/EditDeleteItem";
 
 export default function OtherProfileCard({ item }) {
   // maximum characters
@@ -62,6 +63,7 @@ export default function OtherProfileCard({ item }) {
           <em>Owned By:</em> {item.user.firstName + " " + item.user.lastName}
         </p>
       </div>
+      <EditDeleteItem/>
     </div>
   );
 }

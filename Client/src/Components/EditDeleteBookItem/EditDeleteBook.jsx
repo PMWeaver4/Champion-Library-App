@@ -1,9 +1,7 @@
 import React, { useState, useEffect} from "react";
 import config from "../../config.json";
 import { useParams } from "react-router-dom";
-// import PageTemplate from "../../Components/PageTemplate/PageTemplate";
 import { getToken, clearStorage} from "../../localStorage";
-// getTitle, getAuthor, getDescription, getGenre
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
 
 export default  function EditDeleteBook () {
