@@ -85,7 +85,10 @@ const navigate = useNavigate();
           <em>ISBN:</em> {book.isbn}
         </p>
       </div>
-        <EditDeleteBook />
+      <div>
+                <EditDeleteBook />
+
+      </div>
     </div>
     
   );

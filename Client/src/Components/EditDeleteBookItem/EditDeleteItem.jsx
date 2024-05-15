@@ -1,18 +1,18 @@
 import React, { useState, useEffect} from "react";
 import config from "../../config.json";
-import { getToken, clearStorage} from "../../localStorage";
+import { getToken } from "../../localStorage";
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 export default  function EditDeleteItem ( ) {
     const [item, setItem] = useState(null);
     const {itemId } = useParams();
-    const [DeletePopup, setDeletePopup] = useState(false);
+    const [deletePopup, setDeletePopup] = useState(false);
     const token = getToken();
     const [editPopupVisible, setEditPopupVisible] = useState(false);
     const nav = useNavigate();
     const [editItem, setEditItem] = useState({
-        title: "",
+        itemName: "",
         description: "",
       });
 
@@ -31,16 +31,11 @@ export default  function EditDeleteItem ( ) {
             }
             const data = await response.json();
             setItem(data);
-            // If the itemType is "game", set gameItems
-            if (data.itemType === "game") {
-              setGameItems(data);
-          }
             // populate edit game/item with fetched data
             setEditItem({
-              title: data.title,
+              itemName: data.itemName,
               description: data.description,
             });
-            console.log(data)
           } catch (error) {
             console.error("Failed to fetch item:", error.message);
           }
@@ -73,14 +68,14 @@ export default  function EditDeleteItem ( ) {
             },
           });
           if (response.ok) {
-            // Set success message
-            setMessage("Item data updated successfully"); 
+            alert("Item data updated successfully");
             // Update local storage with new book data
-            saveTitle(editItem.title);
+            saveTitle(editItem.itemName);
             saveDescription(editItem.description);
+            // Close the edit popup after successful update
+            setEditPopupVisible(false);
           } else {
-            // Set error message
-            setMessage("Unable to update Item information"); 
+            alert("Unable to update item information");
           }
         } catch (error) {
           console.error("Error updating Item data:", error);
@@ -105,15 +100,14 @@ export default  function EditDeleteItem ( ) {
             }
           });
           if (response.ok) {
-            setMessage("Item deleted successfully");
-            clearStorage(); // Clear local storage
-            
+            alert("Item deleted successfully"); 
             setTimeout(() => {
-              setMessage("");
+              // Close the edit popup after successful update
+              setDeletePopup(false);
               nav("/home");
             }, 3000);
           } else {
-            setMessage("Unable to delete Item");
+            alert("Unable to delete Item");
           }
         } catch (error) {
           console.error("Error deleting Item:", error);
@@ -125,7 +119,7 @@ export default  function EditDeleteItem ( ) {
         // Show delete popup
         setDeletePopup(true);
     };
-    const cancelDeleteItem = () => {
+    const cancelDeletePopup = () => {
         // Hide delete popup
         setDeletePopup(false);
     };
@@ -135,34 +129,34 @@ export default  function EditDeleteItem ( ) {
         {item ? (
             <div>
               {/* Edit and Delete buttons */}
-              <button onClick={handleEditItem}>Edit</button>
-              <button onClick={handleDeleteItem}>Delete</button>
+              <button className="edit-button" onClick={handleEditItem}>Edit</button>
+              <button  className="delete-button" onClick={handleDeleteItem}>Delete</button>
             </div>
           ) : (
             <p>Loading...</p>
           )}
-          {DeletePopup && (
-            <div className="delete-Item-popup">
+          {deletePopup && (
+            <div className="delete-Book-popup">
               <h1> Are you sure you want to delete this Item? </h1>
-              <button className="yes-delete-btn" onClick={handleDeleteItem}> Yes </button>
-              <button className="no-delete-btn" onClick={confirmDelete}> No </button>
+              <button className="yes-delete-btn" onClick={confirmDelete}> Yes </button>
+              <button className="no-delete-btn" onClick={cancelDeletePopup}> No </button>
             </div>
           )}
           {editPopupVisible && (
-            <div className="edit-Item-popup">
+            <div className="edit-item-popup">
               {/* Form to edit book details */}
               <h1>Edit Item Information</h1>
               <form className="Form" onSubmit={handleItemUpdate}>
-                <label htmlFor="title">Title:</label>
+                <label className="title-2" htmlFor="title">Title:</label>
                 <input
                   required={true}
                   type="text"
-                  id="title"
-                  name="title"
-                  value={editItem.title}
-                  onChange={(e) => setEditItem({ ...editItem, title: e.target.value })}
+                  id="itemName"
+                  name="itemName"
+                  value={editItem.itemName}
+                  onChange={(e) => setEditItem({ ...editItem, itemName: e.target.value })}
                 />
-                <label htmlFor="description">Description:</label>
+                <label className="description-2" htmlFor="description">Description:</label>
                 <textarea
                   required={true}
                   id="description"
@@ -171,10 +165,9 @@ export default  function EditDeleteItem ( ) {
                   onChange={(e) => setEditItem({ ...editItem, description: e.target.value })}
                 />
                 {/* Input fields for book details */}
-                <button type="submit">Save Changes</button>
-                <button onClick={cancelItemUpdate}> Cancel</button>
+                <button className="save-changes-btn2" type="submit">Save Changes</button>
+                <button  className="cancel-changes-btn2" onClick={cancelItemUpdate}> Cancel</button>
               </form>
-              {message && <p>{message}</p>}
             </div>
           )}
         </main>
