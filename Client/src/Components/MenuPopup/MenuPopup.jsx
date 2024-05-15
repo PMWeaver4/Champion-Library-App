@@ -1,9 +1,10 @@
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
-import { clearStorage } from "../../localStorage";
+import { clearStorage, getIsAdmin } from "../../localStorage";
 
 export default function MenuPopup() {
 
   const navigate = useNavigate();
+  const isAdmin = JSON.parse(getIsAdmin());
 
   function onLogout() {
     clearStorage();
@@ -37,12 +38,12 @@ export default function MenuPopup() {
             <p>Users</p>
           </NavLink>
         </li>
-        <li className="menu-btns-container admin">
+        {isAdmin && <li className="menu-btns-container admin">
           <NavLink to="/admin">
             <i className="fa-solid fa-user-tie"></i>
             <p>Admin</p>
           </NavLink>
-        </li>
+        </li>}
         <li className="menu-btns-container profile">
           <NavLink to="/account">
             <i className="fa-solid fa-address-card"></i>

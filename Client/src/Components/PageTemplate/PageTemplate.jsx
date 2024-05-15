@@ -8,10 +8,7 @@ import { clearStorage, getIsAdmin } from "../../localStorage";
 export default function PageTemplate({ toggleMenu, pageTitle, children }) {
   const username = "Username";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
- const isAdmin = JSON.parse(getIsAdmin());
- 
-
- console.log(isAdmin)
+  const isAdmin = JSON.parse(getIsAdmin());
  
 const navigate = useNavigate();
 
