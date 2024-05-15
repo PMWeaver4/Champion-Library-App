@@ -29,7 +29,7 @@ export default function MenuPopup() {
         <li className="menu-btns-container my-library">
           <NavLink to="/my-library">
             <i className="fa-solid fa-book-bookmark"></i>
-            <p>My Library</p>
+            <p>Library</p>
           </NavLink>
         </li>
         <li className="menu-btns-container users">
