@@ -1,4 +1,4 @@
-export default function AdminBookTile({ book, onDeleteRequest }) {
+export default function AdminBookTile({ book, onDeleteRequest, onEditRequest }) {
   const MAX_CHAR = 12;
 
   return (
@@ -16,11 +16,14 @@ export default function AdminBookTile({ book, onDeleteRequest }) {
           </div>
         </div>
         <div className="admin-action-buttons">
-          <button className="admin-edit-item">Edit</button>
-          <button className="admin-delete-item" onClick={onDeleteRequest}>Delete</button>
+          <button className="admin-edit-item" onClick={() => onEditRequest(book)}>
+            Edit
+          </button>
+          <button className="admin-delete-item" onClick={onDeleteRequest}>
+            Delete
+          </button>
         </div>
       </div>
     </div>
   );
 }
-
