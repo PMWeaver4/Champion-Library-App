@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import config from "../../config.json";
 import { useParams } from "react-router-dom";
-import { getToken, clearStorage} from "../../localStorage";
+import { getToken } from "../../localStorage";
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
 
 export default  function EditDeleteBook () {
@@ -10,7 +10,6 @@ export default  function EditDeleteBook () {
     const [DeletePopup, setDeletePopup] = useState(false);
     const token = getToken();
     const [editPopupVisible, setEditPopupVisible] = useState(false);
-    const [message, setMessage] = useState("");
     const [editBook, setEditBook] = useState({
         title: "",
         author: "",
@@ -91,16 +90,17 @@ const handleBookUpdate =  async(event) => {
       }
       );
       if (response.ok) {
-        // Set success message
-        setMessage("Book data updated successfully"); 
+        alert("Book information updated successfully");
         // Update local storage with new book data
         saveTitle(editBook.title);
         saveAuthor(editBook.author);
         saveDescription(editBook.description);
         saveGenre(editBook.genre);
+        // Close the edit popup after successful update
+        setEditPopupVisible(false);
       } else {
         // Set error message
-        setMessage("Unable to update book information"); 
+        alert("Unable to update book information"); 
       }
     } catch (error) {
       console.error("Error updating book data:", error);
@@ -118,16 +118,16 @@ const handleBookUpdate =  async(event) => {
       }
       );
       if (response.ok) {
-        setMessage("Book deleted successfully");
-        // Clear local storage
-        clearStorage(); 
+        alert("Book deleted successfully");
+       
         setTimeout(() => {
-          setMessage("");
+         // Close the edit popup after successful update
+         setDeletePopup(false);
           // Navigate back to the previous page (was having issues bc once user deletes a book they were being logged out and redirected to the login page)
           nav("/home");
         }, 3000);
       } else {
-        setMessage("Unable to delete book");
+        alert("Unable to delete book");
       }
     } catch (error) {
       console.error("Error deleting Book:", error);
@@ -208,7 +208,6 @@ const handleBookUpdate =  async(event) => {
                 <button className="save-changes-btn" type="submit">Save Changes</button>
                 <button className="cancel-changes-btn" onClick={cancelBookUpdate}> Cancel</button>
               </form>
-              {message && <p>{message}</p>}
             </div>
           )}
     </main>
