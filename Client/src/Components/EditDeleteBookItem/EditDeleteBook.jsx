@@ -118,6 +118,7 @@ const handleBookUpdate =  async(event) => {
       }
       );
       if (response.ok) {
+
         alert("Book deleted successfully");
        
         setTimeout(() => {
@@ -125,6 +126,7 @@ const handleBookUpdate =  async(event) => {
          setDeletePopup(false);
           // Navigate back to the previous page (was having issues bc once user deletes a book they were being logged out and redirected to the login page)
           nav("/home");
+
         }, 3000);
       } else {
         alert("Unable to delete book");
