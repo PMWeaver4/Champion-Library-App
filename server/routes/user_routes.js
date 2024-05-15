@@ -298,27 +298,35 @@ router.put("/update/", Validate, async (req, res) => {
 });
 //Update user's information
 //need to insert validate middleware declared above because of user_routes' position before validation in the index.js
-router.put("/adminUpdate/:email", Validate, async (req, res) => {
+router.put("/adminUpdate/:userId", Validate, async (req, res) => {
   try {
-    if (req.user.isAdmin == true) {
-      //accessing validate allows us to get the current user's email
-      const email = req.params.email;
-      //get the info to update user
-      const usersUpdatedInformation = req.body;
-      //keep the old information to compare (important for if status was changed to approved)
-      let user = await User.findOne({ email: email.toLocaleLowerCase() });
-      //match the user by email
-      //if no user match
-      if (user === null) {
-        res.status(404).json({ error: "User not found." });
-        return;
+    if (req.user.isAdmin) {
+      // Use userId from the route parameters
+      const userId = req.params.userId;
+
+      // Fetch the user by ID instead of email
+      let user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found." });
       }
 
-      const isApproving = usersUpdatedInformation.approved != "Pending" && user.approved == "Pending";
-      user = await User.findOneAndUpdate({ email }, usersUpdatedInformation, { new: true });
+      const usersUpdatedInformation = req.body;
 
-      //otherwise, update that user w/ new info
+      // Check if there is a change in the email and if the new email is already in use
+      if (usersUpdatedInformation.email && usersUpdatedInformation.email !== user.email) {
+        const emailExists = await User.findOne({ email: usersUpdatedInformation.email.toLowerCase() });
+        if (emailExists) {
+          return res.status(400).json({ error: "Email already in use." });
+        }
+      }
+
+      const isApproving = usersUpdatedInformation.approved !== "Pending" && user.approved === "Pending";
+      
+      // Update the user
+      user = await User.findByIdAndUpdate(userId, usersUpdatedInformation, { new: true });
+
       if (isApproving) {
+        // Trigger any additional actions, like sending an email
         Email.sendWithTemplate({
           recipient: user.email,
           email_type: EmailTypes.NewUserAccountStatus,
@@ -330,18 +338,19 @@ router.put("/adminUpdate/:email", Validate, async (req, res) => {
         });
       }
 
-      res.status(200).json({
+      return res.status(200).json({
         status: "User information updated successfully",
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        password: user.password,
+        ...user.toObject(),
       });
+    } else {
+      return res.status(403).json({ error: "Unauthorized" });
     }
   } catch (error) {
-    res.status(500).json({ error });
+    console.error("Error updating user:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 router.delete("/delete/:_id", Validate, async (req, res) => {
   try {

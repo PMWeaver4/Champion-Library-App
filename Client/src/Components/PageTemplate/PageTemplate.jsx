@@ -53,7 +53,7 @@ const navigate = useNavigate();
               <li className="menu-btns-container my-library">
                 <NavLink to="/my-library" className={({ isActive }) => [isActive ? "active" : ""].join(" ")}>
                   <i className="fa-solid fa-book-bookmark"></i>
-                  <p>My Library</p>
+                  <p>Library</p>
                 </NavLink>
               </li>
               <li className="menu-btns-container users">
