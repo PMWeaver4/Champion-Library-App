@@ -4,7 +4,7 @@ export default function NotificationTile({ onReply, onDelete, firstName, lastNam
   // Format date
   const date = new Date(createdAt).toLocaleDateString();
   const time = new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
+  
   const [notifications, setNotifications] = useState([]);
 
   const handleDelete = () => {

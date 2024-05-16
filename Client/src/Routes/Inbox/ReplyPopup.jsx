@@ -1,4 +1,3 @@
-export default function ReplyPopup({onYes, onNo}) {
   return (
     <div className="InboxPopup">
       <div className="inbox-popup-content">

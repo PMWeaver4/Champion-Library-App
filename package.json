@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "quagga": "^0.12.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

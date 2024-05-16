@@ -24,7 +24,7 @@ const navigate = useNavigate();
   const requestData = {
     book
   };
-  console.log("2", requestData)
+  
   if(book.hasPendingRequest){
     alert ("this book already has a pending request");
     throw new Error ("This book already has a pending request")
