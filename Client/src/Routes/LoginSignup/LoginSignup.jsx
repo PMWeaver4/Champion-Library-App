@@ -84,11 +84,13 @@ export default function LoginSignup() {
           "Content-type": "application/json",
         },
       });
+      const data = await response.json();
+
       if (response.status == 200) {
         // handle successful login
         console.log("User LoggedIn Successfully");
-        const data = await response.json();
-        console.log(data);
+        // const data = await response.json();
+        // console.log(data);
         //data are never store anywhereohbruh
         setEmail(data.User.email);
         setToken(data.Token);
@@ -100,11 +102,15 @@ export default function LoginSignup() {
         navigate("/home");
         return;
       }
-      //handle wrong credentials
-      setLoginError(data.message);
+      else {
+        setLoginError("Email or Password credentials are incorrect. Please try again.");
+        console.log("Login Error:", data.message); // Log error message to console
+
+      }
     } catch (error) {
       console.log("User Login Failed");
       console.error("Error occurred:", error);
+      // Handle other errors if any
     }
   };
 
@@ -169,6 +175,8 @@ export default function LoginSignup() {
             <button className="login-button" type="submit">
               Login
             </button>
+            {/* Render error message if loginError is not empty */}
+    {/* {loginError && <p className="error-message"> Email or Password credentials are incorrect. Please try again.</p>} */}
           </form>
           {loginError && <p>{loginError}</p>}
           <NavLink to="/forgotPassword" className="password-recovery">Forgot Password?</NavLink>
