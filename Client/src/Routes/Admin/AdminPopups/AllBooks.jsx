@@ -46,7 +46,7 @@ export default function AllBooks({ onCloseWidget }) {
           Authorization: `Bearer ${getToken()}`, // Ensure you import getToken and config
         },
       });
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error("Failed to delete the book");
       }
       setBooks(books.filter((book) => book._id !== selectedBook._id));
