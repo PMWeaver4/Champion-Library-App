@@ -4,6 +4,7 @@ import { getToken } from "../../localStorage";
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
+// TODO make it only visible for owner of item
 export default  function EditDeleteItem ( ) {
     const [item, setItem] = useState(null);
     const {itemId } = useParams();
