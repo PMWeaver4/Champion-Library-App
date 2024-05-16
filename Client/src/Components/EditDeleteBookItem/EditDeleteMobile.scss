@@ -1,0 +1,131 @@
+// edit book popups
+// Styles for the popup container
+.first-btn-container {
+    display: flex;
+    flex-direction: column; // Change to column layout for mobile
+}
+
+// Styles for the delete button
+.delete-button {
+    background-color: #0d3f9c;
+    color: #fff;
+    border-radius: 5px;
+    padding: 8px 24px;
+    margin: 3px; // Add margin for separation
+
+}
+
+.yes-delete-btn {
+    background-color: #12d82d;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 5px; // Add margin for separation
+    margin-left: 25px;
+
+}
+
+.no-delete-btn {
+    background-color: #0d3f9c;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 5px; // Add margin for separation
+    margin-left: 25px;
+}
+
+// Styles for the edit button
+.edit-button {
+    background-color: #0d3f9c;
+    color: #fff;
+    border-radius: 5px;
+    padding: 8px 24px;
+    margin: 3px; // Add margin for separation
+}
+
+// Games, items and books all have the same classnames for the delete popup. This is for all of the books/items
+.delete-Book-popup {
+    background-color: rgba(46, 43, 43, 0.9);
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 20px; 
+    width: 119%; // Adjust width for smaller screens
+    margin: 0 auto; // Center horizontally on smaller screens
+    box-shadow: 0px 0px 20px rgba(207, 3, 3, 0.2);
+    position: absolute; // Position absolutely
+    top: 50%; // Center vertically
+    left: 50%; // Center horizontally
+    transform: translate(-50%, -50%); // Center precisely
+    z-index: 1000; // Ensure it appears above other content
+
+
+}
+
+
+h1 {
+    font-size: 24px; // Adjust font size for smaller screens
+    color: #0d3f9c;
+    font-weight: bolder;
+    margin-bottom: 10px; // Reduce margin for smaller screens
+    text-align: center; // Center text
+}
+
+// edit book popup
+.edit-book-popup{
+    background-color: #fdfafa;
+    border-radius: 5px;
+    padding: 20px; // Reduce padding for smaller screens
+    width: 100%; // Adjust width for smaller screens
+    margin: 0 auto; // Center horizontally on smaller screens
+    box-shadow: 0px 0px 20px rgba(52, 240, 87, 0.2);
+    position: absolute; // Position absolutely
+    top: 50%; // Center vertically
+    left: 50%; // Center horizontally
+    transform: translate(-50%, -50%); // Center precisely
+    z-index: 1000; // Ensure it appears above other content
+}
+.edit-item-popup,
+.edit-Game-popup {
+    background-color: #fdfafa;
+    border-radius: 5px;
+    padding: 25px; // Reduce padding for smaller screens
+    width: 130%; // Adjust width for smaller screens
+    margin: 0 auto; // Center horizontally on smaller screens
+    box-shadow: 0px 0px 20px rgba(52, 240, 87, 0.2);
+    position: absolute; // Position absolutely
+    top: 50%; // Center vertically
+    left: 50%; // Center horizontally
+    transform: translate(-50%, -50%); // Center precisely
+    z-index: 1000; // Ensure it appears above other content
+}
+
+.cancel-changes-btn,
+.cancel-changes-btn2,
+.cancel-changes-btn3 {
+    background-color: #bd2323;
+    color: #fff;
+    padding: 8px 90px; // Adjusted padding for mobile
+    margin: 5px; // Add margin for separation
+    border-radius: 5px;
+    cursor: pointer;
+    width: calc(50% - 10px); // Adjusted width for smaller screens
+    max-width: 150px; // Limit maximum width for smaller screens
+    text-align: center; // Center the text horizontally
+    justify-content: center;
+    display: flex; // Use flexbox for alignment
+}
+
+.save-changes-btn,
+.save-changes-btn2,
+.save-changes-btn3 {
+    background-color: #12d82d;
+    color: #fff;
+    padding: 8px 90px; // Adjusted padding for mobile
+    margin: 5px; // Add margin for separation
+    border-radius: 5px;
+    cursor: pointer;
+    width: calc(50% - 10px); // Adjusted width for smaller screens
+    max-width: 150px; // Limit maximum width for smaller screens
+    text-align: center; // Center the text horizontally
+    justify-content: center;
+    display: flex; // Use flexbox for alignment
+
+}
