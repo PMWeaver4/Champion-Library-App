@@ -1,9 +1,11 @@
-export default function DeletePopup({ book, game, onConfirmDelete, onCancel }) {
+export default function DeletePopup({ book, game, other, onConfirmDelete, onCancel }) {
   let title = "";
   if (book) {
     title = book.title;
   }else if (game) {
     title = game.itemName;
+  }else if (other) {
+    title = other.itemName;
   }
   
   return (

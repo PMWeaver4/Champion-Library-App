@@ -52,7 +52,7 @@ export default function AllGames({ onCloseWidget }) {
       }
       setGameItems(gameItems.filter((game) => game._id !== selectedGame._id));
       setShowDeletePopup(false);
-      alert("Successfully deleted!");
+      alert("Successfully deleted Game!");
     } catch (error) {
       console.error("Error deleting game:", error);
     }

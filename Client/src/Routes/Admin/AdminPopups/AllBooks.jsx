@@ -51,7 +51,7 @@ export default function AllBooks({ onCloseWidget }) {
       }
       setBooks(books.filter((book) => book._id !== selectedBook._id));
       setShowDeletePopup(false);
-      alert("Successfully deleted!");
+      alert("Successfully deleted Book!");
     } catch (error) {
       console.error("Error deleting book:", error);
     }

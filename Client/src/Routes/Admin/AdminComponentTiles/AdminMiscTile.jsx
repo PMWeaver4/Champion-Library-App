@@ -1,4 +1,4 @@
-export default function AdminMiscTile({other}) {
+export default function AdminMiscTile({other, onEditItem, onDeleteItem}) {
   const MAX_CHAR = 12;
   return (
     <div className="admin-item-container">
@@ -16,8 +16,8 @@ export default function AdminMiscTile({other}) {
         </div>
 
         <div className="admin-action-buttons">
-          <button className="admin-edit-item">Edit</button>
-          <button className="admin-delete-item">Delete</button>
+          <button className="admin-edit-item" onClick={() => onEditItem(other)}>Edit</button>
+          <button className="admin-delete-item" onClick={onDeleteItem}>Delete</button>
         </div>
       </div>
     </div>
