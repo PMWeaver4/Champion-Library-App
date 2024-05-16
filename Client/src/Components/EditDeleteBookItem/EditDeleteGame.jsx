@@ -3,6 +3,7 @@ import config from "../../config.json";
 import { getToken } from "../../localStorage";
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
+// TODO make it only visible for owner of item
 
 export default  function EditDeleteGame ( ) {
     const [game, setGame] = useState(null);

@@ -1,1 +1,60 @@
-// Need to do tablet scss
+// Adjustments for tablet view
+    // TODO might need to go back and fix edit and delete buttons bc some profile card and longer/smaller than others. 
+    // TODO some popups look different depending on profile card. did this will tablet view in inspect tools in chrome
+    // Styles for the delete and edit buttons
+    .delete-button,
+    .edit-button {
+        padding: 10px 30px; // Adjust padding for tablet view
+        margin: 5px; // Add margin for separation
+    }
+
+    // Popup container
+    .first-btn-container {
+        flex-direction: row; // Change to row layout for tablet view
+    }
+
+    // Delete popup
+    .delete-Book-popup,
+    .edit-book-popup,
+    .edit-item-popup,
+    .edit-Game-popup {
+        width: 180%; // Adjust width for tablet view
+        max-width: 600px; // Limit maximum width for tablet view
+        left: 50%; // Center horizontally
+        transform: translateX(-50%); // Center precisely
+    }
+
+    // Adjusted styles for cancel and save buttons for tablet view
+    .cancel-changes-btn,
+    .save-changes-btn {
+        padding: 10px 100px; // Adjust padding for tablet view
+        max-width: 200px; // Limit maximum width for tablet view
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 90px;
+    }
+
+    // item
+    .cancel-changes-btn2,
+    .save-changes-btn2 {
+        padding: 10px 100px; // Adjust padding for tablet view
+        max-width: 200px; // Limit maximum width for tablet view
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 25px;
+
+    }
+
+    // game
+    .cancel-changes-btn3,
+    .save-changes-btn3  {
+        padding: 10px 100px; // Adjust padding for tablet view
+        max-width: 200px; // Limit maximum width for tablet view
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 13px;
+    }
+
