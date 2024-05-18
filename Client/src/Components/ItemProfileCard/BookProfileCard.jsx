@@ -5,58 +5,60 @@ import EditDeleteBook from "../EditDeleteBookItem/EditDeleteBook";
 
 // import EditDeleteBook from "../EditDeleteBookItem/EditDeleteBook";
 
-
 import { getToken } from "../../localStorage";
 import config from "../../config.json";
 
-
-export default function BookProfileCard({ book }) {
+export default function BookProfileCard({ book, onBorrow }) {
   // maximum characters
   const MAX_CHAR = 30;
 
-const navigate = useNavigate();
-   
-   function borrowBook() {
-     //do the create notification, config notifications/create, with a key of book: book._id or item: item._id
-     
-  // Construct book data from state
+  const navigate = useNavigate();
 
-  const requestData = {
-    book
-  };
-  console.log("2", requestData)
-  if(book.hasPendingRequest){
-    alert ("this book already has a pending request");
-    throw new Error ("This book already has a pending request")
+  async function borrowBook() {
+    try {
+      // Construct book data from state
+      if (book.hasPendingRequest) {
+        alert("this book already has a pending request");
+        console.error("this book already has a pending request");
+      }
+
+      //do the create notification, config notifications/create, with a key of book: book._id or item: item._id
+      const requestData = {
+        book: book._id,
+      };
+      // Fetch configuration
+      const response = await fetch(config.backend_url + `notifications/create/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+        body: JSON.stringify(requestData),
+      });
+      if (response.status !== 200) {
+        return alert(`${book.title} has failed to be requested.`);
+      }
+      alert(`${book.title} has been requested.`);
+      onBorrow();
+    } catch (e) {
+      console.error(e);
+    }
   }
-  // Fetch configuration
-  fetch(config.backend_url + `notifications/create/`, {  
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${getToken()}`,  
-    },
-    body: JSON.stringify(requestData),
-  })
-  // .then(response => response.json())
-  
-  .catch(error => {
-    console.error('Error:', error);
-    alert("Failed to create the notication.");
-  });
-  alert(`${book.title} has been requested.`);
-}
 
   return (
     <div className="ItemProfileCard">
       <div className="blue-card-overlay">
-        <NavLink onClick={()=> navigate(-1)} className="ItemCard-back-btn">
+        <NavLink onClick={() => navigate(-1)} className="ItemCard-back-btn">
           <i className="fa-solid fa-arrow-left"></i>
         </NavLink>
         <img src={book.img} />
         <div className="ItemCard-header">
           <h1>{book.title.length > MAX_CHAR ? book.title.substring(0, MAX_CHAR) + "..." : book.title}</h1>
-          <button className="borrow-button" onClick={() => borrowBook()}>Borrow</button>
+          {!book.hasPendingRequest && (
+            <button className="borrow-button" onClick={borrowBook}>
+              Borrow
+            </button>
+          )}
         </div>
       </div>
       <div className="white-card-overlay">
@@ -86,10 +88,8 @@ const navigate = useNavigate();
         </p>
       </div>
       <div>
-                <EditDeleteBook />
-
+        <EditDeleteBook />
       </div>
     </div>
-    
   );
 }
