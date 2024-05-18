@@ -7,7 +7,9 @@ import { isLoggedIn, setEmail, setFirstName, setLastName, setToken, setUserId, s
 //TODO, Sign up and login WORK WOOOHOOO.✅
 // TODO Browser displays a message notifying user needs to be approved✅
 // TODO deleted confirm password was having issues in the browser ✅
-// TODO need to check on password assistance.
+// TODO need to check on password assistance. ✅
+// TODO add required attribute  ✅
+// Todo error message for incorrect password and email  ✅
 
 // Component for login page
 export default function LoginSignup() {
@@ -158,6 +160,7 @@ export default function LoginSignup() {
               value={loginInputs.email}
               onChange={handleLoginInputChange}
               autoComplete="email"
+              required
             />
 
             <label htmlFor="password">Password</label>
@@ -170,6 +173,7 @@ export default function LoginSignup() {
               name="password"
               value={loginInputs.password}
               onChange={handleLoginInputChange}
+              required
             />
 
             <button className="login-button" type="submit">
@@ -193,6 +197,7 @@ export default function LoginSignup() {
               name="firstName"
               value={SignupInputs.firstName}
               onChange={handleSignupInputChange}
+              required
             />
             <label htmlFor="lastName">Last Name</label>
             <input
@@ -203,6 +208,7 @@ export default function LoginSignup() {
               name="lastName"
               value={SignupInputs.lastName}
               onChange={handleSignupInputChange}
+              required
             />
             <label htmlFor="email">Email</label>
             <input
@@ -214,6 +220,7 @@ export default function LoginSignup() {
               value={SignupInputs.email}
               onChange={handleSignupInputChange}
               autoComplete="email"
+              required
             />
             <label htmlFor="password">Password</label>
             <input
@@ -224,6 +231,7 @@ export default function LoginSignup() {
               name="password"
               value={SignupInputs.password}
               onChange={handleSignupInputChange}
+              required
             />
             <button className="signUp-button" type="submit">
               Sign Up
