@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import config from "../../../config.json";
+import { getToken } from "../../../localStorage";
 
 export default function EditItemPopup({ game, other, onCancel }) {
   const [itemName, setItemName] = useState("");
@@ -25,13 +26,14 @@ export default function EditItemPopup({ game, other, onCancel }) {
     const response = await fetch(endpoint, {
       method: "PUT",
       headers: {
+        Authorization: `Bearer ${getToken()}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ itemName, description }), // Ensure these keys match your backend model
     });
     if (response.status === 200) {
       alert("Item updated successfully!");
-      onClose(); // Assuming onClose properly closes the modal
+      onCancel(); // closes popup doesnt cancel any actions
     } else {
       alert("Failed to update item");
     }
