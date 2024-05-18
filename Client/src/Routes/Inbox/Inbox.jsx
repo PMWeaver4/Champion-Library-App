@@ -72,7 +72,7 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
       case InboxPopupEnum.Delete:
         return <DeletePopup onNo={handleCloseInboxPopup} />;
       case InboxPopupEnum.Reply:
-        return <ReplyPopup onNo={handleCloseInboxPopup} />;
+        return <ReplyPopup onClose={handleCloseInboxPopup} />;
       default:
         return null;
     }

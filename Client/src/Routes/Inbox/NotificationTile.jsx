@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function NotificationTile({ onReply, onDelete, firstName, lastName, createdAt, message, requestingUser }) {
+export default function NotificationTile({ onReply, onDelete, firstName, lastName, key, createdAt, message, requestingUser }) {
   // Format date
   const date = new Date(createdAt).toLocaleDateString();
   const time = new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
