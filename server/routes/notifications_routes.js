@@ -13,7 +13,7 @@ const Validate = require("../middleware/validate");
 // create book request ✅
 async function createBookRequest(req, res) {
   //item_details are the details of any requested item (book, game or misc)
-  let existingRequest = await Request.findOne({ book: req.body.book });
+  let existingRequest = await Request.findOne({ book: req.body.book, status: "Pending" });
   let RequestedBook = await Book.findOne({ _id: req.body.book }, { title: 1, _id: 1, author: 1, user: 1, hasPendingRequest: 1 });
 
   if (existingRequest !== null || RequestedBook.hasPendingRequest) {
@@ -66,7 +66,7 @@ async function createBookRequest(req, res) {
 // item request ✅
 async function createItemRequest(req, res) {
   //item_details are the details of any requested item (book, game or misc)
-  let existingRequest = await Request.findOne({ item: req.body.item });
+  let existingRequest = await Request.findOne({ item: req.body.item, status: "Pending" });
   let RequestedItem = await Item.findOne({ _id: req.body.item }, { itemName: 1, _id: 0, user: 1, hasPendingRequest: 1 });
   if (existingRequest !== null || RequestedItem.hasPendingRequest) {
     return res.status(423).json({ error: "Item has already been requested by another user." });
@@ -134,14 +134,12 @@ router.post("/create/", async (req, res) => {
 // Display all notifications endpoint for that user ✅
 router.get("/allYourNotifications/:_id", Validate, async (req, res) => {
   try {
-    console.log(req.user._id);
     //filters for all notifications by and for the specific user calling this function. Displays keys of notification schema.
     let results = await Notifications.find({ user: req.user._id, visible: true })
       .populate({ path: "requestingUser", select: "email firstName lastName" })
       .populate({ path: "user", select: "email firstName lastName" })
       .populate({
         path: "request",
-        select: "_id",
         populate: [
           {
             path: "item",
@@ -164,7 +162,7 @@ router.get("/allYourNotifications/:_id", Validate, async (req, res) => {
       Results: results.reverse(),
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -175,7 +173,7 @@ router.get("/allYourNotifications/:_id", Validate, async (req, res) => {
 
 // function to update borrow status of book ✅
 async function handleUpdateBorrowBook(req, res) {
-  const request = await Request.findOne({ book: req.body.book }, {}, { sort: { created_at: -1 } })
+  const request = await Request.findOne({ book: req.body.book }, {}, { sort: { createdAt: -1 } })
     .populate({ path: "book", populate: { path: "user", model: "User" } })
     .populate({ path: "requestingUser" });
   if (request === null) {
@@ -243,7 +241,7 @@ async function handleUpdateBorrowBook(req, res) {
 
 //function to update borrow status of item ✅
 async function handleUpdateBorrowItem(req, res) {
-  const request = await Request.findOne({ item: req.body.item }, {}, { sort: { created_at: -1 } })
+  const request = await Request.findOne({ item: req.body.item }, {}, { sort: { createdAt: -1 } })
     .populate({ path: "item", populate: { path: "user", model: "User" } })
     .populate({ path: "requestingUser" });
 
@@ -316,7 +314,7 @@ router.put("/updateBorrow", async (req, res) => {
 // ? theres also no real reason to have a declined return, a user would accept when they have item in their possession
 // function to update the return status of book ✅
 async function handleUpdateReturnBook(req, res) {
-  const request = await Request.findOne({ book: req.body.book }, {}, { sort: { created_at: -1 } })
+  const request = await Request.findOne({ book: req.body.book }, {}, { sort: { createdAt: -1 } })
     .populate({ path: "book", populate: { path: "user", model: "User" } })
     .populate({ path: "requestingUser" });
   const item_details = `${request.book.title} by ${request.book.author}`;
@@ -328,7 +326,7 @@ async function handleUpdateReturnBook(req, res) {
   }
   // if status accepted update the needed info
   if (req.body.newRequestStatus === "Accepted") {
-    await Book.updateOne({ _id: request.book._id }, { rentedUser: null, checkedout: false });
+    await Book.updateOne({ _id: request.book._id }, { rentedUser: null, checkedout: false, hasPendingRequest: false });
     await request.updateOne({ status: "Accepted" });
     // then send the corresponding email
     Email.sendWithTemplate({
@@ -353,6 +351,7 @@ async function handleUpdateReturnBook(req, res) {
     request.status = "Pending";
     request.returnrequest = Date.now();
     await request.save();
+    await Book.updateOne({ _id: request.book._id }, { hasPendingRequest: true });
     await new Notifications({
       user: request.book.user._id,
       visible: true,
@@ -377,7 +376,7 @@ async function handleUpdateReturnBook(req, res) {
 
 // function to update the return status of item ✅
 async function handleUpdateReturnItem(req, res) {
-  const request = await Request.findOne({ item: req.body.item }, {}, { sort: { created_at: -1 } })
+  const request = await Request.findOne({ item: req.body.item }, {}, { sort: { createdAt: -1 } })
     .populate({ path: "item", populate: { path: "user", model: "User" } })
     .populate({ path: "requestingUser" });
   const item_details = request.item.itemName;
@@ -389,7 +388,7 @@ async function handleUpdateReturnItem(req, res) {
   }
   // if status accepted update the needed info
   if (req.body.newRequestStatus === "Accepted") {
-    await Item.updateOne({ _id: request.item._id }, { rentedUser: null, checkedout: false });
+    await Item.updateOne({ _id: request.item._id }, { rentedUser: null, checkedout: false, hasPendingRequest: false });
     await request.updateOne({ status: "Accepted" });
     // then send the corresponding email
     Email.sendWithTemplate({
@@ -413,6 +412,7 @@ async function handleUpdateReturnItem(req, res) {
   } else {
     request.status = "Pending";
     request.returnrequest = Date.now();
+    await Item.updateOne({ _id: request.item._id }, { hasPendingRequest: true });
     await request.save();
     await new Notifications({
       user: request.item.user._id,

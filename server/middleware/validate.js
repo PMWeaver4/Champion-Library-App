@@ -8,7 +8,6 @@ const validate = async(req, res, next) => {
     try{
         //? Take token provided by the request object (headers.authorization)
         const auth = req.headers.authorization
-        console.log(auth);
     
         //? Checking if authorization header is present and value, if not, throw an error
         if(!auth) throw new Error("Unauthorized");
@@ -23,7 +22,6 @@ const validate = async(req, res, next) => {
         
         //? Decode the token - Should be decoded payload (obj with user id on it)
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(decoded);
     
         //? Find user in our db
         const user = await User.findById(decoded.id)

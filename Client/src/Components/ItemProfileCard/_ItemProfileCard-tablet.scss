@@ -1,4 +1,6 @@
-.BookProfileCardPage, .GameProfileCardPage, .ItemProfileCardPage {
+.BookProfileCardPage,
+.GameProfileCardPage,
+.ItemProfileCardPage {
   .ItemProfileCard {
     width: 50%;
     max-height: 70%;
@@ -9,9 +11,9 @@
           font-size: 1.25rem;
 
           max-width: 10rem;
-
         }
-        .borrow-button {
+        .borrow-button,
+        .return-button {
           font-size: 1.25rem;
         }
       }
@@ -29,7 +31,7 @@
       }
     }
     .white-card-overlay {
-      padding: .5rem 1.25rem;
+      padding: 0.5rem 1.25rem;
       details {
         cursor: pointer;
         summary {
