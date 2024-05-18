@@ -31,7 +31,6 @@ export default function ManualEntry({ onClosePopup }) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Book added:", data);
       alert(`${bookData.title} by ${bookData.author} was successfully added!`);
       onClosePopup(); // Close the popup after successful submission
       // Reset form fields

@@ -46,7 +46,7 @@ router.get("/all", async (req, res) => {
       Results: results,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -78,7 +78,7 @@ router.get("/allavailable", async (req, res) => {
       Results: results,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -101,7 +101,7 @@ router.get("/item/:_id", async (req, res) => {
 
     res.status(200).json(results);
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,

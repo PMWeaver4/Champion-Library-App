@@ -9,6 +9,25 @@ export default function BookProfileCardPage() {
   const { bookId } = useParams();
   const [book, setBook] = useState(null);
 
+  async function returnBook() {
+    const response = await fetch(`${config.backend_url}notifications/updateReturn`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify({
+        book: book._id,
+        newRequestStatus: "Pending",
+      }),
+    });
+    if (response.status !== 200) {
+      return alert("ERROR WHILE RETURNING");
+    }
+    alert("RETURN STARTED");
+    fetchBook();
+  }
+
   async function fetchBook() {
     try {
       const response = await fetch(`${config.backend_url}book/book/${bookId}`, {
@@ -37,7 +56,7 @@ export default function BookProfileCardPage() {
   ) : (
     <div className="BookProfileCardPage">
       <div className="card-container">
-        <BookProfileCard book={book} onBorrow={fetchBook} />
+        <BookProfileCard book={book} onBorrow={fetchBook} onReturn={returnBook} />
       </div>
     </div>
   );

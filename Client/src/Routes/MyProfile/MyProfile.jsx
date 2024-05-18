@@ -175,7 +175,7 @@ export default function MyProfile() {
           </button>
           {/* <div>
         <NavLink to="/" className="Logout">
-         <i class="fa-solid fa-right-from-bracket"> Logout</i>
+         <i className="fa-solid fa-right-from-bracket"> Logout</i>
         </NavLink> 
           </div> */}
 

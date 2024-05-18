@@ -17,7 +17,6 @@ export default function IsbnEntry({ onClosePopup }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Book added:", data);
         // Reset the input field and close the popup after successful book addition
         setNewBookIsbn("");
         alert(`${data.Created.title} by ${data.Created.author} was successfully added!`);

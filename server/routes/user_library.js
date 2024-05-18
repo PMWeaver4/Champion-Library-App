@@ -5,17 +5,13 @@ const Item = require("../models/item");
 // Get all books owned by a specified user (identified by _id) ✅
 router.get("/books/:_id", async (req, res) => {
   try {
-    console.log("Fetching books for user ID:", req.params._id); // Log the user ID being queried
     const results = await Book.find({ user: req.params._id });
-    console.log("Found books:", results); // Log the results to see what is found
     if (results.length === 0) {
-      console.log("No books found for this user.");
       return res.status(404).json({ Error: "No books found for this user." });
     }
 
     res.status(200).json({ Results: results });
   } catch (err) {
-    console.log("Error fetching books:", err.message); // Log any errors that occur
     res.status(500).json({ Error: err.message });
   }
 });
@@ -30,7 +26,7 @@ router.get("/availablebooks/:_id", async (req, res) => {
       Results: results,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -44,7 +40,7 @@ router.get("/items/:_id", async (req, res) => {
     const results = await Item.find({ user: req.params._id });
     res.status(200).json({ Results: results });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ Error: err.message });
   }
 });
@@ -55,7 +51,7 @@ router.get("/availableitems/:_id", async (req, res) => {
     const results = await Item.find({ user: req.params._id, checkedout: false });
     res.status(200).json({ Results: results });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ Error: err.message });
   }
 });
@@ -74,7 +70,7 @@ router.get("/all/:_id", async (req, res) => {
       Results: results,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -99,7 +95,7 @@ router.get("/allavailable/:_id", async (req, res) => {
       games,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -116,7 +112,7 @@ router.get("/borrowedBooks/:_id", async (req, res) => {
       books,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -131,7 +127,7 @@ router.get("/borrowedGames/:_id", async (req, res) => {
       games,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -146,7 +142,7 @@ router.get("/borrowedItems/:_id", async (req, res) => {
       items,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -162,7 +158,7 @@ router.get("/loanedBooks/:_id", async (req, res) => {
       books,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -177,7 +173,7 @@ router.get("/loanedGames/:_id", async (req, res) => {
       games,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -192,7 +188,7 @@ router.get("/loanedItems/:_id", async (req, res) => {
       items,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,

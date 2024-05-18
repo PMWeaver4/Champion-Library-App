@@ -25,7 +25,6 @@ export default function GameProfileCardPage() {
         }
         const data = await response.json();
         setGame(data);
-        console.log(data);
       } catch (error) {
         console.error("Failed to fetch game:", error.message);
       }

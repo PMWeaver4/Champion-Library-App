@@ -5,10 +5,10 @@ import EditDeleteBook from "../EditDeleteBookItem/EditDeleteBook";
 
 // import EditDeleteBook from "../EditDeleteBookItem/EditDeleteBook";
 
-import { getToken } from "../../localStorage";
+import { getToken, getUserId } from "../../localStorage";
 import config from "../../config.json";
 
-export default function BookProfileCard({ book, onBorrow }) {
+export default function BookProfileCard({ book, onBorrow, onReturn }) {
   // maximum characters
   const MAX_CHAR = 30;
 
@@ -45,6 +45,9 @@ export default function BookProfileCard({ book, onBorrow }) {
     }
   }
 
+  const canBorrow = !book.hasPendingRequest && book.checkedout === false;
+  const canReturn = !book.hasPendingRequest && book.rentedUser == getUserId();
+
   return (
     <div className="ItemProfileCard">
       <div className="blue-card-overlay">
@@ -54,9 +57,14 @@ export default function BookProfileCard({ book, onBorrow }) {
         <img src={book.img} />
         <div className="ItemCard-header">
           <h1>{book.title.length > MAX_CHAR ? book.title.substring(0, MAX_CHAR) + "..." : book.title}</h1>
-          {!book.hasPendingRequest && (
+          {canBorrow && (
             <button className="borrow-button" onClick={borrowBook}>
               Borrow
+            </button>
+          )}
+          {canReturn && (
+            <button className="return-button" onClick={onReturn}>
+              Return
             </button>
           )}
         </div>
