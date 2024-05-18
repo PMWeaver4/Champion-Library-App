@@ -67,6 +67,11 @@ export default function AllOther({ onCloseWidget }) {
     setShowEditPopup(true);
   };
 
+  const handleCancelEdit = () => {
+    setShowEditPopup(false);
+    setSelectedItem(null);
+  };
+
   return (
     <div className="admin-popup">
       <button onClick={onCloseWidget} className="exit-btn">
@@ -75,11 +80,11 @@ export default function AllOther({ onCloseWidget }) {
       <h1>All Misc Items</h1>
       <div className="admin-popup-body">
         {otherItems.map((other) => (
-          <AdminMiscTile key={other._id} other={other} onDeleteItem={()=> initiateDeleteItem(other)} onEditItem={()=> initiateEditItem(other)} />
+          <AdminMiscTile key={other._id} other={other} onDeleteItem={() => initiateDeleteItem(other)} onEditItem={() => initiateEditItem(other)} />
         ))}
       </div>
       {showDeletePopup && <DeletePopup onConfirmDelete={handleDelete} onCancel={handleCancelDelete} other={selectedItem} />}
-      {showEditPopup && <EditItemPopup other={selectedItem} />}
+      {showEditPopup && <EditItemPopup other={selectedItem} onCancel={handleCancelEdit} />}
     </div>
   );
 }

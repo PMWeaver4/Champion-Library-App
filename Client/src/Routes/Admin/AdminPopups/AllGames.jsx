@@ -68,6 +68,10 @@ const initiateEditGame = (game) => {
   setShowEditPopup(true);
 }
 
+const handleCancelEdit = () => {
+  setShowEditPopup(false);
+  setSelectedBook(null);
+};
 
 
   return (
@@ -82,7 +86,7 @@ const initiateEditGame = (game) => {
         ))}
       </div>
       {showDeletePopup && <DeletePopup onConfirmDelete={handleDelete} onCancel={handleCancelDelete} game={selectedGame} />}
-      {showEditPopup && <EditItemPopup game={selectedGame} />}
+      {showEditPopup && <EditItemPopup game={selectedGame} onCancel={handleCancelEdit} />}
     </div>
   );
 }

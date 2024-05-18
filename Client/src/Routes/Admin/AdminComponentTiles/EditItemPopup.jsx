@@ -1,46 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import config from "../../../config.json";
 
-export default function EditItemPopup({ game, onClose }) {
-  const [itemName, setItemName] = useState(game.title);
-  const [description, setDescription] = useState(game.description);
+export default function EditItemPopup({ game, other, onCancel }) {
+  const [itemName, setItemName] = useState("");
+  const [description, setDescription] = useState("");
+  const [itemId, setItemId] = useState("");
+
+  // Effect to determine which item is being edited
+  useEffect(() => {
+    if (game) {
+      setItemName(game.itemName || "");
+      setDescription(game.description || "");
+      setItemId(game._id);
+    } else if (other) {
+      setItemName(other.itemName || "");
+      setDescription(other.description || "");
+      setItemId(other._id);
+    }
+  }, [game, other]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement update logic here, for example:
-    const response = await fetch(config.backend_url`item/update/${game._id}`, {
+    const endpoint = `${config.backend_url}item/update/${itemId}`;
+    const response = await fetch(endpoint, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title: itemName, description }),
+      body: JSON.stringify({ itemName, description }), // Ensure these keys match your backend model
     });
-    if (response.ok) {
-      alert("Game updated successfully!");
-      onClose(); // Close the popup after successful update
+    if (response.status === 200) {
+      alert("Item updated successfully!");
+      onClose(); // Assuming onClose properly closes the modal
     } else {
-      alert("Failed to update game");
+      alert("Failed to update item");
     }
   };
 
   return (
     <div className="EditUserModal">
-      <button onClick={onClose} className="exit-btn">
+      <button onClick={onCancel} className="exit-btn">
         <i className="fa-solid fa-arrow-left"></i>
       </button>
       <form className="Form" onSubmit={handleSubmit}>
-        <h2 className="edit-header">Update Item's Information</h2>
-        <label className="form-label" htmlFor="itemName">
-          Title:
-        </label>
-        <input
-          type="text"
-          placeholder="Item Name"
-          id="itemName"
-          value={itemName} // Changed from newGameTitle to itemName
-          onChange={(e) => setItemName(e.target.value)}
-          required
-        />
+        <h2 className="edit-header">Update Item Information</h2>
+        <label className="form-label" htmlFor="itemName"></label>
+        <input type="text" placeholder="Item Name" id="itemName" value={itemName} onChange={(e) => setItemName(e.target.value)} required />
         <label className="form-label" htmlFor="description">
           Description:
         </label>
@@ -49,7 +54,7 @@ export default function EditItemPopup({ game, onClose }) {
           type="text"
           placeholder="Description"
           id="description"
-          value={description} // Changed from newGameDescription to description
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
         />
