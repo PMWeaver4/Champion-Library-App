@@ -86,9 +86,11 @@ router.put("/resetPassword", async (req, res) => {
       return res.status(404).send();
     }
 
-    if (!validateTokenEmail(email, resetToken)) {
+    const isValid = await validateTokenEmail(email.toLowerCase(), resetToken);
+    if (!isValid) {
       return res.status(401).send();
     }
+
     user.password = bcrypt.hashSync(password, 12);
     user.resetToken = undefined;
     user.resetTokenExp = undefined;
