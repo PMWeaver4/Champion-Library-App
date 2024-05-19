@@ -74,7 +74,7 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
       },
     });
     if (response.status !== 200) {
-      return alert("CANT DELETE THAT SHIT");
+      return alert("Unable to delete the notification");
     }
     alert("DELETED");
     getNotifications();
@@ -99,9 +99,9 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
       }),
     });
     if (response.status !== 200) {
-      return alert("CANT REFUSE");
+      return alert("Unable to decline request at this time");
     }
-    alert("DENIED");
+    alert("Request has been denied");
     getNotifications();
     handleCloseInboxPopup();
   }
@@ -124,7 +124,7 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
       }),
     });
     if (response.status !== 200) {
-      return alert("CANT accept");
+      return alert("Unable to accept request at this time");
     }
     alert("Accepted");
     getNotifications();

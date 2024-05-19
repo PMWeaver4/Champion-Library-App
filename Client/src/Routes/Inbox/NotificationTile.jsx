@@ -5,31 +5,6 @@ export default function NotificationTile({ notification, onReply, onDelete, firs
   const date = new Date(createdAt).toLocaleDateString();
   const time = new Date(createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-  const [notifications, setNotifications] = useState([]);
-
-  const handleDelete = () => {
-    Delete(ObjectId);
-  };
-
-  async function deleteNotification(id) {
-    try {
-      const response = await fetch(`${config.backend_url}notifications/delete/${ObjectId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        onDelete(Objectid);
-      } else {
-        console.error("Failed to delete notification");
-      }
-    } catch (error) {
-      console.error("Error deleting notification:", error);
-    }
-  }
-
   return (
     <div className="component_notification-tile">
       <div className="notification-content">
