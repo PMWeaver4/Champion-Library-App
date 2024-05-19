@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import config from "../../config.json";
+
+const formStateEnum = {
+  Validation: 0,
+  ResetPasswordForm: 1,
+  Done: 2,
+};
+
 export default function ResetPassword() {
   const [resetToken, setResetToken] = useState("");
   const [email, setEmail] = useState("");
@@ -8,17 +15,22 @@ export default function ResetPassword() {
     password: "",
     validatePassword: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [currentFormState, setCurrentFormState] = useState(formStateEnum.Validation);
   const formRef = useRef();
 
   useEffect(() => {
     const validateCredentials = async () => {
-      // ?email=genn0900@gmail.com&resetToken=c49174161666b24f6bc92bec8cdfd8aeca53aff5
-
       const searchParams = new URLSearchParams(location.search);
       const email = searchParams.get("email");
       const resetToken = searchParams.get("resetToken");
 
       if (!email || !resetToken) {
+        setErrorMessage(
+          "This link is invalid. Please verify that it was copied properly from email or please request another reset password link to continue."
+        ); // this has a text
+        setSuccessMessage("");
         // display error message. Missing email or reset token
         return;
       }
@@ -33,14 +45,17 @@ export default function ResetPassword() {
       });
 
       if (response.status !== 200) {
-        //display an error message. Invalid credentials
+        setErrorMessage("This link is either invalid or expired. Please request another reset password link to continue."); // this has a text
+        setSuccessMessage(""); //this stays empty
         return;
       }
-      // Display the reset password inputs
-      console.log("Success");
+      setSuccessMessage(""); //empty
+      setErrorMessage(""); //empty
       setEmail(email);
       setResetToken(resetToken);
+      setCurrentFormState(formStateEnum.ResetPasswordForm);
     };
+
     validateCredentials();
   }, []);
 
@@ -72,11 +87,57 @@ export default function ResetPassword() {
     });
 
     if (response.status !== 200) {
-      //display an error message. Invalid credentials
+      //display an error message. Expired while finishing
+      setSuccessMessage(""); //empty
+      setErrorMessage("Link is no longer valid, please request a new one to continue.");
       return;
     }
     // Display the reset password inputs
-    console.log("Success Update");
+    setSuccessMessage("Password successfully updated.");
+    setErrorMessage(""); //empty
+    setUpdatePasswordData({
+      password: "",
+      validatePassword: "",
+    });
+    setCurrentFormState(formStateEnum.Done);
+  }
+
+  function ValidationElement() {
+    if (errorMessage) {
+      return <></>;
+    }
+    return <h2>Please wait while we verify your credentials</h2>;
+  }
+
+  function ResetPasswordFormElement() {
+    return (
+      <>
+        <h2>Enter and confirm your new password.</h2>
+        <form ref={formRef} onSubmit={updatePassword}>
+          <div>
+            <i className="fa-solid fa-key"></i>
+            <input
+              type="password"
+              name="password"
+              value={updatePasswordData.password}
+              onChange={handleUpdatePasswordData}
+              placeholder="Password"
+            ></input>
+          </div>
+          <div>
+            <i className="fa-solid fa-key"></i>
+            <input
+              type="password"
+              name="validatePassword"
+              value={updatePasswordData.validatePassword}
+              onChange={handleUpdatePasswordData}
+              placeholder="Confirm Password"
+            ></input>
+          </div>
+          <button className="password-submit-btn">Enter</button>
+        </form>
+      </>
+    );
   }
 
   return (
@@ -88,38 +149,10 @@ export default function ResetPassword() {
         <div className="password-content">
           <img src="/images/web-security.png" />
           <h1>Reset Password</h1>
-          {email ? (
-            <>
-              <h2>Enter and confirm your new password.</h2>
-              <form ref={formRef} onSubmit={updatePassword}>
-                <div>
-                  <i className="fa-solid fa-key"></i>
-                  <input
-                    type="password"
-                    name="password"
-                    value={updatePasswordData.password}
-                    onChange={handleUpdatePasswordData}
-                    placeholder="Password"
-                  ></input>
-                </div>
-                <div>
-                  <i className="fa-solid fa-key"></i>
-                  <input
-                    type="password"
-                    name="validatePassword"
-                    value={updatePasswordData.validatePassword}
-                    onChange={handleUpdatePasswordData}
-                    placeholder="Confirm Password"
-                  ></input>
-                </div>
-                <button className="password-submit-btn">Enter</button>
-              </form>
-            </>
-          ) : (
-            <h2>Please wait while we verify your credentials</h2>
-          )}
-          {/* <p className="password-error">Error Message Here</p>
-          <p className="password-success">Success Message Here</p> */}
+          {currentFormState === formStateEnum.Validation && <ValidationElement errorMessage={errorMessage} />}
+          {currentFormState === formStateEnum.ResetPasswordForm && <ResetPasswordFormElement />}
+          {errorMessage && <p className="password-error">{errorMessage}</p>}
+          {successMessage && <p className="password-success">{successMessage}</p>}
           <NavLink to="/">
             <i className="fa-solid fa-chevron-left"></i> Back to Login
           </NavLink>

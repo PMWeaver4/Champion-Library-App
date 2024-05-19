@@ -206,6 +206,7 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                   })}
                 {activeTab === "borrowReq" &&
                   borrowReq.map((notification) => {
+                    console.log(borrowReq);
                     let isPendingReply = false;
                     if (
                       notification.notificationType === "Borrow" &&
@@ -218,28 +219,28 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                     if (notification.notificationType === "Return" && notification.request && notification.request.status === "Pending") {
                       isPendingReply = true;
                     }
-                    if (notification.notificationtype === "Return" && notification.request && notification.request.status === "Pending")
-                      return (
-                        <NotificationTile
-                          onReply={(notification) => {
-                            setWorkingOnNotification(notification);
-                            setInboxPopup(InboxPopupEnum.Reply);
-                          }}
-                          onDelete={(notification) => {
-                            setWorkingOnNotification(notification);
-                            setInboxPopup(InboxPopupEnum.Delete);
-                          }}
-                          key={notification._id}
-                          notification={notification}
-                          email={notification.requestingUser ? notification.requestingUser.email : notification.user.email}
-                          requestingUser={notification.requestingUser || ""}
-                          text={notification.message}
-                          createdAt={notification.createdAt}
-                          bookTitle={notification.book?.title}
-                          itemName={notification.item?.itemName}
-                          isPending={isPendingReply}
-                        />
-                      );
+                    return (
+                      <NotificationTile
+                        onReply={(notification) => {
+                          setWorkingOnNotification(notification);
+                          setInboxPopup(InboxPopupEnum.Reply);
+                        }}
+                        onDelete={(notification) => {
+                          setWorkingOnNotification(notification);
+                          setInboxPopup(InboxPopupEnum.Delete);
+                        }}
+                        key={notification._id}
+                        notification={notification}
+                        email={notification.requestingUser ? notification.requestingUser.email : notification.user.email}
+                        requestingUser={notification.requestingUser || ""}
+                        text={notification.message}
+                        createdAt={notification.createdAt}
+                        bookTitle={notification.book?.title}
+                        itemName={notification.item?.itemName}
+                        message={notification.message}
+                        isPending={isPendingReply}
+                      />
+                    );
                   })}
                 {activeTab === "returnReq" &&
                   returnReq.map((notification) => {
@@ -273,7 +274,8 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                         createdAt={notification.createdAt}
                         bookTitle={notification.book?.title}
                         itemName={notification.item?.itemName}
-                        isPending={notification.request && notification.request.status == "Pending"}
+                        message={notification.message}
+                        isPending={isPendingReply}
                       />
                     );
                   })}
