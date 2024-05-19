@@ -3,7 +3,6 @@ const Book = require("../models/book");
 
 //Create a new book ✅
 router.post("/create/", async (req, res) => {
-  console.log(req);
   try {
     const img = "/images/books.png";
     //assign book from schema
@@ -23,7 +22,7 @@ router.post("/create/", async (req, res) => {
       Created: newBook,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({
       Error: err,
     });
@@ -55,7 +54,7 @@ router.get("/all", async (req, res) => {
       Created: results,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -70,7 +69,7 @@ router.get("/allavailable", async (req, res) => {
 
     res.status(200).json(availableBooks);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ Error: err.message }); // More descriptive error messages
   }
 });
@@ -90,7 +89,7 @@ router.get("/book/:_id", async (req, res) => {
 
     res.status(200).json(results);
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -113,7 +112,6 @@ router.get("/filter/", async (req, res) => {
     if (user != null) {
       whatever.user = user;
     }
-    console.log(`this is the ${genre} and the ${author}`);
 
     let results = await Book.find(whatever).sort({ createdAt: 1 }); //sort by when it was created, +1, shows newest first
 
@@ -121,7 +119,7 @@ router.get("/filter/", async (req, res) => {
       Results: results,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({
       Error: err,
     });

@@ -92,7 +92,6 @@ export default function LoginSignup() {
         // handle successful login
         console.log("User LoggedIn Successfully");
         // const data = await response.json();
-        // console.log(data);
         //data are never store anywhereohbruh
         setEmail(data.User.email);
         setToken(data.Token);
@@ -103,11 +102,9 @@ export default function LoginSignup() {
         setApproved(data.User.approved);
         navigate("/home");
         return;
-      }
-      else {
+      } else {
         setLoginError("Email or Password credentials are incorrect. Please try again.");
         console.log("Login Error:", data.message); // Log error message to console
-
       }
     } catch (error) {
       console.log("User Login Failed");
@@ -137,15 +134,12 @@ export default function LoginSignup() {
         </div>
         {/* approval message */}
         <div>
-        {signupPending && 
-        <div className="Approval-message">
-        <p> 
-          Thank you for signing up! We've received your request and are currently reviewing it.
-        </p>
-          </div>
-          }
+          {signupPending && (
+            <div className="Approval-message">
+              <p>Thank you for signing up! We've received your request and are currently reviewing it.</p>
+            </div>
+          )}
           {signupError && <p>{signupError}</p>}
-          
         </div>
         <div id="loginForm" className="tabContent" style={{ display: activeTab === "login" ? "block" : "none" }}>
           <form onSubmit={handleLoginSubmit}>
@@ -180,10 +174,12 @@ export default function LoginSignup() {
               Login
             </button>
             {/* Render error message if loginError is not empty */}
-    {/* {loginError && <p className="error-message"> Email or Password credentials are incorrect. Please try again.</p>} */}
+            {/* {loginError && <p className="error-message"> Email or Password credentials are incorrect. Please try again.</p>} */}
           </form>
           {loginError && <p>{loginError}</p>}
-          <NavLink to="/forgotPassword" className="password-recovery">Forgot Password?</NavLink>
+          <NavLink to="/forgotPassword" className="password-recovery">
+            Forgot Password?
+          </NavLink>
         </div>
 
         <div id="signupForm" className="tab-content" style={{ display: activeTab === "signup" ? "block" : "none" }}>
@@ -242,4 +238,3 @@ export default function LoginSignup() {
     </main>
   );
 }
-

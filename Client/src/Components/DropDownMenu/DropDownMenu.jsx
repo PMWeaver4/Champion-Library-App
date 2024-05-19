@@ -12,7 +12,7 @@ export default function DropDownMenu() {
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const response = await fetch(`${config.backend_url}user/all/`, {
+        const response = await fetch(`${config.backend_url}user/allAccepted/`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -38,7 +38,7 @@ export default function DropDownMenu() {
       <select name="dropdown" value={selectedUser} onChange={handleChangeSelectedUser}>
         <option value=""> Select User </option>
         {users.map((user) => (
-          <option value={user.email}>
+          <option key={user.email} value={user.email}>
             {user.firstName} {user.lastName}
           </option>
         ))}

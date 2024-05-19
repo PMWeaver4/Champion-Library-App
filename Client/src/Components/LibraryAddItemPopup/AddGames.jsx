@@ -32,7 +32,6 @@ export default function AddGames({ onClosePopup }) {
       })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Game added:", data);
         alert(`${gameData.itemName} was successfully added!`);
         onClosePopup();
         setItemName("");
