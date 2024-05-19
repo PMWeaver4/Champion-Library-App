@@ -58,12 +58,71 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
     setIsMenuOpen(!isMenuOpen);
   }
 
-  // Req = request
-  const tabs = [
-    { id: "allRequest", title: "All" },
-    { id: "borrowReq", title: "Borrow Request" },
-    { id: "returnReq", title: "Return Request" },
-  ];
+  async function onDeleteNotification() {
+    const response = await fetch(`${config.backend_url}notifications/delete/${workingOnNotification._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    if (response.status !== 200) {
+      return alert("Unable to delete the notification");
+    }
+    alert("DELETED");
+    getNotifications();
+    handleCloseInboxPopup();
+  }
+
+  async function onDenyRequest() {
+    let url = `${config.backend_url}notifications/updateBorrow`;
+    if (workingOnNotification.notificationType === "Return") {
+      handleCloseInboxPopup();
+      return;
+    }
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify({
+        book: workingOnNotification.request.book._id,
+        newRequestStatus: "Declined",
+      }),
+    });
+    if (response.status !== 200) {
+      return alert("Unable to decline request at this time");
+    }
+    alert("Request has been denied");
+    getNotifications();
+    handleCloseInboxPopup();
+  }
+
+  async function onAcceptRequest() {
+    let url = `${config.backend_url}notifications/updateBorrow`;
+    if (workingOnNotification.notificationType === "Return") {
+      url = `${config.backend_url}notifications/updateReturn`;
+    }
+
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify({
+        book: workingOnNotification.request.book._id,
+        newRequestStatus: "Accepted",
+      }),
+    });
+    if (response.status !== 200) {
+      return alert("Unable to accept request at this time");
+    }
+    alert("Accepted");
+    getNotifications();
+    handleCloseInboxPopup();
+  }
 
   // handle inbox popup
 
@@ -144,8 +203,6 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
                       itemName={notification.item?.itemName}
                     />
                   ))}
-
-                {/* need to add a div later to create a border between tabs and notifications */}
               </div>
             </div>
           </div>
