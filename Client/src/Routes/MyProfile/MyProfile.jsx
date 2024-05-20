@@ -21,9 +21,9 @@ import { Navigate, useNavigate, NavLink } from "react-router-dom";
 // TODO: displays message for updating successfully✅
 // TODO: can delete account ✅
 // TODO Popup asking are you sure you want to delete?✅
-// TODO: display success or fail message
+// TODO: display success or fail message ✅
 // TODO redirect to login ✅
-// TODO finish styling
+// TODO finish styling ✅
 
 export default function MyProfile() {
   // State variables for user data

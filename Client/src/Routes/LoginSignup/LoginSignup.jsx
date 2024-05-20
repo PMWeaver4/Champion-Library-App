@@ -10,6 +10,7 @@ import { isLoggedIn, setEmail, setFirstName, setLastName, setToken, setUserId, s
 // TODO need to check on password assistance. ✅
 // TODO add required attribute  ✅
 // Todo error message for incorrect password and email  ✅
+// TODO - Allow user to click out of signup message
 
 // Component for login page
 export default function LoginSignup() {
