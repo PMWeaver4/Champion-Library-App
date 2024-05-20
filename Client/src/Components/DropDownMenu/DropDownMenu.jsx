@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getToken } from "../../localStorage";
 import config from "../../config.json";
 export default function DropDownMenu() {
-  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUserEmail, setSelectedUserEmail] = useState("");
   const [users, setUsers] = useState([]);
 
   const handleChangeSelectedUser = (event) => {
-    setSelectedUser(event.target.value);
+    const email = event.target.value;
+    setSelectedUserEmail(email);
+    const user = users.find(user => user.email === email);
+    
   };
+  
 
   useEffect(() => {
     async function fetchUsers() {
@@ -35,7 +39,7 @@ export default function DropDownMenu() {
   return (
     <div>
       <label htmlFor="dropdown">To: </label>
-      <select name="dropdown" value={selectedUser} onChange={handleChangeSelectedUser}>
+      <select name="dropdown" value={selectedUserEmail} onChange={handleChangeSelectedUser}>
         <option value=""> Select User </option>
         {users.map((user) => (
           <option key={user.email} value={user.email}>
