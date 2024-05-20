@@ -1,3 +1,4 @@
+
 import React, { useState } from "react"
 import DropDownMenu from "../../Components/DropDownMenu/DropDownMenu";
 import config from "../../config.json"; 
@@ -42,6 +43,7 @@ export default function EmailPopup({ onClose}) {
     }
   };
 
+
   return (
     <div className="email-popup">
       <div className="email-popup-content">
@@ -49,8 +51,10 @@ export default function EmailPopup({ onClose}) {
           <i className="fa-solid fa-xmark"></i>
         </button>
         <h1>Send an Email</h1>
-        <form>
-          <div><DropDownMenu/> </div>
+        <form onSubmit={sendMessage}>
+          <div>
+            <DropDownMenu />{" "}
+          </div>
           <label htmlFor="emailTextarea">Message:</label>
           <textarea id="email-textarea" name="emailTextarea" required={true}></textarea>
           <button className="email-popup-btn">Send Email</button>

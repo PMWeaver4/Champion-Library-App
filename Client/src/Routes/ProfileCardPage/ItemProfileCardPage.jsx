@@ -24,7 +24,6 @@ export default function ItemProfileCardPage() {
         }
         const data = await response.json();
         setItem(data);
-        console.log(data)
       } catch (error) {
         console.error("Failed to fetch item:", error.message);
       }

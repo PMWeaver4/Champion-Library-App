@@ -31,7 +31,6 @@ export default function AddItems({ onClosePopup }) {
       })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Item added:", data);
         alert(`${itemData.itemName} was successfully added!`);
         onClosePopup();
         setNewMiscTitle("");

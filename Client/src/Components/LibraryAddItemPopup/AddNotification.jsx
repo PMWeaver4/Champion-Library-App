@@ -38,7 +38,6 @@ setRequestedItem("thatthing");
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Notification created:", data);
       alert(`${notificationData.owner.firstName} + ${notificationData.owner.lastName} has been notified of your request for ${requestedBook}${requestedItem}!`);
       
     })

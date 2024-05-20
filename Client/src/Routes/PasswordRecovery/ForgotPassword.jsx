@@ -23,16 +23,16 @@ export default function ForgotPassword() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: resetPasswordData.email }),
     });
-    setResetPasswordData({ email: "" });
-    if (response.status !== 200) {
+    if (response.status === 404) {
       // render error message
-      setErrorMessage("oooo"); // this has a text
+      setErrorMessage("User not found, please try again or sign up."); // this has a text
       setSuccessMessage(""); //this stays empty
       return;
     }
     // render success message
-    setSuccessMessage("aaaa"); // this has a text
+    setSuccessMessage("Reset password instructions have been sent to your email. This may take up to 5 minutes to recieve.");
     setErrorMessage(""); //this stays empty
+    setResetPasswordData({ email: "" });
   }
   return (
     <main className="PasswordPage">
@@ -42,16 +42,21 @@ export default function ForgotPassword() {
       <div className="_background">
         <div className="password-content">
           <img src="/images/mobile-password-forgot.png" />
-          <h1>Forgot Password</h1>
-          <h2>Enter your email and we'll send you a link to reset your password.</h2>
-          <form onSubmit={resetPassword}>
-            <div>
-              <i className="fa-solid fa-envelope"></i>
-              <input name="email" value={resetPasswordData.email} onChange={handleResetPasswordData} placeholder="Email"></input>
-            </div>
+          {!successMessage && (
+            <>
+              <h1>Forgot Password</h1>
+              <h2>Enter your email and we'll send you a link to reset your password.</h2>
 
-            <button className="password-submit-btn">Submit</button>
-          </form>
+              <form onSubmit={resetPassword}>
+                <div>
+                  <i className="fa-solid fa-envelope"></i>
+                  <input name="email" value={resetPasswordData.email} onChange={handleResetPasswordData} placeholder="Email"></input>
+                </div>
+
+                <button className="password-submit-btn">Submit</button>
+              </form>
+            </>
+          )}
 
           {errorMessage && <p className="password-error">{errorMessage}</p>}
           {successMessage && <p className="password-success">{successMessage}</p>}

@@ -24,7 +24,6 @@ export default function SearchBar() {
       },
     });
     const data = await response.json(); // Parse the JSON response
-    console.log(data);
     setOther(data); // Set the items state to the received data
     setShowResultsPopup(true); // Show the results popup
   };

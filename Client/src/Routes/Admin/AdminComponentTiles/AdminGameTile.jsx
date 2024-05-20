@@ -1,4 +1,4 @@
-export default function AdminGameTile({game}) {
+export default function AdminGameTile({game, onEditGame, onDeleteGame}) {
   const MAX_CHAR = 12;
   return (
     <div className="admin-item-container">
@@ -16,8 +16,8 @@ export default function AdminGameTile({game}) {
         </div>
 
         <div className="admin-action-buttons">
-          <button className="admin-edit-item">Edit</button>
-          <button className="admin-delete-item">Delete</button>
+          <button className="admin-edit-item" onClick={() => onEditGame(game)}>Edit</button>
+          <button className="admin-delete-item" onClick={onDeleteGame}>Delete</button>
         </div>
       </div>
     </div>

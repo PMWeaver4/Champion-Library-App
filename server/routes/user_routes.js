@@ -86,9 +86,11 @@ router.put("/resetPassword", async (req, res) => {
       return res.status(404).send();
     }
 
-    if (!validateTokenEmail(email, resetToken)) {
+    const isValid = await validateTokenEmail(email.toLowerCase(), resetToken);
+    if (!isValid) {
       return res.status(401).send();
     }
+
     user.password = bcrypt.hashSync(password, 12);
     user.resetToken = undefined;
     user.resetTokenExp = undefined;
@@ -148,8 +150,6 @@ router.post("/create/", async (req, res) => {
     // isolates admin emails so we can send admin related emails to admins
     const admins = await User.find({ isAdmin: true }, { email: true });
     const adminEmails = admins.map((admin) => admin.email);
-    console.log(admins);
-    console.log(adminEmails);
 
     // send email to the user signing up
     Email.sendWithTemplate({
@@ -177,7 +177,7 @@ router.post("/create/", async (req, res) => {
       // token removed, we should not be sending the token back either at the creation of user since the user needs to be approved, token should be returned when user is allowed to login
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({
       Error: err,
     });
@@ -194,7 +194,7 @@ router.get("/allAccepted/", async (req, res) => {
       Created: results,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -212,7 +212,7 @@ router.get("/allPending/", async (req, res) => {
       Created: results,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     res.status(500).json({
       Error: err,
@@ -255,7 +255,7 @@ router.post("/login/", async (req, res) => {
       Token: token,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({
       Error: err.message,
     });
@@ -321,7 +321,7 @@ router.put("/adminUpdate/:userId", Validate, async (req, res) => {
       }
 
       const isApproving = usersUpdatedInformation.approved !== "Pending" && user.approved === "Pending";
-      
+
       // Update the user
       user = await User.findByIdAndUpdate(userId, usersUpdatedInformation, { new: true });
 
@@ -350,7 +350,6 @@ router.put("/adminUpdate/:userId", Validate, async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 router.delete("/delete/:_id", Validate, async (req, res) => {
   try {
