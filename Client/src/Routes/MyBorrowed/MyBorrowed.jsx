@@ -20,12 +20,17 @@ const MyBorrowedPopupsEnum = {
 
 export default function MyBorrowed() {
   const [borrowedPopupState, setBorrowedPopupState] = useState(MyBorrowedPopupsEnum.None);
+  const [books, setBooks] = useState([]); // State to store borrowed books
+  const [otherItems, setOtherItems] = useState([]); // State to store borrowed items
+  const [games, setGames] = useState([]); // State to store borrowed games
 
+  // Function to open the appropriate popup
   function openBorrowedPopup(newState) {
     setBorrowedPopupState(newState);
   }
 
-  function getCurrentOpennedPopup() {
+  // Function to return the currently opened popup component
+  function getCurrentOpenedPopup() {
     switch (borrowedPopupState) {
       case MyBorrowedPopupsEnum.AllBooks:
         return <MyBorrowedBooks onClose={closeBorrowedPopup} />;
@@ -38,87 +43,86 @@ export default function MyBorrowed() {
     }
   }
 
+  // Function to close the popup
   function closeBorrowedPopup() {
     setBorrowedPopupState(MyBorrowedPopupsEnum.None);
   }
-    //? -------------- All Users BORROWED Books---------------
-    const [books, setBooks] = useState([]);
-    useEffect(() => {
-      const fetchBorrowedBooks = async () => {
-        try {
-          const response = await fetch(config.backend_url + `library/borrowedBooks/${getUserId()}`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-            },
-          });
-          if (!response.status === 200) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
-          setBooks(data.Results);
-        } catch (error) {
-          console.error("Failed to fetch books:", error);
-        }
-      };
-  
-      fetchBorrowedBooks();
-    }, []);
-  
-    //? -------------- All users BORROWED items---------------
 
-    const [otherItems, setOtherItems] = useState([]);
-  
-    async function getAllUsersBorrowedItems() {
+  // Fetch borrowed books
+  const fetchBorrowedBooks = async () => {
+    try {
+      const response = await fetch(config.backend_url + `library/borrowedBooks/${getUserId()}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      if (response.status !== 200){
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      console.log(data);
+      setBooks(data.books);
+    } catch (error) {
+      console.error("Failed to fetch borrowed books:", error);
+    }
+  } 
+
+  // Fetch borrowed items
+  const fetchBorrowedItems = async () => {
+    try {
       const response = await fetch(config.backend_url + `library/borrowedItems/${getUserId()}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
       });
-      const itemData = await response.json(); // the response is directly an array of items
-      if (response.status !== 200) {
-        console.error("Failed to fetch items");
-        return;
+      if (!response.ok) {
+        throw new Error("Failed to fetch items");
       }
-      setOtherItems(itemData);
-
+      const data = await response.json();
+      setOtherItems(data.items);
+    } catch (error) {
+      console.error("Failed to fetch items:", error);
     }
-  
-    useEffect(() => {
-      getAllUsersBorrowedItems();
-    }, []);
-  
-       //? -------------- All users BORROWED games---------------
+  };
 
-       const [games, setGames] = useState([]);
-  
-       //change get request or create separate for items and games?
-       async function getAllUsersBorrowedGames() {
-         const response = await fetch(config.backend_url + `library/borrowedGames/${getUserId()}`, {
-           method: "GET",
-           headers: {
-             Authorization: `Bearer ${getToken()}`,
-           },
-         });
-         const gameData = await response.json(); // the response is directly an array of items
-         if (response.status !== 200) {
-           console.error("Failed to fetch items");
-           return;
-         }
-         setGames(gameData);
-   
-       }
-     
-       useEffect(() => {
-         getAllUsersBorrowedGames();
-       }, []);
+  // Fetch borrowed games
+  const fetchBorrowedGames = async () => {
+    try {
+      const response = await fetch(config.backend_url + `library/borrowedGames/${getUserId()}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch games");
+      }
+      const data = await response.json();
+      setGames(data.games);
+    } catch (error) {
+      console.error("Failed to fetch games:", error);
+    }
+  };
 
+  // useEffect hooks to fetch data when the component mounts
+  useEffect(() => {
+    fetchBorrowedBooks();
+  }, []);
+
+  useEffect(() => {
+    fetchBorrowedItems();
+  }, []);
+
+  useEffect(() => {
+    fetchBorrowedGames();
+  }, []);
 
   return (
     <main className="borrowed-page">
       <PageTemplate pageTitle="Borrowed">
-        {borrowedPopupState == MyBorrowedPopupsEnum.None && (
+        {borrowedPopupState === MyBorrowedPopupsEnum.None && (
           <div className="borrowed-body">
             <div className="library-msg"> Currently Borrowed</div>
             <nav className="library-nav">
@@ -143,7 +147,11 @@ export default function MyBorrowed() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {books.map((book, index) => (
+                    <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <BookTile book={book} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -158,7 +166,11 @@ export default function MyBorrowed() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {games.map((game, index) => (
+                    <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <GameTile game={game} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -173,7 +185,11 @@ export default function MyBorrowed() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {otherItems.map((other, index) => (
+                    <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <OtherTile other={other} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -181,7 +197,7 @@ export default function MyBorrowed() {
             </div>
           </div>
         )}
-        {borrowedPopupState !== MyBorrowedPopupsEnum.None && getCurrentOpennedPopup()}
+        {borrowedPopupState !== MyBorrowedPopupsEnum.None && getCurrentOpenedPopup()}
       </PageTemplate>
     </main>
   );
