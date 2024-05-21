@@ -42,78 +42,76 @@ export default function MyLoaned() {
     setLoanedPopupState(MyLoanedPopupsEnum.None);
   }
 
-    //? -------------- All Users LOANED Books---------------
-    const [books, setBooks] = useState([]);
-    useEffect(() => {
-      const fetchLoanedBooks = async () => {
-        try {
-          const response = await fetch(config.backend_url + `library/loanedBooks/${getUserId()}`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-            },
-          });
-          if (!response.status === 200) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
-          setBooks(data.Results);
-        } catch (error) {
-          console.error("Failed to fetch loaned books:", error);
+  //? -------------- All Users LOANED Books---------------
+  const [books, setBooks] = useState([]);
+  useEffect(() => {
+    const fetchLoanedBooks = async () => {
+      try {
+        const response = await fetch(config.backend_url + `library/loanedBooks/${getUserId()}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        });
+        if (!response.status === 200) {
+          throw new Error("Network response was not ok");
         }
-      };
-  
-      fetchLoanedBooks();
-    }, []);
-  
-    //? -------------- All users LOANED items---------------
-
-    const [otherItems, setOtherItems] = useState([]);
-  
-    async function getAllUsersLoanedItems() {
-      const response = await fetch(config.backend_url + `library/loanedItems/${getUserId()}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
-      const itemData = await response.json(); // the response is directly an array of items
-      if (response.status !== 200) {
-        console.error("Failed to fetch items");
-        return;
+        const data = await response.json();
+        setBooks(data.books);
+      } catch (error) {
+        console.error("Failed to fetch loaned books:", error);
       }
-      setOtherItems(itemData);
+    };
 
+    fetchLoanedBooks();
+  }, []);
+
+  //? -------------- All users LOANED items---------------
+
+  const [otherItems, setOtherItems] = useState([]);
+
+  async function getAllUsersLoanedItems() {
+    const response = await fetch(config.backend_url + `library/loanedItems/${getUserId()}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const itemData = await response.json(); // the response is directly an array of items
+    if (response.status !== 200) {
+      console.error("Failed to fetch items");
+      return;
     }
-  
-    useEffect(() => {
-      getAllUsersLoanedItems();
-    }, []);
-  
-       //? -------------- All users LOANED games---------------
+    setOtherItems(itemData.items);
+  }
 
-       const [games, setGames] = useState([]);
-  
-       //change get request or create separate for items and games?
-       async function getAllUsersLoanedGames() {
-         const response = await fetch(config.backend_url + `library/loanedGames/${getUserId()}`, {
-           method: "GET",
-           headers: {
-             Authorization: `Bearer ${getToken()}`,
-           },
-         });
-         const gameData = await response.json(); // the response is directly an array of items
-         if (response.status !== 200) {
-           console.error("Failed to fetch items");
-           return;
-         }
-         setGames(gameData);
-   
-       }
-     
-       useEffect(() => {
-         getAllUsersLoanedGames();
-       }, []);
+  useEffect(() => {
+    getAllUsersLoanedItems();
+  }, []);
+
+  //? -------------- All users LOANED games---------------
+
+  const [games, setGames] = useState([]);
+
+  //change get request or create separate for items and games?
+  async function getAllUsersLoanedGames() {
+    const response = await fetch(config.backend_url + `library/loanedGames/${getUserId()}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const gameData = await response.json(); // the response is directly an array of items
+    if (response.status !== 200) {
+      console.error("Failed to fetch items");
+      return;
+    }
+    setGames(gameData.games);
+  }
+
+  useEffect(() => {
+    getAllUsersLoanedGames();
+  }, []);
 
   return (
     <main className="loaned-page">
@@ -143,8 +141,11 @@ export default function MyLoaned() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                  </CarouselItem>
+                  {books.map((book, index) => (
+                    <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <BookTile book={book} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -159,7 +160,11 @@ export default function MyLoaned() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {games.map((game, index) => (
+                    <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <GameTile game={game} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
@@ -174,7 +179,11 @@ export default function MyLoaned() {
               </div>
               <Carousel className="w-8/12 self-center">
                 <CarouselContent>
-                  <CarouselItem className="basis-1/3 md:basis-1/4 lg:basis-1/5"></CarouselItem>
+                  {otherItems.map((other, index) => (
+                    <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
+                      <OtherTile other={other} />
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />
