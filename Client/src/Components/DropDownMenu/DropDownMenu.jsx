@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getToken } from "../../localStorage";
 import config from "../../config.json";
-export default function DropDownMenu() {
+
+
+export default function DropDownMenu({ onChange }) {
   const [selectedUserEmail, setSelectedUserEmail] = useState("");
   const [users, setUsers] = useState([]);
 
@@ -9,7 +11,7 @@ export default function DropDownMenu() {
     const email = event.target.value;
     setSelectedUserEmail(email);
     const user = users.find(user => user.email === email);
-    
+    onChange(user);
   };
   
 

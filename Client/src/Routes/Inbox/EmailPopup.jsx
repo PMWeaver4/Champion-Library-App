@@ -24,7 +24,7 @@ export default function EmailPopup({ onClose}) {
     console.log("Submitting message:", { selectedUser, message }); // Debugging log
     if (selectedUser && message) {
       try {
-        const response = await fetch(`${config.backend_url}user/notifications/message`, {
+        const response = await fetch(`${config.backend_url}/notifications/notifications/message`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
