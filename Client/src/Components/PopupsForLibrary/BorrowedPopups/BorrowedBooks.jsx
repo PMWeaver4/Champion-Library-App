@@ -1,22 +1,4 @@
 
-// import PageTemplate from "../../PageTemplate/PageTemplate";
-
-// export default function MyBorrowedBooks({ onClose }) {
-//   return (
-//     <div className="my-popups-page">
-//         <div className="my-popups-body">
-//           <div className="view-all-headers">
-//             <button onClick={onClose}>
-//               <i className="fa-solid fa-arrow-left"></i>
-//             </button>
-//             <div className="library-popup-msg">All Borrowed Books</div>
-    
-//           </div>
-//           <div className="view-all-grid"></div>
-//         </div>
-//     </div>
-//   );
-// }
 import { useEffect, useState } from "react";
 import AddBooks from "../../LibraryAddItemPopup/AddBooks";
 import BookTile from "../../ItemTIles/BookTile";
@@ -48,7 +30,7 @@ export default function MyBooks({ onClose, handleAddBookClick }) {
       console.error("Failed to fetch books");
       return;
     }
-    setBorrowedBooks(bookData.Results);
+    setBorrowedBooks(bookData.books);
   }
 
   useEffect(() => {
