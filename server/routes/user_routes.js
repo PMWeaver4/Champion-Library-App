@@ -16,6 +16,29 @@ const Validate = require("../middleware/validate");
 
 const { Email, EmailTypes } = require("../Email/Email");
 
+
+router.post('/send-email', async (req, res) => {
+  const { recipient, sender_fullname, sender_email, message } = req.body;
+
+  try {
+    await Email.sendWithTemplate({
+      recipient: recipient,
+      email_type: EmailTypes.UserSendingEmail,
+      template_variables: {
+        sender_fullname: sender_fullname,
+        sender_email: sender_email,
+        message: message,
+      },
+    });
+
+    res.status(200).send({ message: 'Email sent successfully' });
+  } catch (error) {
+    console.error('Error sending email with template: ', error);
+    res.status(500).send({ message: 'Failed to send email', error: error.message });
+  }
+});
+
+
 // password recovery
 // validate that a user has that email and token function
 async function validateTokenEmail(email, token) {
