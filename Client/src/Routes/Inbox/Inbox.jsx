@@ -87,16 +87,24 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
       handleCloseInboxPopup();
       return;
     }
+
+    let requestData = {
+      newRequestStatus: "Declined",
+    };
+
+    if (workingOnNotification.request.book) {
+      requestData.book = workingOnNotification.request.book._id;
+    } else if (workingOnNotification.request.item) {
+      requestData.item = workingOnNotification.request.item._id;
+    }
+
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify({
-        book: workingOnNotification.request.book._id,
-        newRequestStatus: "Declined",
-      }),
+      body: JSON.stringify(requestData),
     });
     if (response.status !== 200) {
       return alert("Unable to decline request at this time");
@@ -112,16 +120,23 @@ export default function Inbox({ toggleMenu, pageTitle, toggleEmailPopup }) {
       url = `${config.backend_url}notifications/updateReturn`;
     }
 
+    let requestData = {
+      newRequestStatus: "Accepted",
+    };
+
+    if (workingOnNotification.request.book) {
+      requestData.book = workingOnNotification.request.book._id;
+    } else if (workingOnNotification.request.item) {
+      requestData.item = workingOnNotification.request.item._id;
+    }
+
     const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getToken()}`,
       },
-      body: JSON.stringify({
-        book: workingOnNotification.request.book._id,
-        newRequestStatus: "Accepted",
-      }),
+      body: JSON.stringify(requestData),
     });
     if (response.status !== 200) {
       return alert("Unable to accept request at this time");

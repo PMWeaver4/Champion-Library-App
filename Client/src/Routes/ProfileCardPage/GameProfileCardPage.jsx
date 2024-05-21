@@ -9,26 +9,25 @@ import GamesProfileCard from "../../Components/ItemProfileCard/GamesProfileCard"
 export default function GameProfileCardPage() {
   const { gameId } = useParams();
   const [game, setGame] = useState(null);
-
-  useEffect(() => {
-    async function fetchGame() {
-      try {
-        const response = await fetch(`${config.backend_url}item/item/${gameId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`,
-          },
-        });
-        if (response.status !== 200) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setGame(data);
-      } catch (error) {
-        console.error("Failed to fetch game:", error.message);
+  async function fetchGame() {
+    try {
+      const response = await fetch(`${config.backend_url}item/item/${gameId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      if (response.status !== 200) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      const data = await response.json();
+      setGame(data);
+    } catch (error) {
+      console.error("Failed to fetch game:", error.message);
     }
+  }
+  useEffect(() => {
     fetchGame();
   }, [gameId]);
 
@@ -39,7 +38,7 @@ export default function GameProfileCardPage() {
   ) : (
     <div className="GameProfileCardPage">
       <div className="card-container">
-      <GamesProfileCard game={game} />
+        <GamesProfileCard game={game} onBorrow={fetchGame} onReturn={fetchGame} />
       </div>
     </div>
   );
