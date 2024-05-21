@@ -52,10 +52,11 @@ export default function MyLibrary() {
             Authorization: `Bearer ${getToken()}`,
           },
         });
-        if (!response.status === 200) {
+        if (response.status !== 200) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        console.log(data);
         setBooks(data.Results);
       } catch (error) {
         console.error("Failed to fetch books:", error);

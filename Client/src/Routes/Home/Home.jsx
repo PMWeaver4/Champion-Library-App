@@ -8,7 +8,6 @@ import { getToken, isLoggedIn } from "../../localStorage";
 import GameTile from "../../Components/ItemTIles/GameTile";
 import OtherTile from "../../Components/ItemTIles/OtherTile";
 import BookProfileCard from "../../Components/ItemProfileCard/BookProfileCard";
-import GamesProfileCard from "../../Components/ItemProfileCard/GamesProfileCard";
 
 // SETTINGS CONSTANTS
 const MAX_NUM_ELEMENTS_IN_CAROUSEL = 10;
@@ -57,10 +56,7 @@ export default function Home() {
 
   // ?-------------------------------------------Fetching selected game/item to display profile card -----------------------
 
-
-
   //?-----------------------------------------Fetching Books To Display-------------------------------------------------
-
 
   async function getAvailableBooks() {
     const response = await fetch(config.backend_url + "book/allavailable", {
@@ -133,7 +129,7 @@ export default function Home() {
                   {/* Map over books array and create a CarouselItem for each book */}
                   {books.map((book) => (
                     <CarouselItem key={book._id} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
-                      <BookTile book={book} onClick={()=> handleBookClick(book._id)} />
+                      <BookTile book={book} onClick={() => handleBookClick(book._id)} />
                       {/* trouble shooting here */}
                     </CarouselItem>
                   ))}

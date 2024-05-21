@@ -14,6 +14,25 @@ export default function BookProfileCard({ book, onBorrow, onReturn }) {
 
   const navigate = useNavigate();
 
+  async function returnBook() {
+    const response = await fetch(`${config.backend_url}notifications/updateReturn`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify({
+        book: book._id,
+        newRequestStatus: "Pending",
+      }),
+    });
+    if (response.status !== 200) {
+      return alert("ERROR WHILE RETURNING");
+    }
+    alert("RETURN STARTED");
+    onReturn();
+  }
+
   async function borrowBook() {
     try {
       // Construct book data from state
@@ -63,7 +82,7 @@ export default function BookProfileCard({ book, onBorrow, onReturn }) {
             </button>
           )}
           {canReturn && (
-            <button className="return-button" onClick={onReturn}>
+            <button className="return-button" onClick={returnBook}>
               Return
             </button>
           )}

@@ -1,4 +1,10 @@
 export default function ReplyPopup({ notification, onYes, onNo, onClose }) {
+  let itemText = "";
+  if (notification.request.book) {
+    itemText = notification.request.book.title;
+  } else if (notification.request.item) {
+    itemText = notification.request.item.itemName;
+  }
   return (
     <div className="InboxPopup">
       <div className="inbox-popup-content">
@@ -10,7 +16,7 @@ export default function ReplyPopup({ notification, onYes, onNo, onClose }) {
           <em>
             {notification.requestingUser.firstName} {notification.requestingUser.lastName}'s
           </em>{" "}
-          request for <em>{notification.request.book.title || notification.request.item.itemName}</em>?
+          request for <em>{itemText}</em>?
         </h2>
         <div className="inbox-buttons">
           <button className="yes-button" onClick={onYes}>

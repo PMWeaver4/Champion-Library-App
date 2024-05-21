@@ -8,37 +8,34 @@ import OtherProfileCard from "../../Components/ItemProfileCard/OtherProfileCard"
 export default function ItemProfileCardPage() {
   const { itemId } = useParams();
   const [item, setItem] = useState(null);
-
-  useEffect(() => {
-    async function fetchItem() {
-      try {
-        const response = await fetch(`${config.backend_url}item/item/${itemId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`,
-          },
-        });
-        if (response.status !== 200) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setItem(data);
-      } catch (error) {
-        console.error("Failed to fetch item:", error.message);
+  async function fetchItem() {
+    try {
+      const response = await fetch(`${config.backend_url}item/item/${itemId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
+      if (response.status !== 200) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      const data = await response.json();
+      setItem(data);
+    } catch (error) {
+      console.error("Failed to fetch item:", error.message);
     }
+  }
+  useEffect(() => {
     fetchItem();
   }, [itemId]);
 
   return !item ? (
-    <div className="ItemProfileCardPage">
-     Item is loading
-    </div>
+    <div className="ItemProfileCardPage">Item is loading</div>
   ) : (
     <div className="ItemProfileCardPage">
       <div className="card-container">
-      <OtherProfileCard item={item}/>
+        <OtherProfileCard item={item} onBorrow={fetchItem} onReturn={fetchItem} />
       </div>
     </div>
   );
