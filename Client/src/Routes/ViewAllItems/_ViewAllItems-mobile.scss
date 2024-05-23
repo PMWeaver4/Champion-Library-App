@@ -49,7 +49,8 @@
       justify-items: center;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-      padding: 2rem;
+      padding: .5rem 2rem;
+      margin-top: 1.5rem;
       overflow-y: auto;
       overflow-x: hidden;
     }

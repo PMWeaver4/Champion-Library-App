@@ -30,21 +30,23 @@ export default function SearchBar() {
 
   return (
     <div className="search-bar-component">
-      <form className="search-form" onSubmit={searchGames}>
-        <input
-          id="searchbar-input"
-          type="text"
-          placeholder="Search by name, or description of game"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)} // Update state on input change
-        />
-        <button className="search-btn">
-          <i className="fa-solid fa-magnifying-glass"></i>
+      <div className="inputButton-container">
+        <form className="search-form" onSubmit={searchGames}>
+          <input
+            id="searchbar-input"
+            type="text"
+            placeholder="Search by name, or description of game"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // Update state on input change
+          />
+          <button className="search-btn">
+            <i className="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+        <button onClick={closeResults} className="reset">
+          Reset Search
         </button>
-      </form>
-      <button onClick={closeResults} className="reset">
-        Reset Search
-      </button>
+      </div>
       {/* Button to trigger the search */}
       {showResultsPopup && (
         <div className="search-results-popup">
