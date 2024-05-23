@@ -11,7 +11,7 @@ export default function BookTile({ book }) {
     <div onClick={handleBookClick} className="book-tile">
       <img className="tile-img" src={book.img} />
       <h1 className="book-title">{book.title.length > MAX_CHAR ? book.title.substring(0, MAX_CHAR) + "..." : book.title}</h1>
-      <h2 className="book-author">{book.author}</h2>
+      <h2 className="book-author">{book.author.length > MAX_CHAR ? book.author.substring(0, MAX_CHAR) + "..." : book.author}</h2>
     </div>
   );
 }
