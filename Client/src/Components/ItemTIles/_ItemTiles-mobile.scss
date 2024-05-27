@@ -6,6 +6,7 @@
     width: 60px;
     height: fit-content;
     cursor: pointer;
+
     .tile-img {
       width: 5rem;
       aspect-ratio: 100/150;
@@ -17,6 +18,7 @@
       overflow: hidden;
       width: 100%;
       font-size: 10pt;
+      text-align: left;
       
     }
     h2 {

@@ -8,7 +8,7 @@
   .all-games-body,
   .all-others-body {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     box-shadow: none;
     .view-all-headers {
@@ -25,12 +25,13 @@
         font-size: 1.5rem;
         font-weight: bold;
         color: #003366;
+        margin-top: .5rem;
       }
     }
     .view-all-grid {
       display: grid;
       width: 100%;
-      height: 100%;
+      height: fit-content;
       justify-items: center;
       grid-template-columns: repeat(4, 1fr);
       gap: 8px;
