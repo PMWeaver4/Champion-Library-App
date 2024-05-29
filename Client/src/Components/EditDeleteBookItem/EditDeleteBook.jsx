@@ -167,6 +167,7 @@ export default function EditDeleteBook() {
       {/* delete */}
       {DeletePopup && (
         <div className="delete-Book-popup">
+          <div>
           <h1> Are you sure you want to delete this book? </h1>
           <button className="yes-delete-btn" onClick={confirmBookDelete}>
             {" "}
@@ -176,6 +177,7 @@ export default function EditDeleteBook() {
             {" "}
             No{" "}
           </button>
+          </div>
         </div>
       )}
       {editPopupVisible && (

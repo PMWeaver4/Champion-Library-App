@@ -4,13 +4,13 @@
     // Styles for the delete and edit buttons
     .delete-button,
     .edit-button {
-        padding: 10px 30px; // Adjust padding for tablet view
-        margin: 5px; // Add margin for separation
+        width: 50%;
+        padding: 4px 8px;
     }
 
     // Popup container
     .first-btn-container {
-        flex-direction: row; // Change to row layout for tablet view
+        flex-direction: column; // Change to row layout for tablet view
     }
 
     // Delete popup

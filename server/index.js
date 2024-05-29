@@ -53,11 +53,11 @@ app.use("/library", libraryRoutes);
 
 
 //? Initial spin up of the Express server
-app.listen(PORT, () => {
-    try {
-      console.log("*".repeat(10));
-      console.log(`Server is connected: ${PORT}`);
-    } catch (err) {
-      console.log("Error connecting", err);
-    }
-  });
+app.listen(PORT, '192.168.2.124', () => {
+  try {
+    console.log("*".repeat(10));
+    console.log(`Server is connected: http://192.168.2.124:${PORT}`);
+  } catch (err) {
+    console.log("Error connecting", err);
+  }
+})
