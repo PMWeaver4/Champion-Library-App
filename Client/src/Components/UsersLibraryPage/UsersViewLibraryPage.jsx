@@ -10,8 +10,7 @@ import GameTile from "../../Components/ItemTIles/GameTile";
 import OtherTile from "../../Components/ItemTIles/OtherTile";
 import { useLocation } from "react-router-dom";
 import BookProfileCard from "../../Components/ItemProfileCard/BookProfileCard";
-import { NavLink,Navigate } from "react-router-dom";
-
+import { NavLink, Navigate } from "react-router-dom";
 
 export default function UsersViewLibraryPage() {
   const [selectedBook, setSelectedBook] = useState(null); // will contain the array of books
@@ -23,28 +22,27 @@ export default function UsersViewLibraryPage() {
   const location = useLocation();
   const user = location.state.user;
 
-    useEffect(() => {
-      const fetchBooks = async () => {
-        try {
-          const response = await fetch(config.backend_url + `library/availablebooks/${user._id}`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-            },
-          });
-          if (!response.status === 200) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await response.json();
-          setBooks(data.Results);
-        } catch (error) {
-          console.error("Failed to fetch books:", error);
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await fetch(config.backend_url + `library/availablebooks/${user._id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        });
+        if (!response.status === 200) {
+          throw new Error("Network response was not ok");
         }
-      };
-  
-      fetchBooks();
-    }, []);
+        const data = await response.json();
+        setBooks(data.Results);
+      } catch (error) {
+        console.error("Failed to fetch books:", error);
+      }
+    };
 
+    fetchBooks();
+  }, []);
 
   async function getAllUsersItems() {
     const response = await fetch(config.backend_url + `library/availableitems/${user._id}`, {
@@ -67,27 +65,28 @@ export default function UsersViewLibraryPage() {
     getAllUsersItems();
   }, []);
 
+  return (
+    <main className="users-viewAll-page">
+      <PageTemplate pageTitle="User's Library">
+        <div className="users-viewAll-body">
+          <div className="home-banner">
+            <h1 className="welcome-msg">
+              {user && `${user.firstName} ${user.lastName}'s Library`} <i className="fa-solid fa-book-bookmark"></i>{" "}
+            </h1>
+          </div>
 
-return (
-<main className="users-viewAll-page">
-  <PageTemplate pageTitle="User's Library">
-    <div className="users-viewAll-body">
-      <div className="home-banner">
-      <h1 className="welcome-msg">{user && `${user.firstName} ${user.lastName}'s Library`} <i className="fa-solid fa-book-bookmark"></i>   </h1>
-      </div>
-      <div>
-      <NavLink to="/users" className="back-button">
-                <i to="/users" className="fa-solid fa-arrow-left"></i>
-                   </NavLink>
-                   </div>
-      {/* <NavLink to="/users" className="back-button">&#8592; Users </NavLink> */}
-      {/* Render user's items */}
-      <div className="User-section">
-      <div className="books-container">
+          <NavLink to="/users" className="back-button">
+            <i to="/users" className="fa-solid fa-arrow-left"></i>
+          </NavLink>
+
+          {/* <NavLink to="/users" className="back-button">&#8592; Users </NavLink> */}
+          {/* Render user's items */}
+          <div className="User-section">
+            <div className="books-container">
               <div className="view-container">
                 <h3>BOOKS</h3>
               </div>
-               <Carousel className="w-8/12 self-center">
+              <Carousel className="w-8/12 self-center">
                 <CarouselContent>
                   {books.map((book, index) => (
                     <CarouselItem key={index} className="basis-1/3 md:basis-1/4 lg:basis-1/5">
@@ -98,8 +97,7 @@ return (
                 <CarouselPrevious />
                 <CarouselNext />
               </Carousel>
-              </div>
-             
+            </div>
 
             <div className="board-games-container">
               <div className="view-container">
@@ -138,20 +136,11 @@ return (
                 <CarouselPrevious />
                 <CarouselNext />
               </Carousel>
+            </div>
           </div>
-      </div>
-    </div>    
-    {selectedBook && <BookProfileCard book={selectedBook} onClose={() => setSelectedBook(null)} />}
-  </PageTemplate>
-</main>
-)};
-    
-
-
-
-
-
-
-
-  
-  
+        </div>
+        {selectedBook && <BookProfileCard book={selectedBook} onClose={() => setSelectedBook(null)} />}
+      </PageTemplate>
+    </main>
+  );
+}

@@ -9,7 +9,6 @@
   
     
   .users-body {
-    padding-top: 1rem;
     max-height: 100%;
     overflow-y: auto; /* Add this line to enable vertical scrollbar */
     // max-height: 100%;
@@ -19,6 +18,6 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    height: 90%;
+    height: 100%;
   }
 }
