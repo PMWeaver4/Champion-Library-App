@@ -12,7 +12,7 @@ export default function ReplyPopup({ notification, onYes, onNo, onClose }) {
           <i className="fa-solid fa-xmark"></i>
         </button>
         <h2>
-          Do you accept{" "}
+          Do you accept{" "}<br/>
           <em>
             {notification.requestingUser.firstName} {notification.requestingUser.lastName}'s
           </em>{" "}

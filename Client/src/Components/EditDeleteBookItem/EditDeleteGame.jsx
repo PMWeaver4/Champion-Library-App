@@ -127,7 +127,7 @@ export default  function EditDeleteGame ( ) {
           return (
             <main>
               {game ? (
-                <div>
+                <div className="first-btn-container">
                   {/* Edit and Delete buttons */}
                   <button className="edit-button" onClick={handleEditGame}>Edit</button>
                   <button className="delete-button" onClick={handleDeleteGame}>Delete</button>
@@ -137,6 +137,7 @@ export default  function EditDeleteGame ( ) {
               )}
               {deletePopup && (
                 <div className="delete-Book-popup">
+                  <div>
                   <h1> Are you sure you want to delete this Game? </h1>
                   <button className="yes-delete-btn" onClick={confirmDelete}>
                     Yes
@@ -144,6 +145,7 @@ export default  function EditDeleteGame ( ) {
                   <button className="no-delete-btn" onClick={cancelDeleteGame}>
                     No
                   </button>
+                  </div>
                 </div>
               )}
               {editPopupVisible && (

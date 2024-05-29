@@ -128,7 +128,7 @@ export default  function EditDeleteItem ( ) {
     return (
         <main>
         {item ? (
-            <div>
+            <div className="first-btn-container">
               {/* Edit and Delete buttons */}
               <button className="edit-button" onClick={handleEditItem}>Edit</button>
               <button  className="delete-button" onClick={handleDeleteItem}>Delete</button>
@@ -138,9 +138,11 @@ export default  function EditDeleteItem ( ) {
           )}
           {deletePopup && (
             <div className="delete-Book-popup">
+              <div>
               <h1> Are you sure you want to delete this Item? </h1>
               <button className="yes-delete-btn" onClick={confirmDelete}> Yes </button>
               <button className="no-delete-btn" onClick={cancelDeletePopup}> No </button>
+              </div>
             </div>
           )}
           {editPopupVisible && (
