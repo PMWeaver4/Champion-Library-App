@@ -122,8 +122,6 @@ export default function EditDeleteBook() {
         setTimeout(() => {
           // Close the edit popup after successful update
           setDeletePopup(false);
-          // Navigate back to the previous page (was having issues bc once user deletes a book they were being logged out and redirected to the login page)
-          nav("/home");
         }, 3000);
       } else {
         alert("Unable to delete book");

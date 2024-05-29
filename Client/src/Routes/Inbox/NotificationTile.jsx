@@ -10,7 +10,7 @@ export default function NotificationTile({ notification, onReply, onDelete, firs
       <div className="notification-content">
         <div className="notification-header">
           <h1 className="notification-username">
-            From: {requestingUser ? `${requestingUser.firstName} ${requestingUser.lastName}` : "South Meadow's Lending Library"}
+            From:<br/> {requestingUser ? `${requestingUser.firstName} ${requestingUser.lastName}` : "Library"}
           </h1>
           <h2>
             {date} {time}

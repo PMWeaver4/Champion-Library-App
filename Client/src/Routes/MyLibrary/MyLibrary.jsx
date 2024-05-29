@@ -92,8 +92,8 @@ export default function MyLibrary() {
     getAllUsersItems();
   }, []);
 
-  //? -------------- All Users Items---------------
 
+  
   return (
     <main className="library-page">
       <PageTemplate pageTitle="Library">
@@ -103,7 +103,7 @@ export default function MyLibrary() {
             <nav className="library-nav">
               <ul>
                 <li className="selected">
-                  <NavLink> Library</NavLink>
+                  <NavLink to="/my-library"> Library</NavLink>
                 </li>
                 <li>
                   <NavLink to="/my-library/borrowed">Borrowed</NavLink>
@@ -178,4 +178,4 @@ export default function MyLibrary() {
   );
 }
 
-// ! change ther navlink for view all to button tag and add onClick={() => openWidgetPopup(widgetPopupsEnum.PendingUsers)}
+
