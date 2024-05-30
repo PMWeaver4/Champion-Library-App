@@ -1,5 +1,18 @@
 .my-profile-page {
+  
   .settings-del-btn {
     width: 70%;
+  }
+  .settings-del-btn {
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    background-color: maroon;
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 55%;
   }
 }

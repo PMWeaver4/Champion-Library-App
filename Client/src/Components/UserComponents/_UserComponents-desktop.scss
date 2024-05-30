@@ -1,49 +1,37 @@
-// .user-profile-card-background {
-//   justify-content: flex-start;
-//   align-items: flex-end;
-//   .user-profile-card {
-//     scale: 120%;
-//     margin-top: 10%;
-//     margin-right: 32%;
-//   }
-// }
-
 // UserTile
 .User-tile {
-  width: 15rem;
-  margin: 1rem ; // Add some margin between tiles
-  padding: 1rem; // Add padding to create space between tiles
-  // display: grid;
-  background-color: #003366; // Dark blue background color
-  color: white; // White text color
-  border-radius: 8px; // Rounded corners
-  display: flex; // Make the tiles inline-block elements to arrange them horizontally
-  flex-direction: column;
+  display: flex;
+  justify-content: left;
   align-items: center;
-  cursor: pointer;
-  height:fit-content;
-  &:hover {
-    transform: scale(1.10);
+  background-color: whitesmoke;
+  width: 100%;
+  height: fit-content;
+  gap: 2rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 0.5px solid lightgrey;
+}
+
+.User-tile-img {
+  width: 5rem;
+}
+
+.User-name {
+  color: #003366;
+  text-align: left;
+}
+
+.users-viewAll-page {
+  .home-banner {
+    margin-top: -2rem;
+  }
+
+  .back-button {
+    top: 3rem;
   }
 }
 
-
-  .User-tile-img {
-    margin-top: 0;
-    margin-left: 0;
-    width: 80%; // Take up full width
-     // Maintain aspect ratio
-    object-fit:cover;
-    justify-content: center;
-    border-top-left-radius: 5px; // Rounded top-left corner
-    border-top-right-radius: 5px; // Rounded top-right corner
+.users-viewAll-page {
+  .back-button {
+    top: 9rem;
   }
-
-  .User-name {
-    padding: 0.5rem; // Padding for the name
-    text-align: center; // Center-align the text
-    text-shadow: #050d14;
-   font-weight: bold;
-    
-  }
-
+}

@@ -262,7 +262,7 @@
     background-color: white;
     align-items: center;
     text-align: center;
-    width: 80%;
+    width: 90%;
     height: fit-content;
     padding: 1.5rem;
     border-radius: 1rem;
@@ -285,8 +285,8 @@
       display: flex;
       justify-content: space-evenly;
       padding: 0.5rem;
+      gap: 1rem;
       button {
-        gap: 1rem;
         background-color: #003366;
         color: white;
         width: 6rem;
