@@ -6,3 +6,26 @@
     margin-right: 20%;
   }
 }
+// UserTile
+.User-tile {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  background-color: whitesmoke;
+  width: 100%;
+  height: fit-content;
+  gap: 2rem;
+  padding: .5rem 1rem;
+  border-bottom: .5px solid lightgrey;
+  }
+  
+  
+    .User-tile-img {
+  width: 5rem;
+    }
+  
+    .User-name {
+  color: #003366;
+     text-align: left;
+      
+    }
