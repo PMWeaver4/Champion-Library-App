@@ -21,7 +21,7 @@ export default function UserTile({ user }) {
     <div onClick={handleUserClick} className="User-tile">
     <img 
     className="User-tile-img" 
-    src="../../public/images/user avatar.png" 
+    src="/images/useravatar.png" 
     alt={`${user.firstName} ${user.lastName}'s avatar` } 
     />
     <h1 className="User-name">{`${user.firstName} ${user.lastName}`}</h1>
