@@ -21,7 +21,6 @@ export default function MyLoanedItems({ onClose }) {
   }
   // fetch misc items
   const [otherLoanedItems, setOtherLoanedItems] = useState([]);
-  
 
   async function getAllUsersLoanedItems() {
     const response = await fetch(config.backend_url + `library/loanedItems/${getUserId()}`, {
@@ -36,7 +35,6 @@ export default function MyLoanedItems({ onClose }) {
       return;
     }
     setOtherLoanedItems(itemData.items);
-    
   }
 
   useEffect(() => {
@@ -50,9 +48,6 @@ export default function MyLoanedItems({ onClose }) {
             <i className="fa-solid fa-arrow-left"></i>
           </button>
           <div className="library-popup-msg">All My Items</div>
-          <button className="add-item-btn" onClick={handleAddMiscClick}>
-            <i className="fa-solid fa-square-plus"></i>
-          </button>
         </div>
         <div className="view-all-grid">
           {otherLoanedItems.map((other) => (

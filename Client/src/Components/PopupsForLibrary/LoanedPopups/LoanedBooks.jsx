@@ -14,7 +14,7 @@ export default function MyLoanedBooks({ onClose, handleAddBookClick }) {
   function handleCloseBookPopup() {
     setShowAddBookPopup(false);
   }
-//? Fetching all users books
+  //? Fetching all users books
   const [loanedBooks, setLoanedBooks] = useState([]);
 
   async function fetchLoanedBooks() {
@@ -44,14 +44,11 @@ export default function MyLoanedBooks({ onClose, handleAddBookClick }) {
             <i className="fa-solid fa-arrow-left"></i>
           </button>
           <div className="library-popup-msg">All My Loaned Books</div>
-          <button className="add-item-btn" onClick={handleAddBookClick}>
-            <i className="fa-solid fa-square-plus"></i>
-          </button>
         </div>
         <div className="view-all-grid">
-        {loanedBooks.map((book) => (
-              <BookTile key={book._id} book={book} />
-            ))}
+          {loanedBooks.map((book) => (
+            <BookTile key={book._id} book={book} />
+          ))}
         </div>
       </div>
       {showAddBookPopup && <AddBooks onClosePopup={handleCloseBookPopup} />}
