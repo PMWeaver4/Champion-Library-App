@@ -1,60 +1,118 @@
 .BookProfileCardPage,
 .GameProfileCardPage,
 .ItemProfileCardPage {
-  .ItemProfileCard {
-    width: 50%;
-    max-height: 70%;
-    .blue-card-overlay {
-      padding: 0 0.5rem;
-      .ItemCard-header {
-        h1 {
-          font-size: 1.25rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 0;
+  background-color: rgba(238, 238, 238, 0.942);
+  
+  .card-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    .ItemProfileCard {
+      padding-bottom: 0.5rem;
+      border-radius: 1rem;
+      width: 40%;
+      height: fit-content;
+      max-height: 60%;
+      background-color: white;
+      filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.322));
+      display: flex;
+      flex-direction: column;
+      .blue-card-overlay {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        background-color: #003366;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 0 0.5rem;
+        position: relative;
+        width: 100%;
+        height: fit-content;
+        .ItemCard-header {
+          display: flex;
+          justify-content: center;
+          text-align: center;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+          h1 {
+            font-size: 1rem;
+            color: white;
+            max-width: 8rem;
+            font-weight: bold;
+          }
+          .borrow-button,
+          .return-button {
+            width: fit-content;
+            height: fit-content;
+            font-size: 1rem;
+            padding: 0.25rem 1rem;
+            background-color: greenyellow;
+            color: #003366;
+            font-weight: bold;
+            border-radius: 0.25rem;
+          }
+        }
+        .ItemCard-back-btn {
+          color: white;
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+          i {
+            font-size: 1.5rem;
+          }
+          &:hover {
+            color: greenyellow;
+          }
+        }
 
-          max-width: 10rem;
-        }
-        .borrow-button,
-        .return-button {
-          font-size: 1.25rem;
-        }
-      }
-      .ItemCard-back-btn {
-        i {
-          font-size: 1.75rem;
-        }
-        &:hover {
-          color: greenyellow;
+        img {
+          width: 7rem;
+          aspect-ratio: 100/150;
+          object-fit: cover;
+          padding: 1rem;
         }
       }
-
-      img {
-        width: 9rem;
-      }
-    }
-    .white-card-overlay {
-      padding: 0.5rem 1.25rem;
-      details {
-        cursor: pointer;
-        summary {
-          font-size: 1.25rem;
+      .white-card-overlay {
+        padding: 0 1rem;
+        border-radius: 1rem;
+        overflow-y: auto;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        details {
+          summary {
+            font-weight: bold;
+          }
         }
-      }
-      h2 {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: #003366;
-        padding-top: 8px;
-      }
-      h3 {
-        font-size: 1.25rem;
-      }
-      p {
-        padding-top: 4px;
-        font-size: 1.25rem;
-        em {
+        h2 {
+          font-size: 1rem;
           font-weight: bold;
           color: #003366;
+          padding-top: 8px;
+        }
+        h3 {
+          font-size: 1rem;
+          padding-bottom: 4px;
+          border-bottom: 2px solid #003366bb;
+        }
+        p {
+          padding-top: 4px;
+          em {
+            font-weight: bold;
+            color: #003366;
+          }
         }
       }
     }
   }
 }
+

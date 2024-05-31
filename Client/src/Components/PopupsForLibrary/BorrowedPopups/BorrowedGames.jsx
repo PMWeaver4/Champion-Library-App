@@ -46,9 +46,6 @@ export default function MyBorrowedGames({ onClose, handleAddGameClick }) {
             <i className="fa-solid fa-arrow-left"></i>
           </button>
           <div className="library-popup-msg">All My Borrowed Games</div>
-          <button className="add-item-btn" onClick={handleAddGameClick}>
-            <i className="fa-solid fa-square-plus"></i>
-          </button>
         </div>
         <div className="view-all-grid">
           {borrowedGames.map((game) => (
